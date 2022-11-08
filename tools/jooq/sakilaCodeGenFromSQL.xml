@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd">
+    <generator>
+        <name>org.jooq.meta.extensions.ddl.DDLDatabase</name>
+        <properties>
+            <property>
+                <key>scripts</key>
+                <value>../changesets/h2-sakila-schema.sql</value>
+            </property>
+        </properties>
+        <target>
+            <packageName>com.tayrona.sakila.data.generated</packageName>
+            <directory>W:/alt-workspace/H2-sakila/sakila-data-generator/src/main/java</directory>
+        </target>
+    </generator>
+</configuration>

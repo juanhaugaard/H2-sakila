@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd">
+    <jdbc>
+        <driver>org.h2.Driver</driver>
+        <url>jdbc:h2:tcp://localhost:9092/sakila</url>
+        <user>sa</user>
+        <password></password>
+    </jdbc>
+    <generator>
+        <name>org.jooq.codegen.JavaGenerator</name>
+        <database>
+            <name>org.jooq.meta.h2.H2Database</name>
+            <includes>.*</includes>
+            <excludes>DATABASECHANGELOG.*</excludes>
+            <inputSchema>SAKILA</inputSchema>
+        </database>
+        <target>
+            <packageName>com.tayrona.sakila.data.generated</packageName>
+            <directory>W:/alt-workspace/H2-sakila/sakila-data-generator/src/main/java</directory>
+        </target>
+    </generator>
+</configuration>
