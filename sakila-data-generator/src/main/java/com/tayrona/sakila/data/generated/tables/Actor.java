@@ -5,12 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.ActorRecord;
-
-import java.time.OffsetDateTime;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
@@ -29,6 +25,9 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.function.Function;
+
 
 /**
  * Actor details table
@@ -39,7 +38,7 @@ public class Actor extends TableImpl<ActorRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.ACTOR</code>
+     * The reference instance of <code>PUBLIC.ACTOR</code>
      */
     public static final Actor ACTOR = new Actor();
 
@@ -52,22 +51,22 @@ public class Actor extends TableImpl<ActorRecord> {
     }
 
     /**
-     * The column <code>SAKILA.ACTOR.ACTOR_ID</code>.
+     * The column <code>PUBLIC.ACTOR.ACTOR_ID</code>.
      */
     public final TableField<ActorRecord, Long> ACTOR_ID = createField(DSL.name("ACTOR_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.ACTOR.FIRST_NAME</code>.
+     * The column <code>PUBLIC.ACTOR.FIRST_NAME</code>.
      */
     public final TableField<ActorRecord, String> FIRST_NAME = createField(DSL.name("FIRST_NAME"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.ACTOR.LAST_NAME</code>.
+     * The column <code>PUBLIC.ACTOR.LAST_NAME</code>.
      */
     public final TableField<ActorRecord, String> LAST_NAME = createField(DSL.name("LAST_NAME"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.ACTOR.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.ACTOR.LAST_UPDATE</code>.
      */
     public final TableField<ActorRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -80,21 +79,21 @@ public class Actor extends TableImpl<ActorRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.ACTOR</code> table reference
+     * Create an aliased <code>PUBLIC.ACTOR</code> table reference
      */
     public Actor(String alias) {
         this(DSL.name(alias), ACTOR);
     }
 
     /**
-     * Create an aliased <code>SAKILA.ACTOR</code> table reference
+     * Create an aliased <code>PUBLIC.ACTOR</code> table reference
      */
     public Actor(Name alias) {
         this(alias, ACTOR);
     }
 
     /**
-     * Create a <code>SAKILA.ACTOR</code> table reference
+     * Create a <code>PUBLIC.ACTOR</code> table reference
      */
     public Actor() {
         this(DSL.name("ACTOR"), null);
@@ -106,7 +105,7 @@ public class Actor extends TableImpl<ActorRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override

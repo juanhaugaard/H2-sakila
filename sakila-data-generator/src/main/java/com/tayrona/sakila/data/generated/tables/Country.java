@@ -5,12 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.CountryRecord;
-
-import java.time.OffsetDateTime;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function3;
@@ -29,6 +25,9 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.function.Function;
+
 
 /**
  * Country details table
@@ -39,7 +38,7 @@ public class Country extends TableImpl<CountryRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.COUNTRY</code>
+     * The reference instance of <code>PUBLIC.COUNTRY</code>
      */
     public static final Country COUNTRY = new Country();
 
@@ -52,17 +51,17 @@ public class Country extends TableImpl<CountryRecord> {
     }
 
     /**
-     * The column <code>SAKILA.COUNTRY.COUNTRY_ID</code>.
+     * The column <code>PUBLIC.COUNTRY.COUNTRY_ID</code>.
      */
     public final TableField<CountryRecord, Long> COUNTRY_ID = createField(DSL.name("COUNTRY_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.COUNTRY.COUNTRY</code>.
+     * The column <code>PUBLIC.COUNTRY.COUNTRY</code>.
      */
     public final TableField<CountryRecord, String> COUNTRY_ = createField(DSL.name("COUNTRY"), SQLDataType.VARCHAR(50).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.COUNTRY.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.COUNTRY.LAST_UPDATE</code>.
      */
     public final TableField<CountryRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -75,21 +74,21 @@ public class Country extends TableImpl<CountryRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.COUNTRY</code> table reference
+     * Create an aliased <code>PUBLIC.COUNTRY</code> table reference
      */
     public Country(String alias) {
         this(DSL.name(alias), COUNTRY);
     }
 
     /**
-     * Create an aliased <code>SAKILA.COUNTRY</code> table reference
+     * Create an aliased <code>PUBLIC.COUNTRY</code> table reference
      */
     public Country(Name alias) {
         this(alias, COUNTRY);
     }
 
     /**
-     * Create a <code>SAKILA.COUNTRY</code> table reference
+     * Create a <code>PUBLIC.COUNTRY</code> table reference
      */
     public Country() {
         this(DSL.name("COUNTRY"), null);
@@ -101,7 +100,7 @@ public class Country extends TableImpl<CountryRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override

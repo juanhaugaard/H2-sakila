@@ -5,14 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.StoreRecord;
-
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
@@ -31,6 +25,11 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Store details table
@@ -41,7 +40,7 @@ public class Store extends TableImpl<StoreRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.STORE</code>
+     * The reference instance of <code>PUBLIC.STORE</code>
      */
     public static final Store STORE = new Store();
 
@@ -54,22 +53,22 @@ public class Store extends TableImpl<StoreRecord> {
     }
 
     /**
-     * The column <code>SAKILA.STORE.STORE_ID</code>.
+     * The column <code>PUBLIC.STORE.STORE_ID</code>.
      */
     public final TableField<StoreRecord, Long> STORE_ID = createField(DSL.name("STORE_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.STORE.MANAGER_STAFF_ID</code>.
+     * The column <code>PUBLIC.STORE.MANAGER_STAFF_ID</code>.
      */
     public final TableField<StoreRecord, Long> MANAGER_STAFF_ID = createField(DSL.name("MANAGER_STAFF_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.STORE.ADDRESS_ID</code>.
+     * The column <code>PUBLIC.STORE.ADDRESS_ID</code>.
      */
     public final TableField<StoreRecord, Long> ADDRESS_ID = createField(DSL.name("ADDRESS_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.STORE.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.STORE.LAST_UPDATE</code>.
      */
     public final TableField<StoreRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -82,21 +81,21 @@ public class Store extends TableImpl<StoreRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.STORE</code> table reference
+     * Create an aliased <code>PUBLIC.STORE</code> table reference
      */
     public Store(String alias) {
         this(DSL.name(alias), STORE);
     }
 
     /**
-     * Create an aliased <code>SAKILA.STORE</code> table reference
+     * Create an aliased <code>PUBLIC.STORE</code> table reference
      */
     public Store(Name alias) {
         this(alias, STORE);
     }
 
     /**
-     * Create a <code>SAKILA.STORE</code> table reference
+     * Create a <code>PUBLIC.STORE</code> table reference
      */
     public Store() {
         this(DSL.name("STORE"), null);
@@ -108,7 +107,7 @@ public class Store extends TableImpl<StoreRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -135,7 +134,7 @@ public class Store extends TableImpl<StoreRecord> {
     private transient Address _address;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.STAFF</code> table.
+     * Get the implicit join path to the <code>PUBLIC.STAFF</code> table.
      */
     public Staff staff() {
         if (_staff == null)
@@ -145,7 +144,7 @@ public class Store extends TableImpl<StoreRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.ADDRESS</code> table.
+     * Get the implicit join path to the <code>PUBLIC.ADDRESS</code> table.
      */
     public Address address() {
         if (_address == null)

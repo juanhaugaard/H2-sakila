@@ -5,7 +5,6 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.FilmText;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record3;
@@ -22,42 +21,42 @@ public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implemen
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.FILM_TEXT.FILM_ID</code>.
+     * Setter for <code>PUBLIC.FILM_TEXT.FILM_ID</code>.
      */
     public void setFilmId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM_TEXT.FILM_ID</code>.
+     * Getter for <code>PUBLIC.FILM_TEXT.FILM_ID</code>.
      */
     public Long getFilmId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM_TEXT.TITLE</code>.
+     * Setter for <code>PUBLIC.FILM_TEXT.TITLE</code>.
      */
     public void setTitle(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM_TEXT.TITLE</code>.
+     * Getter for <code>PUBLIC.FILM_TEXT.TITLE</code>.
      */
     public String getTitle() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM_TEXT.DESCRIPTION</code>.
+     * Setter for <code>PUBLIC.FILM_TEXT.DESCRIPTION</code>.
      */
     public void setDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM_TEXT.DESCRIPTION</code>.
+     * Getter for <code>PUBLIC.FILM_TEXT.DESCRIPTION</code>.
      */
     public String getDescription() {
         return (String) get(2);

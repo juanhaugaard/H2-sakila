@@ -24,7 +24,7 @@ import com.tayrona.sakila.data.generated.tables.TestTable;
 
 
 /**
- * Convenience access to all tables in SAKILA.
+ * Convenience access to all tables in PUBLIC.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {

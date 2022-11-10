@@ -5,14 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.StaffRecord;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function11;
@@ -31,6 +25,11 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Staff details table
@@ -41,7 +40,7 @@ public class Staff extends TableImpl<StaffRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.STAFF</code>
+     * The reference instance of <code>PUBLIC.STAFF</code>
      */
     public static final Staff STAFF = new Staff();
 
@@ -54,57 +53,57 @@ public class Staff extends TableImpl<StaffRecord> {
     }
 
     /**
-     * The column <code>SAKILA.STAFF.STAFF_ID</code>.
+     * The column <code>PUBLIC.STAFF.STAFF_ID</code>.
      */
     public final TableField<StaffRecord, Long> STAFF_ID = createField(DSL.name("STAFF_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.FIRST_NAME</code>.
+     * The column <code>PUBLIC.STAFF.FIRST_NAME</code>.
      */
     public final TableField<StaffRecord, String> FIRST_NAME = createField(DSL.name("FIRST_NAME"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.LAST_NAME</code>.
+     * The column <code>PUBLIC.STAFF.LAST_NAME</code>.
      */
     public final TableField<StaffRecord, String> LAST_NAME = createField(DSL.name("LAST_NAME"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.ADDRESS_ID</code>.
+     * The column <code>PUBLIC.STAFF.ADDRESS_ID</code>.
      */
     public final TableField<StaffRecord, Long> ADDRESS_ID = createField(DSL.name("ADDRESS_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.PICTURE</code>.
+     * The column <code>PUBLIC.STAFF.PICTURE</code>.
      */
     public final TableField<StaffRecord, byte[]> PICTURE = createField(DSL.name("PICTURE"), SQLDataType.BLOB.defaultValue(DSL.field("NULL", SQLDataType.BLOB)), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.EMAIL</code>.
+     * The column <code>PUBLIC.STAFF.EMAIL</code>.
      */
     public final TableField<StaffRecord, String> EMAIL = createField(DSL.name("EMAIL"), SQLDataType.VARCHAR(50).defaultValue(DSL.field("NULL", SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.STORE_ID</code>.
+     * The column <code>PUBLIC.STAFF.STORE_ID</code>.
      */
     public final TableField<StaffRecord, Long> STORE_ID = createField(DSL.name("STORE_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.ACTIVE</code>.
+     * The column <code>PUBLIC.STAFF.ACTIVE</code>.
      */
     public final TableField<StaffRecord, Boolean> ACTIVE = createField(DSL.name("ACTIVE"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field("TRUE", SQLDataType.BOOLEAN)), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.USERNAME</code>.
+     * The column <code>PUBLIC.STAFF.USERNAME</code>.
      */
     public final TableField<StaffRecord, String> USERNAME = createField(DSL.name("USERNAME"), SQLDataType.VARCHAR(16).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.PASSWORD</code>.
+     * The column <code>PUBLIC.STAFF.PASSWORD</code>.
      */
     public final TableField<StaffRecord, byte[]> PASSWORD = createField(DSL.name("PASSWORD"), SQLDataType.BINARY(40).defaultValue(DSL.field("NULL", SQLDataType.BINARY)), this, "");
 
     /**
-     * The column <code>SAKILA.STAFF.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.STAFF.LAST_UPDATE</code>.
      */
     public final TableField<StaffRecord, LocalDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
 
@@ -117,21 +116,21 @@ public class Staff extends TableImpl<StaffRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.STAFF</code> table reference
+     * Create an aliased <code>PUBLIC.STAFF</code> table reference
      */
     public Staff(String alias) {
         this(DSL.name(alias), STAFF);
     }
 
     /**
-     * Create an aliased <code>SAKILA.STAFF</code> table reference
+     * Create an aliased <code>PUBLIC.STAFF</code> table reference
      */
     public Staff(Name alias) {
         this(alias, STAFF);
     }
 
     /**
-     * Create a <code>SAKILA.STAFF</code> table reference
+     * Create a <code>PUBLIC.STAFF</code> table reference
      */
     public Staff() {
         this(DSL.name("STAFF"), null);
@@ -143,7 +142,7 @@ public class Staff extends TableImpl<StaffRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -165,7 +164,7 @@ public class Staff extends TableImpl<StaffRecord> {
     private transient Store _store;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.ADDRESS</code> table.
+     * Get the implicit join path to the <code>PUBLIC.ADDRESS</code> table.
      */
     public Address address() {
         if (_address == null)
@@ -175,7 +174,7 @@ public class Staff extends TableImpl<StaffRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.STORE</code> table.
+     * Get the implicit join path to the <code>PUBLIC.STORE</code> table.
      */
     public Store store() {
         if (_store == null)

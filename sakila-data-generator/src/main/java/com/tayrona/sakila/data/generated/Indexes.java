@@ -16,7 +16,7 @@ import org.jooq.impl.Internal;
 
 
 /**
- * A class modelling indexes of tables in SAKILA.
+ * A class modelling indexes of tables in PUBLIC.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Indexes {

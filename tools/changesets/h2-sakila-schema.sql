@@ -46,43 +46,43 @@
 
 --changeset Juan Haugaard:7
 --comment: Create table Category
-            CREATE TABLE SAKILA.CATEGORY (
+            CREATE TABLE CATEGORY (
                 category_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 name VARCHAR(25) NOT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() NOT NULL,
                 CONSTRAINT PK_CATEGORY PRIMARY KEY (category_id)
             );
-            COMMENT ON TABLE SAKILA.CATEGORY IS 'Category details table';
---rollback DROP TABLE SAKILA.CATEGORY;
+            COMMENT ON TABLE CATEGORY IS 'Category details table';
+--rollback DROP TABLE CATEGORY;
 
 --changeset Juan Haugaard:8
 --comment: Create table Country
-            CREATE TABLE SAKILA.COUNTRY (
+            CREATE TABLE COUNTRY (
             country_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
             country VARCHAR(50) NOT NULL,
             last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
             CONSTRAINT PK_COUNTRY PRIMARY KEY (country_id)
             );
-            COMMENT ON TABLE SAKILA.COUNTRY IS 'Country details table';
---rollback DROP TABLE SAKILA.COUNTRY;
+            COMMENT ON TABLE COUNTRY IS 'Country details table';
+--rollback DROP TABLE COUNTRY;
 
 --changeset Juan Haugaard:9
 --comment: Create table City
-            CREATE TABLE SAKILA.CITY (
+            CREATE TABLE CITY (
                 city_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 city VARCHAR(50) NOT NULL,
                 country_id BIGINT NOT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_CITY PRIMARY KEY (city_id),
                 CONSTRAINT FK_CITY_COUNTRY FOREIGN KEY (country_id)
-                    REFERENCES SAKILA.COUNTRY (country_id) ON DELETE    RESTRICT ON UPDATE CASCADE
+                    REFERENCES COUNTRY (country_id) ON DELETE    RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.CITY IS 'City details table';
---rollback DROP TABLE SAKILA.CITY;
+            COMMENT ON TABLE CITY IS 'City details table';
+--rollback DROP TABLE CITY;
 
 --changeset Juan Haugaard:10
 --comment: Create table Address
-            CREATE TABLE SAKILA.ADDRESS (
+            CREATE TABLE ADDRESS (
                 address_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 address VARCHAR(50) NOT NULL,
                 address2 VARCHAR(50) DEFAULT NULL,
@@ -93,37 +93,37 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_ADDRESS PRIMARY KEY (address_id),
                 CONSTRAINT FK_ADDRESS_CITY FOREIGN KEY (city_id)
-                    REFERENCES SAKILA.CITY (city_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES CITY (city_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.ADDRESS IS 'Address details table';
---rollback DROP TABLE SAKILA.ADDRESS;
+            COMMENT ON TABLE ADDRESS IS 'Address details table';
+--rollback DROP TABLE ADDRESS;
 
 --changeset Juan Haugaard:11
 --comment: Create table Language
-            CREATE TABLE SAKILA.LANGUAGE (
+            CREATE TABLE LANGUAGE (
                 language_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 name VARCHAR(20) NOT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_LANGUAGE PRIMARY KEY (language_id)
             );
-            COMMENT ON TABLE SAKILA.LANGUAGE IS 'Language details table';
---rollback DROP TABLE SAKILA.LANGUAGE;
+            COMMENT ON TABLE LANGUAGE IS 'Language details table';
+--rollback DROP TABLE LANGUAGE;
 
 --changeset Juan Haugaard:12
 --comment: Create table ACTOR
-            CREATE TABLE SAKILA.ACTOR (
+            CREATE TABLE ACTOR (
                 actor_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 first_name VARCHAR(45) NOT NULL,
                 last_name VARCHAR(45) NOT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_ACTOR PRIMARY KEY (actor_id)
             );
-            COMMENT ON TABLE SAKILA.ACTOR IS 'Actor details table';
---rollback DROP TABLE SAKILA.ACTOR;
+            COMMENT ON TABLE ACTOR IS 'Actor details table';
+--rollback DROP TABLE ACTOR;
 
 --changeset Juan Haugaard:13
 --comment: Create table Store
-            CREATE TABLE SAKILA.STORE (
+            CREATE TABLE STORE (
                 store_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 manager_staff_id BIGINT NOT NULL,
                 address_id BIGINT NOT NULL,
@@ -131,14 +131,14 @@
                 CONSTRAINT PK_STORE PRIMARY KEY (store_id),
                 CONSTRAINT idx_unique_manager UNIQUE (manager_staff_id),
                 CONSTRAINT fk_store_address FOREIGN KEY (address_id)
-                    REFERENCES SAKILA.ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.STORE IS 'Store details table';
---rollback DROP TABLE SAKILA.STORE;
+            COMMENT ON TABLE STORE IS 'Store details table';
+--rollback DROP TABLE STORE;
 
 --changeset Juan Haugaard:14
 --comment: Create table Staff
-            CREATE TABLE SAKILA.STAFF (
+            CREATE TABLE STAFF (
                 staff_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 first_name VARCHAR(45) NOT NULL,
                 last_name VARCHAR(45) NOT NULL,
@@ -152,24 +152,24 @@
                 last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 CONSTRAINT PK_STAFF PRIMARY KEY (staff_id),
                 CONSTRAINT fk_staff_store FOREIGN KEY (store_id)
-                    REFERENCES SAKILA.STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                    REFERENCES STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_staff_address FOREIGN KEY (address_id)
-                    REFERENCES SAKILA.ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.STAFF IS 'Staff details table';
---rollback DROP TABLE SAKILA.STAFF;
+            COMMENT ON TABLE STAFF IS 'Staff details table';
+--rollback DROP TABLE STAFF;
 
 --changeset Juan Haugaard:15
 --comment: Alter table Store to add Foreign key to staff table
-            ALTER TABLE SAKILA.STORE
+            ALTER TABLE STORE
             ADD CONSTRAINT fk_store_staff FOREIGN KEY (manager_staff_id)
-                REFERENCES SAKILA.STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE;
---rollback ALTER TABLE SAKILA.STORE
---rollback DROP CONSTRAINT SAKILA.fk_store_staff;
+                REFERENCES STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE;
+--rollback ALTER TABLE STORE
+--rollback DROP CONSTRAINT fk_store_staff;
 
 --changeset Juan Haugaard:16
 --comment: Create table Customer
-            CREATE TABLE SAKILA.CUSTOMER (
+            CREATE TABLE CUSTOMER (
                 customer_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 store_id BIGINT NOT NULL,
                 first_name VARCHAR(45) NOT NULL,
@@ -181,17 +181,17 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_CUSTOMER PRIMARY KEY (customer_id),
                 CONSTRAINT FK_CUSTOMER_ADDRESS FOREIGN KEY (address_id)
-                    REFERENCES SAKILA.ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                    REFERENCES ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT FK_CUSTOMER_STORE FOREIGN KEY (store_id)
-                    REFERENCES SAKILA.STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.CUSTOMER IS 'Customer details table';
-            CREATE INDEX SAKILA.idx_last_name ON SAKILA.CUSTOMER (last_name);
---rollback DROP TABLE SAKILA.CUSTOMER;
+            COMMENT ON TABLE CUSTOMER IS 'Customer details table';
+            CREATE INDEX idx_last_name ON CUSTOMER (last_name);
+--rollback DROP TABLE CUSTOMER;
 
 --changeset Juan Haugaard:17
 --comment: Create table Film
-            CREATE TABLE SAKILA.FILM (
+            CREATE TABLE FILM (
                 film_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 title VARCHAR(255) NOT NULL,
                 description TEXT DEFAULT NULL,
@@ -209,67 +209,67 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_FILM PRIMARY KEY (film_id),
                 CONSTRAINT fk_film_language FOREIGN KEY (language_id)
-                    REFERENCES SAKILA.LANGUAGE (language_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                    REFERENCES LANGUAGE (language_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_film_language_original FOREIGN KEY (original_language_id)
-                    REFERENCES SAKILA.LANGUAGE (language_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES LANGUAGE (language_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.FILM IS 'Film details table';
-            CREATE INDEX SAKILA.idx_title ON SAKILA.FILM(title);
-            CREATE INDEX SAKILA.idx_barcode ON SAKILA.FILM(barcode);
-            CREATE INDEX SAKILA.idx_reverse_barcode ON SAKILA.FILM(reverse_barcode);
-           -- ALTER TABLE SAKILA.FILM ALTER COLUMN barcode CHAR(20) GENERATED ALWAYS AS (LPAD(barcode ,12,'0'));
---rollback DROP TABLE SAKILA.FILM;
+            COMMENT ON TABLE FILM IS 'Film details table';
+            CREATE INDEX idx_title ON FILM(title);
+            CREATE INDEX idx_barcode ON FILM(barcode);
+            CREATE INDEX idx_reverse_barcode ON FILM(reverse_barcode);
+           -- ALTER TABLE FILM ALTER COLUMN barcode CHAR(20) GENERATED ALWAYS AS (LPAD(barcode ,12,'0'));
+--rollback DROP TABLE FILM;
 
 --changeset Juan Haugaard:18
 --comment: Add insert trigger to table Film
-            CREATE TRIGGER SAKILA.InsertFilmTrigger AFTER INSERT ON
-                SAKILA.FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.InsertFilmTrigger';
---rollback DROP TRIGGER SAKILA.InsertFilmTrigger;
+            CREATE TRIGGER InsertFilmTrigger AFTER INSERT ON
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.InsertFilmTrigger';
+--rollback DROP TRIGGER InsertFilmTrigger;
 
 --changeset Juan Haugaard:19
 --comment: Add update trigger to table Film
-            CREATE TRIGGER SAKILA.UpdateFilmTrigger AFTER UPDATE ON
-                SAKILA.FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.UpdateFilmTrigger';
---rollback DROP TRIGGER SAKILA.UpdateFilmTrigger;
+            CREATE TRIGGER UpdateFilmTrigger AFTER UPDATE ON
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.UpdateFilmTrigger';
+--rollback DROP TRIGGER UpdateFilmTrigger;
 
 --changeset Juan Haugaard:20
 --comment: Add delete trigger to table Film
-            CREATE TRIGGER SAKILA.DeleteFilmTrigger AFTER DELETE ON
-                SAKILA.FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.DeleteFilmTrigger';
---rollback DROP TRIGGER SAKILA.DeleteFilmTrigger;
+            CREATE TRIGGER DeleteFilmTrigger AFTER DELETE ON
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.DeleteFilmTrigger';
+--rollback DROP TRIGGER DeleteFilmTrigger;
 
 --changeset Juan Haugaard:21
 --comment: Create table film_text
-            CREATE TABLE SAKILA.FILM_TEXT (
+            CREATE TABLE FILM_TEXT (
                 film_id BIGINT NOT NULL,
                 title VARCHAR(255) NOT NULL,
                 description TEXT,
                 CONSTRAINT PK_FILM_TEXT PRIMARY KEY (film_id)
             );
-            COMMENT ON TABLE SAKILA.FILM_TEXT IS 'Film title and description table for fulltext search';
-            CREATE INDEX SAKILA.idx_title_description ON SAKILA.FILM_TEXT(title, description);
---rollback DROP TABLE SAKILA.FILM_TEXT;
+            COMMENT ON TABLE FILM_TEXT IS 'Film title and description table for fulltext search';
+            CREATE INDEX idx_title_description ON FILM_TEXT(title, description);
+--rollback DROP TABLE FILM_TEXT;
 
 --changeset Juan Haugaard:22
 --comment: Create table inventory
-            CREATE TABLE SAKILA.INVENTORY (
+            CREATE TABLE INVENTORY (
                 inventory_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 film_id BIGINT NOT NULL,
                 store_id BIGINT NOT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_INVENTORY PRIMARY KEY (inventory_id),
                 CONSTRAINT fk_inventory_store FOREIGN KEY (store_id)
-                    REFERENCES SAKILA.STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                    REFERENCES STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_inventory_film FOREIGN KEY (film_id)
-                    REFERENCES SAKILA.FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.INVENTORY IS 'Inventory details table';
-            CREATE INDEX SAKILA.idx_store_id_film_id ON SAKILA.INVENTORY (store_id, film_id);
---rollback DROP TABLE SAKILA.INVENTORY;
+            COMMENT ON TABLE INVENTORY IS 'Inventory details table';
+            CREATE INDEX idx_store_id_film_id ON INVENTORY (store_id, film_id);
+--rollback DROP TABLE INVENTORY;
 
 --changeset Juan Haugaard:23
 --comment: Create table Rental
-            CREATE TABLE SAKILA.RENTAL (
+            CREATE TABLE RENTAL (
                 rental_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 rental_date DATETIME NOT NULL,
                 inventory_id BIGINT NOT NULL,
@@ -279,20 +279,20 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_RENTAL PRIMARY KEY (rental_id),
                 CONSTRAINT fk_rental_staff FOREIGN KEY (staff_id)
-                    REFERENCES SAKILA.STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                    REFERENCES STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_rental_inventory FOREIGN KEY (inventory_id)
-                    REFERENCES SAKILA.INVENTORY (inventory_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                    REFERENCES INVENTORY (inventory_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_rental_customer FOREIGN KEY (customer_id)
-                    REFERENCES SAKILA.CUSTOMER (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES CUSTOMER (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.RENTAL IS 'Rental details table';
-            CREATE UNIQUE INDEX SAKILA.idx_rental_date_inventory_id_customer_id
-                ON SAKILA.RENTAL (rental_date, inventory_id, customer_id);
---rollback DROP TABLE SAKILA.RENTAL;
+            COMMENT ON TABLE RENTAL IS 'Rental details table';
+            CREATE UNIQUE INDEX idx_rental_date_inventory_id_customer_id
+                ON RENTAL (rental_date, inventory_id, customer_id);
+--rollback DROP TABLE RENTAL;
 
 --changeset Juan Haugaard:24
 --comment: Create table Payment
-            CREATE TABLE SAKILA.PAYMENT (
+            CREATE TABLE PAYMENT (
                 payment_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 customer_id BIGINT NOT NULL,
                 staff_id BIGINT NOT NULL,
@@ -302,44 +302,44 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_PAYMENT PRIMARY KEY (payment_id),
                 CONSTRAINT fk_payment_rental FOREIGN KEY (rental_id)
-                    REFERENCES SAKILA.RENTAL (rental_id) ON DELETE SET NULL ON UPDATE CASCADE,
+                    REFERENCES RENTAL (rental_id) ON DELETE SET NULL ON UPDATE CASCADE,
                 CONSTRAINT fk_payment_customer FOREIGN KEY (customer_id)
-                    REFERENCES SAKILA.CUSTOMER (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                    REFERENCES CUSTOMER (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_payment_staff FOREIGN KEY (staff_id)
-                    REFERENCES SAKILA.STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.PAYMENT IS 'Payment details table';
---rollback DROP TABLE SAKILA.PAYMENT;
+            COMMENT ON TABLE PAYMENT IS 'Payment details table';
+--rollback DROP TABLE PAYMENT;
 
 --changeset Juan Haugaard:25
 --comment: Create table Film Actor cross-reference
-            CREATE TABLE SAKILA.FILM_ACTOR (
+            CREATE TABLE FILM_ACTOR (
                 actor_id BIGINT NOT NULL,
                 film_id BIGINT NOT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_FILM_ACTOR PRIMARY KEY (actor_id, film_id),
                 CONSTRAINT fk_film_actor_actor FOREIGN KEY (actor_id)
-                    REFERENCES SAKILA.ACTOR (actor_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                    REFERENCES ACTOR (actor_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_film_actor_film FOREIGN KEY (film_id)
-                    REFERENCES SAKILA.FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.FILM_ACTOR IS 'Film Actor cross-reference table';
---rollback DROP TABLE SAKILA.FILM_ACTOR;
+            COMMENT ON TABLE FILM_ACTOR IS 'Film Actor cross-reference table';
+--rollback DROP TABLE FILM_ACTOR;
 
 --changeset Juan Haugaard:26
 --comment: Create table Film Category cross-reference
-            CREATE TABLE SAKILA.FILM_CATEGORY (
+            CREATE TABLE FILM_CATEGORY (
                 film_id BIGINT NOT NULL,
                 category_id BIGINT NOT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_FILM_CATEGORY PRIMARY KEY (film_id, category_id),
                 CONSTRAINT fk_film_category_film FOREIGN KEY (film_id)
-                    REFERENCES SAKILA.FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                    REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_film_category_category FOREIGN KEY (category_id)
-                    REFERENCES SAKILA.CATEGORY (category_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                    REFERENCES CATEGORY (category_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
-            COMMENT ON TABLE SAKILA.FILM_CATEGORY IS 'Film Category cross-reference table';
---rollback DROP TABLE SAKILA.FILM_CATEGORY;
+            COMMENT ON TABLE FILM_CATEGORY IS 'Film Category cross-reference table';
+--rollback DROP TABLE FILM_CATEGORY;
 
 --changeset Juan Haugaard:27
 --comment: Define function enum_to_ordinal
@@ -358,28 +358,28 @@
 
 --changeset Juan Haugaard:30
 --comment: Create table TEST_TABLE
-            create table SAKILA.TEST_TABLE (
+            create table TEST_TABLE (
                 id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 features SPECIAL_FEATURES default NULL,
                 CONSTRAINT PK_TESTTABLE PRIMARY KEY (id)
             );
-            COMMENT ON TABLE SAKILA.TEST_TABLE IS 'test table';
---rollback DROP TABLE SAKILA.TEST_TABLE;
+            COMMENT ON TABLE TEST_TABLE IS 'test table';
+--rollback DROP TABLE TEST_TABLE;
 
 --changeset Juan Haugaard:31
 --comment: Add trigger to table TEST_TABLE
-            CREATE TRIGGER SAKILA.TestTrigger AFTER INSERT,UPDATE,DELETE ON
-                SAKILA.TEST_TABLE FOR EACH ROW CALL 'com.tayrona.sakila.procedures.TestTrigger';
---rollback DROP TRIGGER SAKILA.TestTrigger;
+            CREATE TRIGGER TestTrigger AFTER INSERT,UPDATE,DELETE ON
+                TEST_TABLE FOR EACH ROW CALL 'com.tayrona.sakila.procedures.TestTrigger';
+--rollback DROP TRIGGER TestTrigger;
 
 --changeset Juan Haugaard:32
 --comment: TEST_TABLE initial data
-            INSERT INTO SAKILA.TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries', 'Deleted Scenes']);
-            INSERT INTO SAKILA.TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries', 'Trailers']);
-            INSERT INTO SAKILA.TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries']);
-            INSERT INTO SAKILA.TEST_TABLE (FEATURES) VALUES(ARRAY['Trailers']);
-            INSERT INTO SAKILA.TEST_TABLE (FEATURES) VALUES(ARRAY['Deleted Scenes']);
-            INSERT INTO SAKILA.TEST_TABLE (FEATURES) VALUES(ARRAY['Behind the Scenes']);
-            UPDATE SAKILA.TEST_TABLE SET FEATURES = ARRAY_APPEND(FEATURES, 'Deleted Scenes') WHERE ID=2;
-            UPDATE SAKILA.TEST_TABLE SET FEATURES = ARRAY_APPEND(FEATURES, 'Behind the Scenes') WHERE ID=2;
---rollback TRUNCATE TABLE SAKILA.TEST_TABLE;
+            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries', 'Deleted Scenes']);
+            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries', 'Trailers']);
+            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries']);
+            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Trailers']);
+            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Deleted Scenes']);
+            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Behind the Scenes']);
+            UPDATE TEST_TABLE SET FEATURES = ARRAY_APPEND(FEATURES, 'Deleted Scenes') WHERE ID=2;
+            UPDATE TEST_TABLE SET FEATURES = ARRAY_APPEND(FEATURES, 'Behind the Scenes') WHERE ID=2;
+--rollback TRUNCATE TABLE TEST_TABLE;

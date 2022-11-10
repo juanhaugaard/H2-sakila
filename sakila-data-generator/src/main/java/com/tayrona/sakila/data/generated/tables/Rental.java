@@ -6,15 +6,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 import com.tayrona.sakila.data.generated.Indexes;
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.RentalRecord;
-
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function7;
@@ -34,6 +27,12 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Rental details table
@@ -44,7 +43,7 @@ public class Rental extends TableImpl<RentalRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.RENTAL</code>
+     * The reference instance of <code>PUBLIC.RENTAL</code>
      */
     public static final Rental RENTAL = new Rental();
 
@@ -57,37 +56,37 @@ public class Rental extends TableImpl<RentalRecord> {
     }
 
     /**
-     * The column <code>SAKILA.RENTAL.RENTAL_ID</code>.
+     * The column <code>PUBLIC.RENTAL.RENTAL_ID</code>.
      */
     public final TableField<RentalRecord, Long> RENTAL_ID = createField(DSL.name("RENTAL_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.RENTAL.RENTAL_DATE</code>.
+     * The column <code>PUBLIC.RENTAL.RENTAL_DATE</code>.
      */
     public final TableField<RentalRecord, LocalDateTime> RENTAL_DATE = createField(DSL.name("RENTAL_DATE"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.RENTAL.INVENTORY_ID</code>.
+     * The column <code>PUBLIC.RENTAL.INVENTORY_ID</code>.
      */
     public final TableField<RentalRecord, Long> INVENTORY_ID = createField(DSL.name("INVENTORY_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.RENTAL.CUSTOMER_ID</code>.
+     * The column <code>PUBLIC.RENTAL.CUSTOMER_ID</code>.
      */
     public final TableField<RentalRecord, Long> CUSTOMER_ID = createField(DSL.name("CUSTOMER_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.RENTAL.RETURN_DATE</code>.
+     * The column <code>PUBLIC.RENTAL.RETURN_DATE</code>.
      */
     public final TableField<RentalRecord, LocalDateTime> RETURN_DATE = createField(DSL.name("RETURN_DATE"), SQLDataType.LOCALDATETIME(6).defaultValue(DSL.field("NULL", SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>SAKILA.RENTAL.STAFF_ID</code>.
+     * The column <code>PUBLIC.RENTAL.STAFF_ID</code>.
      */
     public final TableField<RentalRecord, Long> STAFF_ID = createField(DSL.name("STAFF_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.RENTAL.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.RENTAL.LAST_UPDATE</code>.
      */
     public final TableField<RentalRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -100,21 +99,21 @@ public class Rental extends TableImpl<RentalRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.RENTAL</code> table reference
+     * Create an aliased <code>PUBLIC.RENTAL</code> table reference
      */
     public Rental(String alias) {
         this(DSL.name(alias), RENTAL);
     }
 
     /**
-     * Create an aliased <code>SAKILA.RENTAL</code> table reference
+     * Create an aliased <code>PUBLIC.RENTAL</code> table reference
      */
     public Rental(Name alias) {
         this(alias, RENTAL);
     }
 
     /**
-     * Create a <code>SAKILA.RENTAL</code> table reference
+     * Create a <code>PUBLIC.RENTAL</code> table reference
      */
     public Rental() {
         this(DSL.name("RENTAL"), null);
@@ -126,7 +125,7 @@ public class Rental extends TableImpl<RentalRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -154,7 +153,7 @@ public class Rental extends TableImpl<RentalRecord> {
     private transient Staff _staff;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.INVENTORY</code> table.
+     * Get the implicit join path to the <code>PUBLIC.INVENTORY</code> table.
      */
     public Inventory inventory() {
         if (_inventory == null)
@@ -164,7 +163,7 @@ public class Rental extends TableImpl<RentalRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.CUSTOMER</code> table.
+     * Get the implicit join path to the <code>PUBLIC.CUSTOMER</code> table.
      */
     public Customer customer() {
         if (_customer == null)
@@ -174,7 +173,7 @@ public class Rental extends TableImpl<RentalRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.STAFF</code> table.
+     * Get the implicit join path to the <code>PUBLIC.STAFF</code> table.
      */
     public Staff staff() {
         if (_staff == null)

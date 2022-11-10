@@ -5,7 +5,7 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.TestTableRecord;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -37,7 +37,7 @@ public class TestTable extends TableImpl<TestTableRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.TEST_TABLE</code>
+     * The reference instance of <code>PUBLIC.TEST_TABLE</code>
      */
     public static final TestTable TEST_TABLE = new TestTable();
 
@@ -50,12 +50,12 @@ public class TestTable extends TableImpl<TestTableRecord> {
     }
 
     /**
-     * The column <code>SAKILA.TEST_TABLE.ID</code>.
+     * The column <code>PUBLIC.TEST_TABLE.ID</code>.
      */
     public final TableField<TestTableRecord, Long> ID = createField(DSL.name("ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.TEST_TABLE.FEATURES</code>. Special features
+     * The column <code>PUBLIC.TEST_TABLE.FEATURES</code>. Special features
      * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public final TableField<TestTableRecord, String[]> FEATURES = createField(DSL.name("FEATURES"), SQLDataType.VARCHAR(200).getArrayDataType(), this, "Special features array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)");
@@ -69,21 +69,21 @@ public class TestTable extends TableImpl<TestTableRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.TEST_TABLE</code> table reference
+     * Create an aliased <code>PUBLIC.TEST_TABLE</code> table reference
      */
     public TestTable(String alias) {
         this(DSL.name(alias), TEST_TABLE);
     }
 
     /**
-     * Create an aliased <code>SAKILA.TEST_TABLE</code> table reference
+     * Create an aliased <code>PUBLIC.TEST_TABLE</code> table reference
      */
     public TestTable(Name alias) {
         this(alias, TEST_TABLE);
     }
 
     /**
-     * Create a <code>SAKILA.TEST_TABLE</code> table reference
+     * Create a <code>PUBLIC.TEST_TABLE</code> table reference
      */
     public TestTable() {
         this(DSL.name("TEST_TABLE"), null);
@@ -95,7 +95,7 @@ public class TestTable extends TableImpl<TestTableRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override

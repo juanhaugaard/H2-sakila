@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Category;
-
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record3;
 import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -24,42 +23,42 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.CATEGORY.CATEGORY_ID</code>.
+     * Setter for <code>PUBLIC.CATEGORY.CATEGORY_ID</code>.
      */
     public void setCategoryId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CATEGORY.CATEGORY_ID</code>.
+     * Getter for <code>PUBLIC.CATEGORY.CATEGORY_ID</code>.
      */
     public Long getCategoryId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.CATEGORY.NAME</code>.
+     * Setter for <code>PUBLIC.CATEGORY.NAME</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CATEGORY.NAME</code>.
+     * Getter for <code>PUBLIC.CATEGORY.NAME</code>.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.CATEGORY.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.CATEGORY.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CATEGORY.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.CATEGORY.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(2);

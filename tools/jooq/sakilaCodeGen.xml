@@ -12,7 +12,7 @@
             <name>org.jooq.meta.h2.H2Database</name>
             <includes>.*</includes>
             <excludes>DATABASECHANGELOG.*</excludes>
-            <inputSchema>SAKILA</inputSchema>
+            <inputSchema>PUBLIC</inputSchema>
         </database>
         <target>
             <packageName>com.tayrona.sakila.data.generated</packageName>

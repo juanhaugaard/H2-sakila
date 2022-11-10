@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Address;
-
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record8;
 import org.jooq.Row8;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -24,112 +23,112 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.ADDRESS.ADDRESS_ID</code>.
+     * Setter for <code>PUBLIC.ADDRESS.ADDRESS_ID</code>.
      */
     public void setAddressId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ADDRESS.ADDRESS_ID</code>.
+     * Getter for <code>PUBLIC.ADDRESS.ADDRESS_ID</code>.
      */
     public Long getAddressId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.ADDRESS.ADDRESS</code>.
+     * Setter for <code>PUBLIC.ADDRESS.ADDRESS</code>.
      */
     public void setAddress(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ADDRESS.ADDRESS</code>.
+     * Getter for <code>PUBLIC.ADDRESS.ADDRESS</code>.
      */
     public String getAddress() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.ADDRESS.ADDRESS2</code>.
+     * Setter for <code>PUBLIC.ADDRESS.ADDRESS2</code>.
      */
     public void setAddress2(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ADDRESS.ADDRESS2</code>.
+     * Getter for <code>PUBLIC.ADDRESS.ADDRESS2</code>.
      */
     public String getAddress2() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.ADDRESS.DISTRICT</code>.
+     * Setter for <code>PUBLIC.ADDRESS.DISTRICT</code>.
      */
     public void setDistrict(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ADDRESS.DISTRICT</code>.
+     * Getter for <code>PUBLIC.ADDRESS.DISTRICT</code>.
      */
     public String getDistrict() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>SAKILA.ADDRESS.CITY_ID</code>.
+     * Setter for <code>PUBLIC.ADDRESS.CITY_ID</code>.
      */
     public void setCityId(Long value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ADDRESS.CITY_ID</code>.
+     * Getter for <code>PUBLIC.ADDRESS.CITY_ID</code>.
      */
     public Long getCityId() {
         return (Long) get(4);
     }
 
     /**
-     * Setter for <code>SAKILA.ADDRESS.POSTAL_CODE</code>.
+     * Setter for <code>PUBLIC.ADDRESS.POSTAL_CODE</code>.
      */
     public void setPostalCode(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ADDRESS.POSTAL_CODE</code>.
+     * Getter for <code>PUBLIC.ADDRESS.POSTAL_CODE</code>.
      */
     public String getPostalCode() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>SAKILA.ADDRESS.PHONE</code>.
+     * Setter for <code>PUBLIC.ADDRESS.PHONE</code>.
      */
     public void setPhone(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ADDRESS.PHONE</code>.
+     * Getter for <code>PUBLIC.ADDRESS.PHONE</code>.
      */
     public String getPhone() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>SAKILA.ADDRESS.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.ADDRESS.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ADDRESS.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.ADDRESS.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(7);

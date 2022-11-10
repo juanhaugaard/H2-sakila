@@ -6,14 +6,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 import com.tayrona.sakila.data.generated.Indexes;
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.CustomerRecord;
-
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function9;
@@ -33,6 +27,11 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Customer details table
@@ -43,7 +42,7 @@ public class Customer extends TableImpl<CustomerRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.CUSTOMER</code>
+     * The reference instance of <code>PUBLIC.CUSTOMER</code>
      */
     public static final Customer CUSTOMER = new Customer();
 
@@ -56,47 +55,47 @@ public class Customer extends TableImpl<CustomerRecord> {
     }
 
     /**
-     * The column <code>SAKILA.CUSTOMER.CUSTOMER_ID</code>.
+     * The column <code>PUBLIC.CUSTOMER.CUSTOMER_ID</code>.
      */
     public final TableField<CustomerRecord, Long> CUSTOMER_ID = createField(DSL.name("CUSTOMER_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.CUSTOMER.STORE_ID</code>.
+     * The column <code>PUBLIC.CUSTOMER.STORE_ID</code>.
      */
     public final TableField<CustomerRecord, Long> STORE_ID = createField(DSL.name("STORE_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.CUSTOMER.FIRST_NAME</code>.
+     * The column <code>PUBLIC.CUSTOMER.FIRST_NAME</code>.
      */
     public final TableField<CustomerRecord, String> FIRST_NAME = createField(DSL.name("FIRST_NAME"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.CUSTOMER.LAST_NAME</code>.
+     * The column <code>PUBLIC.CUSTOMER.LAST_NAME</code>.
      */
     public final TableField<CustomerRecord, String> LAST_NAME = createField(DSL.name("LAST_NAME"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.CUSTOMER.EMAIL</code>.
+     * The column <code>PUBLIC.CUSTOMER.EMAIL</code>.
      */
     public final TableField<CustomerRecord, String> EMAIL = createField(DSL.name("EMAIL"), SQLDataType.VARCHAR(50).defaultValue(DSL.field("NULL", SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>SAKILA.CUSTOMER.ADDRESS_ID</code>.
+     * The column <code>PUBLIC.CUSTOMER.ADDRESS_ID</code>.
      */
     public final TableField<CustomerRecord, Long> ADDRESS_ID = createField(DSL.name("ADDRESS_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.CUSTOMER.ACTIVE</code>.
+     * The column <code>PUBLIC.CUSTOMER.ACTIVE</code>.
      */
     public final TableField<CustomerRecord, Boolean> ACTIVE = createField(DSL.name("ACTIVE"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field("TRUE", SQLDataType.BOOLEAN)), this, "");
 
     /**
-     * The column <code>SAKILA.CUSTOMER.CREATE_DATE</code>.
+     * The column <code>PUBLIC.CUSTOMER.CREATE_DATE</code>.
      */
     public final TableField<CustomerRecord, OffsetDateTime> CREATE_DATE = createField(DSL.name("CREATE_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
     /**
-     * The column <code>SAKILA.CUSTOMER.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.CUSTOMER.LAST_UPDATE</code>.
      */
     public final TableField<CustomerRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -109,21 +108,21 @@ public class Customer extends TableImpl<CustomerRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.CUSTOMER</code> table reference
+     * Create an aliased <code>PUBLIC.CUSTOMER</code> table reference
      */
     public Customer(String alias) {
         this(DSL.name(alias), CUSTOMER);
     }
 
     /**
-     * Create an aliased <code>SAKILA.CUSTOMER</code> table reference
+     * Create an aliased <code>PUBLIC.CUSTOMER</code> table reference
      */
     public Customer(Name alias) {
         this(alias, CUSTOMER);
     }
 
     /**
-     * Create a <code>SAKILA.CUSTOMER</code> table reference
+     * Create a <code>PUBLIC.CUSTOMER</code> table reference
      */
     public Customer() {
         this(DSL.name("CUSTOMER"), null);
@@ -135,7 +134,7 @@ public class Customer extends TableImpl<CustomerRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -162,7 +161,7 @@ public class Customer extends TableImpl<CustomerRecord> {
     private transient Address _address;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.STORE</code> table.
+     * Get the implicit join path to the <code>PUBLIC.STORE</code> table.
      */
     public Store store() {
         if (_store == null)
@@ -172,7 +171,7 @@ public class Customer extends TableImpl<CustomerRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.ADDRESS</code> table.
+     * Get the implicit join path to the <code>PUBLIC.ADDRESS</code> table.
      */
     public Address address() {
         if (_address == null)

@@ -6,7 +6,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 import com.tayrona.sakila.data.generated.Indexes;
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
+import com.tayrona.sakila.data.generated.enums.MpaaRating;
 import com.tayrona.sakila.data.generated.tables.records.FilmRecord;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -43,7 +44,7 @@ public class Film extends TableImpl<FilmRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.FILM</code>
+     * The reference instance of <code>PUBLIC.FILM</code>
      */
     public static final Film FILM = new Film();
 
@@ -56,85 +57,80 @@ public class Film extends TableImpl<FilmRecord> {
     }
 
     /**
-     * The column <code>SAKILA.FILM.FILM_ID</code>.
+     * The column <code>PUBLIC.FILM.FILM_ID</code>.
      */
     public final TableField<FilmRecord, Long> FILM_ID = createField(DSL.name("FILM_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.TITLE</code>.
+     * The column <code>PUBLIC.FILM.TITLE</code>.
      */
     public final TableField<FilmRecord, String> TITLE = createField(DSL.name("TITLE"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.DESCRIPTION</code>.
+     * The column <code>PUBLIC.FILM.DESCRIPTION</code>.
      */
     public final TableField<FilmRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.VARCHAR(1000000000).defaultValue(DSL.field("NULL", SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.RELEASE_YEAR</code>. YearValue a small int
+     * The column <code>PUBLIC.FILM.RELEASE_YEAR</code>. YearValue a small int
      * between 1900 and 2155
      */
-    public final TableField<FilmRecord, Short> RELEASE_YEAR = createField(DSL.name("RELEASE_YEAR"), SQLDataType.SMALLINT.defaultValue(DSL.field("NULL", SQLDataType.SMALLINT)), this, "YearValue a small int between 1900 and 2155");
+    public final TableField<FilmRecord, Short> RELEASE_YEAR = createField(DSL.name("RELEASE_YEAR"), com.tayrona.sakila.data.generated.Domains.YEARVALUE.getDataType(), this, "YearValue a small int between 1900 and 2155");
 
     /**
-     * The column <code>SAKILA.FILM.LANGUAGE_ID</code>.
+     * The column <code>PUBLIC.FILM.LANGUAGE_ID</code>.
      */
     public final TableField<FilmRecord, Long> LANGUAGE_ID = createField(DSL.name("LANGUAGE_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.ORIGINAL_LANGUAGE_ID</code>.
+     * The column <code>PUBLIC.FILM.ORIGINAL_LANGUAGE_ID</code>.
      */
     public final TableField<FilmRecord, Long> ORIGINAL_LANGUAGE_ID = createField(DSL.name("ORIGINAL_LANGUAGE_ID"), SQLDataType.BIGINT.defaultValue(DSL.field("NULL", SQLDataType.BIGINT)), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.RENTAL_DURATION</code>.
+     * The column <code>PUBLIC.FILM.RENTAL_DURATION</code>.
      */
     public final TableField<FilmRecord, Byte> RENTAL_DURATION = createField(DSL.name("RENTAL_DURATION"), SQLDataType.TINYINT.nullable(false).defaultValue(DSL.field("3", SQLDataType.TINYINT)), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.RENTAL_RATE</code>.
+     * The column <code>PUBLIC.FILM.RENTAL_RATE</code>.
      */
     public final TableField<FilmRecord, BigDecimal> RENTAL_RATE = createField(DSL.name("RENTAL_RATE"), SQLDataType.DECIMAL(4, 2).nullable(false).defaultValue(DSL.field("4.99", SQLDataType.DECIMAL)), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.LENGTH</code>.
+     * The column <code>PUBLIC.FILM.LENGTH</code>.
      */
     public final TableField<FilmRecord, Short> LENGTH = createField(DSL.name("LENGTH"), SQLDataType.SMALLINT.defaultValue(DSL.field("NULL", SQLDataType.SMALLINT)), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.REPLACEMENT_COST</code>.
+     * The column <code>PUBLIC.FILM.REPLACEMENT_COST</code>.
      */
     public final TableField<FilmRecord, BigDecimal> REPLACEMENT_COST = createField(DSL.name("REPLACEMENT_COST"), SQLDataType.DECIMAL(5, 2).nullable(false).defaultValue(DSL.field("19.99", SQLDataType.DECIMAL)), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.BARCODE</code>.
+     * The column <code>PUBLIC.FILM.BARCODE</code>.
      */
     public final TableField<FilmRecord, String> BARCODE = createField(DSL.name("BARCODE"), SQLDataType.CHAR(20), this, "");
 
     /**
-     * The column <code>SAKILA.FILM.REVERSE_BARCODE</code>.
+     * The column <code>PUBLIC.FILM.REVERSE_BARCODE</code>.
      */
     public final TableField<FilmRecord, String> REVERSE_BARCODE = createField(DSL.name("REVERSE_BARCODE"), SQLDataType.CHAR(20), this, "");
 
     /**
-     * @deprecated Unknown data type. If this is a qualified, user-defined type,
-     * it may have been excluded from code generation. If this is a built-in
-     * type, you can define an explicit {@link org.jooq.Binding} to specify how
-     * this type should be handled. Deprecation can be turned off using
-     * {@literal <deprecationOnUnknownTypes/>} in your code generator
-     * configuration.
+     * The column <code>PUBLIC.FILM.RATING</code>. MPAA Rating ENUM
+     * (G,PG,PG-13,R,NC-17)
      */
-    @Deprecated
-    public final TableField<FilmRecord, Object> RATING = createField(DSL.name("RATING"), org.jooq.impl.DefaultDataType.getDefaultDataType("\"PUBLIC\".\"MPAA_RATING\"").defaultValue(DSL.field("'G'", org.jooq.impl.SQLDataType.OTHER)), this, "MPAA Rating ENUM (G,PG,PG-13,R,NC-17)");
+    public final TableField<FilmRecord, MpaaRating> RATING = createField(DSL.name("RATING"), SQLDataType.VARCHAR.defaultValue(DSL.field("'G'", SQLDataType.VARCHAR)).asEnumDataType(com.tayrona.sakila.data.generated.enums.MpaaRating.class), this, "MPAA Rating ENUM (G,PG,PG-13,R,NC-17)");
 
     /**
-     * The column <code>SAKILA.FILM.SPECIAL_FEATURES</code>. Special features
+     * The column <code>PUBLIC.FILM.SPECIAL_FEATURES</code>. Special features
      * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public final TableField<FilmRecord, String[]> SPECIAL_FEATURES = createField(DSL.name("SPECIAL_FEATURES"), SQLDataType.VARCHAR(200).getArrayDataType(), this, "Special features array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)");
 
     /**
-     * The column <code>SAKILA.FILM.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.FILM.LAST_UPDATE</code>.
      */
     public final TableField<FilmRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -147,21 +143,21 @@ public class Film extends TableImpl<FilmRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.FILM</code> table reference
+     * Create an aliased <code>PUBLIC.FILM</code> table reference
      */
     public Film(String alias) {
         this(DSL.name(alias), FILM);
     }
 
     /**
-     * Create an aliased <code>SAKILA.FILM</code> table reference
+     * Create an aliased <code>PUBLIC.FILM</code> table reference
      */
     public Film(Name alias) {
         this(alias, FILM);
     }
 
     /**
-     * Create a <code>SAKILA.FILM</code> table reference
+     * Create a <code>PUBLIC.FILM</code> table reference
      */
     public Film() {
         this(DSL.name("FILM"), null);
@@ -173,7 +169,7 @@ public class Film extends TableImpl<FilmRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -200,7 +196,7 @@ public class Film extends TableImpl<FilmRecord> {
     private transient Language _fkFilmLanguageOriginal;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.LANGUAGE</code> table, via
+     * Get the implicit join path to the <code>PUBLIC.LANGUAGE</code> table, via
      * the <code>FK_FILM_LANGUAGE</code> key.
      */
     public Language fkFilmLanguage() {
@@ -211,7 +207,7 @@ public class Film extends TableImpl<FilmRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.LANGUAGE</code> table, via
+     * Get the implicit join path to the <code>PUBLIC.LANGUAGE</code> table, via
      * the <code>FK_FILM_LANGUAGE_ORIGINAL</code> key.
      */
     public Language fkFilmLanguageOriginal() {
@@ -265,14 +261,14 @@ public class Film extends TableImpl<FilmRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, Object, String[], OffsetDateTime> fieldsRow() {
+    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, String[], OffsetDateTime> fieldsRow() {
         return (Row15) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function15<? super Long, ? super String, ? super String, ? super Short, ? super Long, ? super Long, ? super Byte, ? super BigDecimal, ? super Short, ? super BigDecimal, ? super String, ? super String, ? super Object, ? super String[], ? super OffsetDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function15<? super Long, ? super String, ? super String, ? super Short, ? super Long, ? super Long, ? super Byte, ? super BigDecimal, ? super Short, ? super BigDecimal, ? super String, ? super String, ? super MpaaRating, ? super String[], ? super OffsetDateTime, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -280,7 +276,7 @@ public class Film extends TableImpl<FilmRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function15<? super Long, ? super String, ? super String, ? super Short, ? super Long, ? super Long, ? super Byte, ? super BigDecimal, ? super Short, ? super BigDecimal, ? super String, ? super String, ? super Object, ? super String[], ? super OffsetDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function15<? super Long, ? super String, ? super String, ? super Short, ? super Long, ? super Long, ? super Byte, ? super BigDecimal, ? super Short, ? super BigDecimal, ? super String, ? super String, ? super MpaaRating, ? super String[], ? super OffsetDateTime, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

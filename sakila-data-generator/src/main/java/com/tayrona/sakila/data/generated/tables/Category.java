@@ -5,12 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.CategoryRecord;
-
-import java.time.OffsetDateTime;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function3;
@@ -29,6 +25,9 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.function.Function;
+
 
 /**
  * Category details table
@@ -39,7 +38,7 @@ public class Category extends TableImpl<CategoryRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.CATEGORY</code>
+     * The reference instance of <code>PUBLIC.CATEGORY</code>
      */
     public static final Category CATEGORY = new Category();
 
@@ -52,17 +51,17 @@ public class Category extends TableImpl<CategoryRecord> {
     }
 
     /**
-     * The column <code>SAKILA.CATEGORY.CATEGORY_ID</code>.
+     * The column <code>PUBLIC.CATEGORY.CATEGORY_ID</code>.
      */
     public final TableField<CategoryRecord, Long> CATEGORY_ID = createField(DSL.name("CATEGORY_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.CATEGORY.NAME</code>.
+     * The column <code>PUBLIC.CATEGORY.NAME</code>.
      */
     public final TableField<CategoryRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(25).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.CATEGORY.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.CATEGORY.LAST_UPDATE</code>.
      */
     public final TableField<CategoryRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -75,21 +74,21 @@ public class Category extends TableImpl<CategoryRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.CATEGORY</code> table reference
+     * Create an aliased <code>PUBLIC.CATEGORY</code> table reference
      */
     public Category(String alias) {
         this(DSL.name(alias), CATEGORY);
     }
 
     /**
-     * Create an aliased <code>SAKILA.CATEGORY</code> table reference
+     * Create an aliased <code>PUBLIC.CATEGORY</code> table reference
      */
     public Category(Name alias) {
         this(alias, CATEGORY);
     }
 
     /**
-     * Create a <code>SAKILA.CATEGORY</code> table reference
+     * Create a <code>PUBLIC.CATEGORY</code> table reference
      */
     public Category() {
         this(DSL.name("CATEGORY"), null);
@@ -101,7 +100,7 @@ public class Category extends TableImpl<CategoryRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override

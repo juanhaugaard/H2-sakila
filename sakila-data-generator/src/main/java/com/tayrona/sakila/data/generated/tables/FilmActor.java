@@ -5,14 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.FilmActorRecord;
-
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function3;
@@ -30,6 +24,11 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Film Actor cross-reference table
@@ -40,7 +39,7 @@ public class FilmActor extends TableImpl<FilmActorRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.FILM_ACTOR</code>
+     * The reference instance of <code>PUBLIC.FILM_ACTOR</code>
      */
     public static final FilmActor FILM_ACTOR = new FilmActor();
 
@@ -53,17 +52,17 @@ public class FilmActor extends TableImpl<FilmActorRecord> {
     }
 
     /**
-     * The column <code>SAKILA.FILM_ACTOR.ACTOR_ID</code>.
+     * The column <code>PUBLIC.FILM_ACTOR.ACTOR_ID</code>.
      */
     public final TableField<FilmActorRecord, Long> ACTOR_ID = createField(DSL.name("ACTOR_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.FILM_ACTOR.FILM_ID</code>.
+     * The column <code>PUBLIC.FILM_ACTOR.FILM_ID</code>.
      */
     public final TableField<FilmActorRecord, Long> FILM_ID = createField(DSL.name("FILM_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.FILM_ACTOR.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.FILM_ACTOR.LAST_UPDATE</code>.
      */
     public final TableField<FilmActorRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -76,21 +75,21 @@ public class FilmActor extends TableImpl<FilmActorRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.FILM_ACTOR</code> table reference
+     * Create an aliased <code>PUBLIC.FILM_ACTOR</code> table reference
      */
     public FilmActor(String alias) {
         this(DSL.name(alias), FILM_ACTOR);
     }
 
     /**
-     * Create an aliased <code>SAKILA.FILM_ACTOR</code> table reference
+     * Create an aliased <code>PUBLIC.FILM_ACTOR</code> table reference
      */
     public FilmActor(Name alias) {
         this(alias, FILM_ACTOR);
     }
 
     /**
-     * Create a <code>SAKILA.FILM_ACTOR</code> table reference
+     * Create a <code>PUBLIC.FILM_ACTOR</code> table reference
      */
     public FilmActor() {
         this(DSL.name("FILM_ACTOR"), null);
@@ -102,7 +101,7 @@ public class FilmActor extends TableImpl<FilmActorRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -119,7 +118,7 @@ public class FilmActor extends TableImpl<FilmActorRecord> {
     private transient Film _film;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.ACTOR</code> table.
+     * Get the implicit join path to the <code>PUBLIC.ACTOR</code> table.
      */
     public Actor actor() {
         if (_actor == null)
@@ -129,7 +128,7 @@ public class FilmActor extends TableImpl<FilmActorRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.FILM</code> table.
+     * Get the implicit join path to the <code>PUBLIC.FILM</code> table.
      */
     public Film film() {
         if (_film == null)

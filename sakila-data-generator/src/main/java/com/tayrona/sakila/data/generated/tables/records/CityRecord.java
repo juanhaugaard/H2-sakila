@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.City;
-
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record4;
 import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -24,56 +23,56 @@ public class CityRecord extends UpdatableRecordImpl<CityRecord> implements Recor
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.CITY.CITY_ID</code>.
+     * Setter for <code>PUBLIC.CITY.CITY_ID</code>.
      */
     public void setCityId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CITY.CITY_ID</code>.
+     * Getter for <code>PUBLIC.CITY.CITY_ID</code>.
      */
     public Long getCityId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.CITY.CITY</code>.
+     * Setter for <code>PUBLIC.CITY.CITY</code>.
      */
     public void setCity(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CITY.CITY</code>.
+     * Getter for <code>PUBLIC.CITY.CITY</code>.
      */
     public String getCity() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.CITY.COUNTRY_ID</code>.
+     * Setter for <code>PUBLIC.CITY.COUNTRY_ID</code>.
      */
     public void setCountryId(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CITY.COUNTRY_ID</code>.
+     * Getter for <code>PUBLIC.CITY.COUNTRY_ID</code>.
      */
     public Long getCountryId() {
         return (Long) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.CITY.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.CITY.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CITY.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.CITY.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(3);

@@ -5,15 +5,14 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Rental;
-
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record7;
 import org.jooq.Row7;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 
 /**
@@ -25,98 +24,98 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.RENTAL.RENTAL_ID</code>.
+     * Setter for <code>PUBLIC.RENTAL.RENTAL_ID</code>.
      */
     public void setRentalId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.RENTAL.RENTAL_ID</code>.
+     * Getter for <code>PUBLIC.RENTAL.RENTAL_ID</code>.
      */
     public Long getRentalId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.RENTAL.RENTAL_DATE</code>.
+     * Setter for <code>PUBLIC.RENTAL.RENTAL_DATE</code>.
      */
     public void setRentalDate(LocalDateTime value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.RENTAL.RENTAL_DATE</code>.
+     * Getter for <code>PUBLIC.RENTAL.RENTAL_DATE</code>.
      */
     public LocalDateTime getRentalDate() {
         return (LocalDateTime) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.RENTAL.INVENTORY_ID</code>.
+     * Setter for <code>PUBLIC.RENTAL.INVENTORY_ID</code>.
      */
     public void setInventoryId(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.RENTAL.INVENTORY_ID</code>.
+     * Getter for <code>PUBLIC.RENTAL.INVENTORY_ID</code>.
      */
     public Long getInventoryId() {
         return (Long) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.RENTAL.CUSTOMER_ID</code>.
+     * Setter for <code>PUBLIC.RENTAL.CUSTOMER_ID</code>.
      */
     public void setCustomerId(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>SAKILA.RENTAL.CUSTOMER_ID</code>.
+     * Getter for <code>PUBLIC.RENTAL.CUSTOMER_ID</code>.
      */
     public Long getCustomerId() {
         return (Long) get(3);
     }
 
     /**
-     * Setter for <code>SAKILA.RENTAL.RETURN_DATE</code>.
+     * Setter for <code>PUBLIC.RENTAL.RETURN_DATE</code>.
      */
     public void setReturnDate(LocalDateTime value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>SAKILA.RENTAL.RETURN_DATE</code>.
+     * Getter for <code>PUBLIC.RENTAL.RETURN_DATE</code>.
      */
     public LocalDateTime getReturnDate() {
         return (LocalDateTime) get(4);
     }
 
     /**
-     * Setter for <code>SAKILA.RENTAL.STAFF_ID</code>.
+     * Setter for <code>PUBLIC.RENTAL.STAFF_ID</code>.
      */
     public void setStaffId(Long value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>SAKILA.RENTAL.STAFF_ID</code>.
+     * Getter for <code>PUBLIC.RENTAL.STAFF_ID</code>.
      */
     public Long getStaffId() {
         return (Long) get(5);
     }
 
     /**
-     * Setter for <code>SAKILA.RENTAL.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.RENTAL.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>SAKILA.RENTAL.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.RENTAL.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(6);

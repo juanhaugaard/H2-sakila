@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Country;
-
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record3;
 import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -24,42 +23,42 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.COUNTRY.COUNTRY_ID</code>.
+     * Setter for <code>PUBLIC.COUNTRY.COUNTRY_ID</code>.
      */
     public void setCountryId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.COUNTRY.COUNTRY_ID</code>.
+     * Getter for <code>PUBLIC.COUNTRY.COUNTRY_ID</code>.
      */
     public Long getCountryId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.COUNTRY.COUNTRY</code>.
+     * Setter for <code>PUBLIC.COUNTRY.COUNTRY</code>.
      */
     public void setCountry(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.COUNTRY.COUNTRY</code>.
+     * Getter for <code>PUBLIC.COUNTRY.COUNTRY</code>.
      */
     public String getCountry() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.COUNTRY.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.COUNTRY.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.COUNTRY.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.COUNTRY.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(2);

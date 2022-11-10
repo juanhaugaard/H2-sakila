@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Staff;
-
-import java.time.LocalDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record11;
 import org.jooq.Row11;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -24,154 +23,154 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.STAFF.STAFF_ID</code>.
+     * Setter for <code>PUBLIC.STAFF.STAFF_ID</code>.
      */
     public void setStaffId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.STAFF_ID</code>.
+     * Getter for <code>PUBLIC.STAFF.STAFF_ID</code>.
      */
     public Long getStaffId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.FIRST_NAME</code>.
+     * Setter for <code>PUBLIC.STAFF.FIRST_NAME</code>.
      */
     public void setFirstName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.FIRST_NAME</code>.
+     * Getter for <code>PUBLIC.STAFF.FIRST_NAME</code>.
      */
     public String getFirstName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.LAST_NAME</code>.
+     * Setter for <code>PUBLIC.STAFF.LAST_NAME</code>.
      */
     public void setLastName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.LAST_NAME</code>.
+     * Getter for <code>PUBLIC.STAFF.LAST_NAME</code>.
      */
     public String getLastName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.ADDRESS_ID</code>.
+     * Setter for <code>PUBLIC.STAFF.ADDRESS_ID</code>.
      */
     public void setAddressId(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.ADDRESS_ID</code>.
+     * Getter for <code>PUBLIC.STAFF.ADDRESS_ID</code>.
      */
     public Long getAddressId() {
         return (Long) get(3);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.PICTURE</code>.
+     * Setter for <code>PUBLIC.STAFF.PICTURE</code>.
      */
     public void setPicture(byte[] value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.PICTURE</code>.
+     * Getter for <code>PUBLIC.STAFF.PICTURE</code>.
      */
     public byte[] getPicture() {
         return (byte[]) get(4);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.EMAIL</code>.
+     * Setter for <code>PUBLIC.STAFF.EMAIL</code>.
      */
     public void setEmail(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.EMAIL</code>.
+     * Getter for <code>PUBLIC.STAFF.EMAIL</code>.
      */
     public String getEmail() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.STORE_ID</code>.
+     * Setter for <code>PUBLIC.STAFF.STORE_ID</code>.
      */
     public void setStoreId(Long value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.STORE_ID</code>.
+     * Getter for <code>PUBLIC.STAFF.STORE_ID</code>.
      */
     public Long getStoreId() {
         return (Long) get(6);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.ACTIVE</code>.
+     * Setter for <code>PUBLIC.STAFF.ACTIVE</code>.
      */
     public void setActive(Boolean value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.ACTIVE</code>.
+     * Getter for <code>PUBLIC.STAFF.ACTIVE</code>.
      */
     public Boolean getActive() {
         return (Boolean) get(7);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.USERNAME</code>.
+     * Setter for <code>PUBLIC.STAFF.USERNAME</code>.
      */
     public void setUsername(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.USERNAME</code>.
+     * Getter for <code>PUBLIC.STAFF.USERNAME</code>.
      */
     public String getUsername() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.PASSWORD</code>.
+     * Setter for <code>PUBLIC.STAFF.PASSWORD</code>.
      */
     public void setPassword(byte[] value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.PASSWORD</code>.
+     * Getter for <code>PUBLIC.STAFF.PASSWORD</code>.
      */
     public byte[] getPassword() {
         return (byte[]) get(9);
     }
 
     /**
-     * Setter for <code>SAKILA.STAFF.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.STAFF.LAST_UPDATE</code>.
      */
     public void setLastUpdate(LocalDateTime value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STAFF.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.STAFF.LAST_UPDATE</code>.
      */
     public LocalDateTime getLastUpdate() {
         return (LocalDateTime) get(10);

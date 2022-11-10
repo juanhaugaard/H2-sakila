@@ -5,12 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.LanguageRecord;
-
-import java.time.OffsetDateTime;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function3;
@@ -29,6 +25,9 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.function.Function;
+
 
 /**
  * Language details table
@@ -39,7 +38,7 @@ public class Language extends TableImpl<LanguageRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.LANGUAGE</code>
+     * The reference instance of <code>PUBLIC.LANGUAGE</code>
      */
     public static final Language LANGUAGE = new Language();
 
@@ -52,17 +51,17 @@ public class Language extends TableImpl<LanguageRecord> {
     }
 
     /**
-     * The column <code>SAKILA.LANGUAGE.LANGUAGE_ID</code>.
+     * The column <code>PUBLIC.LANGUAGE.LANGUAGE_ID</code>.
      */
     public final TableField<LanguageRecord, Long> LANGUAGE_ID = createField(DSL.name("LANGUAGE_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.LANGUAGE.NAME</code>.
+     * The column <code>PUBLIC.LANGUAGE.NAME</code>.
      */
     public final TableField<LanguageRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(20).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.LANGUAGE.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.LANGUAGE.LAST_UPDATE</code>.
      */
     public final TableField<LanguageRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -75,21 +74,21 @@ public class Language extends TableImpl<LanguageRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.LANGUAGE</code> table reference
+     * Create an aliased <code>PUBLIC.LANGUAGE</code> table reference
      */
     public Language(String alias) {
         this(DSL.name(alias), LANGUAGE);
     }
 
     /**
-     * Create an aliased <code>SAKILA.LANGUAGE</code> table reference
+     * Create an aliased <code>PUBLIC.LANGUAGE</code> table reference
      */
     public Language(Name alias) {
         this(alias, LANGUAGE);
     }
 
     /**
-     * Create a <code>SAKILA.LANGUAGE</code> table reference
+     * Create a <code>PUBLIC.LANGUAGE</code> table reference
      */
     public Language() {
         this(DSL.name("LANGUAGE"), null);
@@ -101,7 +100,7 @@ public class Language extends TableImpl<LanguageRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override

@@ -38,7 +38,6 @@ import com.tayrona.sakila.data.generated.tables.records.RentalRecord;
 import com.tayrona.sakila.data.generated.tables.records.StaffRecord;
 import com.tayrona.sakila.data.generated.tables.records.StoreRecord;
 import com.tayrona.sakila.data.generated.tables.records.TestTableRecord;
-
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -48,7 +47,7 @@ import org.jooq.impl.Internal;
 
 /**
  * A class modelling foreign key relationships and constraints of tables in
- * SAKILA.
+ * PUBLIC.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Keys {

@@ -1,5 +1,6 @@
 @REM Liquibase
-@set SCHEMA=--liquibase-schema-name=sakila
+@REM set SCHEMA=--liquibase-schema-name=SAKILA
+set SCHEMA=--liquibase-schema-name=PUBLIC
 @set DRIVER=--driver=org.h2.Driver
 @set SEARCH_PATH=--search-path=W:/alt-workspace/H2-sakila
 @REM set CHANGE_LOG=--changeLogFile=tools/changesets/h2-sakila-schema-sql.xml

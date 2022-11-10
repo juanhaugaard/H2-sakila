@@ -5,16 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.PaymentRecord;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function7;
@@ -33,6 +25,13 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Payment details table
@@ -43,7 +42,7 @@ public class Payment extends TableImpl<PaymentRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.PAYMENT</code>
+     * The reference instance of <code>PUBLIC.PAYMENT</code>
      */
     public static final Payment PAYMENT = new Payment();
 
@@ -56,37 +55,37 @@ public class Payment extends TableImpl<PaymentRecord> {
     }
 
     /**
-     * The column <code>SAKILA.PAYMENT.PAYMENT_ID</code>.
+     * The column <code>PUBLIC.PAYMENT.PAYMENT_ID</code>.
      */
     public final TableField<PaymentRecord, Long> PAYMENT_ID = createField(DSL.name("PAYMENT_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.PAYMENT.CUSTOMER_ID</code>.
+     * The column <code>PUBLIC.PAYMENT.CUSTOMER_ID</code>.
      */
     public final TableField<PaymentRecord, Long> CUSTOMER_ID = createField(DSL.name("CUSTOMER_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.PAYMENT.STAFF_ID</code>.
+     * The column <code>PUBLIC.PAYMENT.STAFF_ID</code>.
      */
     public final TableField<PaymentRecord, Long> STAFF_ID = createField(DSL.name("STAFF_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.PAYMENT.RENTAL_ID</code>.
+     * The column <code>PUBLIC.PAYMENT.RENTAL_ID</code>.
      */
     public final TableField<PaymentRecord, Long> RENTAL_ID = createField(DSL.name("RENTAL_ID"), SQLDataType.BIGINT.defaultValue(DSL.field("NULL", SQLDataType.BIGINT)), this, "");
 
     /**
-     * The column <code>SAKILA.PAYMENT.AMOUNT</code>.
+     * The column <code>PUBLIC.PAYMENT.AMOUNT</code>.
      */
     public final TableField<PaymentRecord, BigDecimal> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.DECIMAL(5, 2).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.PAYMENT.PAYMENT_DATE</code>.
+     * The column <code>PUBLIC.PAYMENT.PAYMENT_DATE</code>.
      */
     public final TableField<PaymentRecord, LocalDateTime> PAYMENT_DATE = createField(DSL.name("PAYMENT_DATE"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.PAYMENT.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.PAYMENT.LAST_UPDATE</code>.
      */
     public final TableField<PaymentRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -99,21 +98,21 @@ public class Payment extends TableImpl<PaymentRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.PAYMENT</code> table reference
+     * Create an aliased <code>PUBLIC.PAYMENT</code> table reference
      */
     public Payment(String alias) {
         this(DSL.name(alias), PAYMENT);
     }
 
     /**
-     * Create an aliased <code>SAKILA.PAYMENT</code> table reference
+     * Create an aliased <code>PUBLIC.PAYMENT</code> table reference
      */
     public Payment(Name alias) {
         this(alias, PAYMENT);
     }
 
     /**
-     * Create a <code>SAKILA.PAYMENT</code> table reference
+     * Create a <code>PUBLIC.PAYMENT</code> table reference
      */
     public Payment() {
         this(DSL.name("PAYMENT"), null);
@@ -125,7 +124,7 @@ public class Payment extends TableImpl<PaymentRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -148,7 +147,7 @@ public class Payment extends TableImpl<PaymentRecord> {
     private transient Rental _rental;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.CUSTOMER</code> table.
+     * Get the implicit join path to the <code>PUBLIC.CUSTOMER</code> table.
      */
     public Customer customer() {
         if (_customer == null)
@@ -158,7 +157,7 @@ public class Payment extends TableImpl<PaymentRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.STAFF</code> table.
+     * Get the implicit join path to the <code>PUBLIC.STAFF</code> table.
      */
     public Staff staff() {
         if (_staff == null)
@@ -168,7 +167,7 @@ public class Payment extends TableImpl<PaymentRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.RENTAL</code> table.
+     * Get the implicit join path to the <code>PUBLIC.RENTAL</code> table.
      */
     public Rental rental() {
         if (_rental == null)

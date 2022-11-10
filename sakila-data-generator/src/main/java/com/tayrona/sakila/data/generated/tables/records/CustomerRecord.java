@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Customer;
-
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
 import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -24,126 +23,126 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.CUSTOMER.CUSTOMER_ID</code>.
+     * Setter for <code>PUBLIC.CUSTOMER.CUSTOMER_ID</code>.
      */
     public void setCustomerId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CUSTOMER.CUSTOMER_ID</code>.
+     * Getter for <code>PUBLIC.CUSTOMER.CUSTOMER_ID</code>.
      */
     public Long getCustomerId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.CUSTOMER.STORE_ID</code>.
+     * Setter for <code>PUBLIC.CUSTOMER.STORE_ID</code>.
      */
     public void setStoreId(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CUSTOMER.STORE_ID</code>.
+     * Getter for <code>PUBLIC.CUSTOMER.STORE_ID</code>.
      */
     public Long getStoreId() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.CUSTOMER.FIRST_NAME</code>.
+     * Setter for <code>PUBLIC.CUSTOMER.FIRST_NAME</code>.
      */
     public void setFirstName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CUSTOMER.FIRST_NAME</code>.
+     * Getter for <code>PUBLIC.CUSTOMER.FIRST_NAME</code>.
      */
     public String getFirstName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.CUSTOMER.LAST_NAME</code>.
+     * Setter for <code>PUBLIC.CUSTOMER.LAST_NAME</code>.
      */
     public void setLastName(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CUSTOMER.LAST_NAME</code>.
+     * Getter for <code>PUBLIC.CUSTOMER.LAST_NAME</code>.
      */
     public String getLastName() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>SAKILA.CUSTOMER.EMAIL</code>.
+     * Setter for <code>PUBLIC.CUSTOMER.EMAIL</code>.
      */
     public void setEmail(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CUSTOMER.EMAIL</code>.
+     * Getter for <code>PUBLIC.CUSTOMER.EMAIL</code>.
      */
     public String getEmail() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>SAKILA.CUSTOMER.ADDRESS_ID</code>.
+     * Setter for <code>PUBLIC.CUSTOMER.ADDRESS_ID</code>.
      */
     public void setAddressId(Long value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CUSTOMER.ADDRESS_ID</code>.
+     * Getter for <code>PUBLIC.CUSTOMER.ADDRESS_ID</code>.
      */
     public Long getAddressId() {
         return (Long) get(5);
     }
 
     /**
-     * Setter for <code>SAKILA.CUSTOMER.ACTIVE</code>.
+     * Setter for <code>PUBLIC.CUSTOMER.ACTIVE</code>.
      */
     public void setActive(Boolean value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CUSTOMER.ACTIVE</code>.
+     * Getter for <code>PUBLIC.CUSTOMER.ACTIVE</code>.
      */
     public Boolean getActive() {
         return (Boolean) get(6);
     }
 
     /**
-     * Setter for <code>SAKILA.CUSTOMER.CREATE_DATE</code>.
+     * Setter for <code>PUBLIC.CUSTOMER.CREATE_DATE</code>.
      */
     public void setCreateDate(OffsetDateTime value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CUSTOMER.CREATE_DATE</code>.
+     * Getter for <code>PUBLIC.CUSTOMER.CREATE_DATE</code>.
      */
     public OffsetDateTime getCreateDate() {
         return (OffsetDateTime) get(7);
     }
 
     /**
-     * Setter for <code>SAKILA.CUSTOMER.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.CUSTOMER.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>SAKILA.CUSTOMER.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.CUSTOMER.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(8);

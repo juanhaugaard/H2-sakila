@@ -5,14 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.FilmCategoryRecord;
-
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function3;
@@ -30,6 +24,11 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Film Category cross-reference table
@@ -40,7 +39,7 @@ public class FilmCategory extends TableImpl<FilmCategoryRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.FILM_CATEGORY</code>
+     * The reference instance of <code>PUBLIC.FILM_CATEGORY</code>
      */
     public static final FilmCategory FILM_CATEGORY = new FilmCategory();
 
@@ -53,17 +52,17 @@ public class FilmCategory extends TableImpl<FilmCategoryRecord> {
     }
 
     /**
-     * The column <code>SAKILA.FILM_CATEGORY.FILM_ID</code>.
+     * The column <code>PUBLIC.FILM_CATEGORY.FILM_ID</code>.
      */
     public final TableField<FilmCategoryRecord, Long> FILM_ID = createField(DSL.name("FILM_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.FILM_CATEGORY.CATEGORY_ID</code>.
+     * The column <code>PUBLIC.FILM_CATEGORY.CATEGORY_ID</code>.
      */
     public final TableField<FilmCategoryRecord, Long> CATEGORY_ID = createField(DSL.name("CATEGORY_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.FILM_CATEGORY.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.FILM_CATEGORY.LAST_UPDATE</code>.
      */
     public final TableField<FilmCategoryRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -76,21 +75,21 @@ public class FilmCategory extends TableImpl<FilmCategoryRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.FILM_CATEGORY</code> table reference
+     * Create an aliased <code>PUBLIC.FILM_CATEGORY</code> table reference
      */
     public FilmCategory(String alias) {
         this(DSL.name(alias), FILM_CATEGORY);
     }
 
     /**
-     * Create an aliased <code>SAKILA.FILM_CATEGORY</code> table reference
+     * Create an aliased <code>PUBLIC.FILM_CATEGORY</code> table reference
      */
     public FilmCategory(Name alias) {
         this(alias, FILM_CATEGORY);
     }
 
     /**
-     * Create a <code>SAKILA.FILM_CATEGORY</code> table reference
+     * Create a <code>PUBLIC.FILM_CATEGORY</code> table reference
      */
     public FilmCategory() {
         this(DSL.name("FILM_CATEGORY"), null);
@@ -102,7 +101,7 @@ public class FilmCategory extends TableImpl<FilmCategoryRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -119,7 +118,7 @@ public class FilmCategory extends TableImpl<FilmCategoryRecord> {
     private transient Category _category;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.FILM</code> table.
+     * Get the implicit join path to the <code>PUBLIC.FILM</code> table.
      */
     public Film film() {
         if (_film == null)
@@ -129,7 +128,7 @@ public class FilmCategory extends TableImpl<FilmCategoryRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.CATEGORY</code> table.
+     * Get the implicit join path to the <code>PUBLIC.CATEGORY</code> table.
      */
     public Category category() {
         if (_category == null)

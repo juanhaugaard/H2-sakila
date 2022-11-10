@@ -6,13 +6,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 import com.tayrona.sakila.data.generated.Indexes;
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.FilmTextRecord;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function3;
@@ -31,6 +26,10 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Film title and description table for fulltext search
@@ -41,7 +40,7 @@ public class FilmText extends TableImpl<FilmTextRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.FILM_TEXT</code>
+     * The reference instance of <code>PUBLIC.FILM_TEXT</code>
      */
     public static final FilmText FILM_TEXT = new FilmText();
 
@@ -54,17 +53,17 @@ public class FilmText extends TableImpl<FilmTextRecord> {
     }
 
     /**
-     * The column <code>SAKILA.FILM_TEXT.FILM_ID</code>.
+     * The column <code>PUBLIC.FILM_TEXT.FILM_ID</code>.
      */
     public final TableField<FilmTextRecord, Long> FILM_ID = createField(DSL.name("FILM_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.FILM_TEXT.TITLE</code>.
+     * The column <code>PUBLIC.FILM_TEXT.TITLE</code>.
      */
     public final TableField<FilmTextRecord, String> TITLE = createField(DSL.name("TITLE"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.FILM_TEXT.DESCRIPTION</code>.
+     * The column <code>PUBLIC.FILM_TEXT.DESCRIPTION</code>.
      */
     public final TableField<FilmTextRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.VARCHAR(1000000000), this, "");
 
@@ -77,21 +76,21 @@ public class FilmText extends TableImpl<FilmTextRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.FILM_TEXT</code> table reference
+     * Create an aliased <code>PUBLIC.FILM_TEXT</code> table reference
      */
     public FilmText(String alias) {
         this(DSL.name(alias), FILM_TEXT);
     }
 
     /**
-     * Create an aliased <code>SAKILA.FILM_TEXT</code> table reference
+     * Create an aliased <code>PUBLIC.FILM_TEXT</code> table reference
      */
     public FilmText(Name alias) {
         this(alias, FILM_TEXT);
     }
 
     /**
-     * Create a <code>SAKILA.FILM_TEXT</code> table reference
+     * Create a <code>PUBLIC.FILM_TEXT</code> table reference
      */
     public FilmText() {
         this(DSL.name("FILM_TEXT"), null);
@@ -103,7 +102,7 @@ public class FilmText extends TableImpl<FilmTextRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override

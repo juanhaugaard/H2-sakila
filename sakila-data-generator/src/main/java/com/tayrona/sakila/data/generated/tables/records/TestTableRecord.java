@@ -21,21 +21,21 @@ public class TestTableRecord extends UpdatableRecordImpl<TestTableRecord> implem
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.TEST_TABLE.ID</code>.
+     * Setter for <code>PUBLIC.TEST_TABLE.ID</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.TEST_TABLE.ID</code>.
+     * Getter for <code>PUBLIC.TEST_TABLE.ID</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.TEST_TABLE.FEATURES</code>. Special features
+     * Setter for <code>PUBLIC.TEST_TABLE.FEATURES</code>. Special features
      * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public void setFeatures(String[] value) {
@@ -43,7 +43,7 @@ public class TestTableRecord extends UpdatableRecordImpl<TestTableRecord> implem
     }
 
     /**
-     * Getter for <code>SAKILA.TEST_TABLE.FEATURES</code>. Special features
+     * Getter for <code>PUBLIC.TEST_TABLE.FEATURES</code>. Special features
      * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public String[] getFeatures() {

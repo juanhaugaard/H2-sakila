@@ -4,6 +4,7 @@
 package com.tayrona.sakila.data.generated.tables.records;
 
 
+import com.tayrona.sakila.data.generated.enums.MpaaRating;
 import com.tayrona.sakila.data.generated.tables.Film;
 import org.jooq.Field;
 import org.jooq.Record1;
@@ -19,54 +20,54 @@ import java.time.OffsetDateTime;
  * Film details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Record15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, Object, String[], OffsetDateTime> {
+public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Record15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, String[], OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.FILM.FILM_ID</code>.
+     * Setter for <code>PUBLIC.FILM.FILM_ID</code>.
      */
     public void setFilmId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.FILM_ID</code>.
+     * Getter for <code>PUBLIC.FILM.FILM_ID</code>.
      */
     public Long getFilmId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.TITLE</code>.
+     * Setter for <code>PUBLIC.FILM.TITLE</code>.
      */
     public void setTitle(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.TITLE</code>.
+     * Getter for <code>PUBLIC.FILM.TITLE</code>.
      */
     public String getTitle() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.DESCRIPTION</code>.
+     * Setter for <code>PUBLIC.FILM.DESCRIPTION</code>.
      */
     public void setDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.DESCRIPTION</code>.
+     * Getter for <code>PUBLIC.FILM.DESCRIPTION</code>.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.RELEASE_YEAR</code>. YearValue a small int
+     * Setter for <code>PUBLIC.FILM.RELEASE_YEAR</code>. YearValue a small int
      * between 1900 and 2155
      */
     public void setReleaseYear(Short value) {
@@ -74,7 +75,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.RELEASE_YEAR</code>. YearValue a small int
+     * Getter for <code>PUBLIC.FILM.RELEASE_YEAR</code>. YearValue a small int
      * between 1900 and 2155
      */
     public Short getReleaseYear() {
@@ -82,145 +83,135 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.LANGUAGE_ID</code>.
+     * Setter for <code>PUBLIC.FILM.LANGUAGE_ID</code>.
      */
     public void setLanguageId(Long value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.LANGUAGE_ID</code>.
+     * Getter for <code>PUBLIC.FILM.LANGUAGE_ID</code>.
      */
     public Long getLanguageId() {
         return (Long) get(4);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.ORIGINAL_LANGUAGE_ID</code>.
+     * Setter for <code>PUBLIC.FILM.ORIGINAL_LANGUAGE_ID</code>.
      */
     public void setOriginalLanguageId(Long value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.ORIGINAL_LANGUAGE_ID</code>.
+     * Getter for <code>PUBLIC.FILM.ORIGINAL_LANGUAGE_ID</code>.
      */
     public Long getOriginalLanguageId() {
         return (Long) get(5);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.RENTAL_DURATION</code>.
+     * Setter for <code>PUBLIC.FILM.RENTAL_DURATION</code>.
      */
     public void setRentalDuration(Byte value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.RENTAL_DURATION</code>.
+     * Getter for <code>PUBLIC.FILM.RENTAL_DURATION</code>.
      */
     public Byte getRentalDuration() {
         return (Byte) get(6);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.RENTAL_RATE</code>.
+     * Setter for <code>PUBLIC.FILM.RENTAL_RATE</code>.
      */
     public void setRentalRate(BigDecimal value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.RENTAL_RATE</code>.
+     * Getter for <code>PUBLIC.FILM.RENTAL_RATE</code>.
      */
     public BigDecimal getRentalRate() {
         return (BigDecimal) get(7);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.LENGTH</code>.
+     * Setter for <code>PUBLIC.FILM.LENGTH</code>.
      */
     public void setLength(Short value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.LENGTH</code>.
+     * Getter for <code>PUBLIC.FILM.LENGTH</code>.
      */
     public Short getLength() {
         return (Short) get(8);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.REPLACEMENT_COST</code>.
+     * Setter for <code>PUBLIC.FILM.REPLACEMENT_COST</code>.
      */
     public void setReplacementCost(BigDecimal value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.REPLACEMENT_COST</code>.
+     * Getter for <code>PUBLIC.FILM.REPLACEMENT_COST</code>.
      */
     public BigDecimal getReplacementCost() {
         return (BigDecimal) get(9);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.BARCODE</code>.
+     * Setter for <code>PUBLIC.FILM.BARCODE</code>.
      */
     public void setBarcode(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.BARCODE</code>.
+     * Getter for <code>PUBLIC.FILM.BARCODE</code>.
      */
     public String getBarcode() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.REVERSE_BARCODE</code>.
+     * Setter for <code>PUBLIC.FILM.REVERSE_BARCODE</code>.
      */
     public void setReverseBarcode(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.REVERSE_BARCODE</code>.
+     * Getter for <code>PUBLIC.FILM.REVERSE_BARCODE</code>.
      */
     public String getReverseBarcode() {
         return (String) get(11);
     }
 
     /**
-     * @deprecated Unknown data type. If this is a qualified, user-defined type,
-     * it may have been excluded from code generation. If this is a built-in
-     * type, you can define an explicit {@link org.jooq.Binding} to specify how
-     * this type should be handled. Deprecation can be turned off using
-     * {@literal <deprecationOnUnknownTypes/>} in your code generator
-     * configuration.
+     * Setter for <code>PUBLIC.FILM.RATING</code>. MPAA Rating ENUM
+     * (G,PG,PG-13,R,NC-17)
      */
-    @Deprecated
-    public void setRating(Object value) {
+    public void setRating(MpaaRating value) {
         set(12, value);
     }
 
     /**
-     * @deprecated Unknown data type. If this is a qualified, user-defined type,
-     * it may have been excluded from code generation. If this is a built-in
-     * type, you can define an explicit {@link org.jooq.Binding} to specify how
-     * this type should be handled. Deprecation can be turned off using
-     * {@literal <deprecationOnUnknownTypes/>} in your code generator
-     * configuration.
+     * Getter for <code>PUBLIC.FILM.RATING</code>. MPAA Rating ENUM
+     * (G,PG,PG-13,R,NC-17)
      */
-    @Deprecated
-    public Object getRating() {
-        return get(12);
+    public MpaaRating getRating() {
+        return (MpaaRating) get(12);
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.SPECIAL_FEATURES</code>. Special features
+     * Setter for <code>PUBLIC.FILM.SPECIAL_FEATURES</code>. Special features
      * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public void setSpecialFeatures(String[] value) {
@@ -228,7 +219,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.SPECIAL_FEATURES</code>. Special features
+     * Getter for <code>PUBLIC.FILM.SPECIAL_FEATURES</code>. Special features
      * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public String[] getSpecialFeatures() {
@@ -236,14 +227,14 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.FILM.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(14, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.FILM.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(14);
@@ -263,12 +254,12 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, Object, String[], OffsetDateTime> fieldsRow() {
+    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, String[], OffsetDateTime> fieldsRow() {
         return (Row15) super.fieldsRow();
     }
 
     @Override
-    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, Object, String[], OffsetDateTime> valuesRow() {
+    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, String[], OffsetDateTime> valuesRow() {
         return (Row15) super.valuesRow();
     }
 
@@ -332,17 +323,8 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
         return Film.FILM.REVERSE_BARCODE;
     }
 
-    /**
-     * @deprecated Unknown data type. If this is a qualified, user-defined type,
-     * it may have been excluded from code generation. If this is a built-in
-     * type, you can define an explicit {@link org.jooq.Binding} to specify how
-     * this type should be handled. Deprecation can be turned off using
-     * {@literal <deprecationOnUnknownTypes/>} in your code generator
-     * configuration.
-     */
-    @Deprecated
     @Override
-    public Field<Object> field13() {
+    public Field<MpaaRating> field13() {
         return Film.FILM.RATING;
     }
 
@@ -416,17 +398,8 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
         return getReverseBarcode();
     }
 
-    /**
-     * @deprecated Unknown data type. If this is a qualified, user-defined type,
-     * it may have been excluded from code generation. If this is a built-in
-     * type, you can define an explicit {@link org.jooq.Binding} to specify how
-     * this type should be handled. Deprecation can be turned off using
-     * {@literal <deprecationOnUnknownTypes/>} in your code generator
-     * configuration.
-     */
-    @Deprecated
     @Override
-    public Object component13() {
+    public MpaaRating component13() {
         return getRating();
     }
 
@@ -500,17 +473,8 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
         return getReverseBarcode();
     }
 
-    /**
-     * @deprecated Unknown data type. If this is a qualified, user-defined type,
-     * it may have been excluded from code generation. If this is a built-in
-     * type, you can define an explicit {@link org.jooq.Binding} to specify how
-     * this type should be handled. Deprecation can be turned off using
-     * {@literal <deprecationOnUnknownTypes/>} in your code generator
-     * configuration.
-     */
-    @Deprecated
     @Override
-    public Object value13() {
+    public MpaaRating value13() {
         return getRating();
     }
 
@@ -596,17 +560,8 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
         return this;
     }
 
-    /**
-     * @deprecated Unknown data type. If this is a qualified, user-defined type,
-     * it may have been excluded from code generation. If this is a built-in
-     * type, you can define an explicit {@link org.jooq.Binding} to specify how
-     * this type should be handled. Deprecation can be turned off using
-     * {@literal <deprecationOnUnknownTypes/>} in your code generator
-     * configuration.
-     */
-    @Deprecated
     @Override
-    public FilmRecord value13(Object value) {
+    public FilmRecord value13(MpaaRating value) {
         setRating(value);
         return this;
     }
@@ -624,7 +579,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public FilmRecord values(Long value1, String value2, String value3, Short value4, Long value5, Long value6, Byte value7, BigDecimal value8, Short value9, BigDecimal value10, String value11, String value12, Object value13, String[] value14, OffsetDateTime value15) {
+    public FilmRecord values(Long value1, String value2, String value3, Short value4, Long value5, Long value6, Byte value7, BigDecimal value8, Short value9, BigDecimal value10, String value11, String value12, MpaaRating value13, String[] value14, OffsetDateTime value15) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -657,7 +612,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Create a detached, initialised FilmRecord
      */
-    public FilmRecord(Long filmId, String title, String description, Short releaseYear, Long languageId, Long originalLanguageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, String barcode, String reverseBarcode, Object rating, String[] specialFeatures, OffsetDateTime lastUpdate) {
+    public FilmRecord(Long filmId, String title, String description, Short releaseYear, Long languageId, Long originalLanguageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, String barcode, String reverseBarcode, MpaaRating rating, String[] specialFeatures, OffsetDateTime lastUpdate) {
         super(Film.FILM);
 
         setFilmId(filmId);

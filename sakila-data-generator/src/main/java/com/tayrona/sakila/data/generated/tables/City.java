@@ -5,14 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.CityRecord;
-
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
@@ -31,6 +25,11 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * City details table
@@ -41,7 +40,7 @@ public class City extends TableImpl<CityRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.CITY</code>
+     * The reference instance of <code>PUBLIC.CITY</code>
      */
     public static final City CITY = new City();
 
@@ -54,22 +53,22 @@ public class City extends TableImpl<CityRecord> {
     }
 
     /**
-     * The column <code>SAKILA.CITY.CITY_ID</code>.
+     * The column <code>PUBLIC.CITY.CITY_ID</code>.
      */
     public final TableField<CityRecord, Long> CITY_ID = createField(DSL.name("CITY_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.CITY.CITY</code>.
+     * The column <code>PUBLIC.CITY.CITY</code>.
      */
     public final TableField<CityRecord, String> CITY_ = createField(DSL.name("CITY"), SQLDataType.VARCHAR(50).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.CITY.COUNTRY_ID</code>.
+     * The column <code>PUBLIC.CITY.COUNTRY_ID</code>.
      */
     public final TableField<CityRecord, Long> COUNTRY_ID = createField(DSL.name("COUNTRY_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.CITY.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.CITY.LAST_UPDATE</code>.
      */
     public final TableField<CityRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -82,21 +81,21 @@ public class City extends TableImpl<CityRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.CITY</code> table reference
+     * Create an aliased <code>PUBLIC.CITY</code> table reference
      */
     public City(String alias) {
         this(DSL.name(alias), CITY);
     }
 
     /**
-     * Create an aliased <code>SAKILA.CITY</code> table reference
+     * Create an aliased <code>PUBLIC.CITY</code> table reference
      */
     public City(Name alias) {
         this(alias, CITY);
     }
 
     /**
-     * Create a <code>SAKILA.CITY</code> table reference
+     * Create a <code>PUBLIC.CITY</code> table reference
      */
     public City() {
         this(DSL.name("CITY"), null);
@@ -108,7 +107,7 @@ public class City extends TableImpl<CityRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -129,7 +128,7 @@ public class City extends TableImpl<CityRecord> {
     private transient Country _country;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.COUNTRY</code> table.
+     * Get the implicit join path to the <code>PUBLIC.COUNTRY</code> table.
      */
     public Country country() {
         if (_country == null)

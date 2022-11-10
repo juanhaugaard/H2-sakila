@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Store;
-
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record4;
 import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -24,56 +23,56 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.STORE.STORE_ID</code>.
+     * Setter for <code>PUBLIC.STORE.STORE_ID</code>.
      */
     public void setStoreId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STORE.STORE_ID</code>.
+     * Getter for <code>PUBLIC.STORE.STORE_ID</code>.
      */
     public Long getStoreId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.STORE.MANAGER_STAFF_ID</code>.
+     * Setter for <code>PUBLIC.STORE.MANAGER_STAFF_ID</code>.
      */
     public void setManagerStaffId(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STORE.MANAGER_STAFF_ID</code>.
+     * Getter for <code>PUBLIC.STORE.MANAGER_STAFF_ID</code>.
      */
     public Long getManagerStaffId() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.STORE.ADDRESS_ID</code>.
+     * Setter for <code>PUBLIC.STORE.ADDRESS_ID</code>.
      */
     public void setAddressId(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STORE.ADDRESS_ID</code>.
+     * Getter for <code>PUBLIC.STORE.ADDRESS_ID</code>.
      */
     public Long getAddressId() {
         return (Long) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.STORE.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.STORE.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>SAKILA.STORE.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.STORE.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(3);

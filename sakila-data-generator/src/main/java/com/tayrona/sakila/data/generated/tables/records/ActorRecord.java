@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Actor;
-
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record4;
 import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -24,56 +23,56 @@ public class ActorRecord extends UpdatableRecordImpl<ActorRecord> implements Rec
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.ACTOR.ACTOR_ID</code>.
+     * Setter for <code>PUBLIC.ACTOR.ACTOR_ID</code>.
      */
     public void setActorId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ACTOR.ACTOR_ID</code>.
+     * Getter for <code>PUBLIC.ACTOR.ACTOR_ID</code>.
      */
     public Long getActorId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.ACTOR.FIRST_NAME</code>.
+     * Setter for <code>PUBLIC.ACTOR.FIRST_NAME</code>.
      */
     public void setFirstName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ACTOR.FIRST_NAME</code>.
+     * Getter for <code>PUBLIC.ACTOR.FIRST_NAME</code>.
      */
     public String getFirstName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.ACTOR.LAST_NAME</code>.
+     * Setter for <code>PUBLIC.ACTOR.LAST_NAME</code>.
      */
     public void setLastName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ACTOR.LAST_NAME</code>.
+     * Getter for <code>PUBLIC.ACTOR.LAST_NAME</code>.
      */
     public String getLastName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.ACTOR.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.ACTOR.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>SAKILA.ACTOR.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.ACTOR.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(3);

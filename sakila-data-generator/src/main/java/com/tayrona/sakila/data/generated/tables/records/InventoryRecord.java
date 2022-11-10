@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Inventory;
-
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record4;
 import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -24,56 +23,56 @@ public class InventoryRecord extends UpdatableRecordImpl<InventoryRecord> implem
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.INVENTORY.INVENTORY_ID</code>.
+     * Setter for <code>PUBLIC.INVENTORY.INVENTORY_ID</code>.
      */
     public void setInventoryId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.INVENTORY.INVENTORY_ID</code>.
+     * Getter for <code>PUBLIC.INVENTORY.INVENTORY_ID</code>.
      */
     public Long getInventoryId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.INVENTORY.FILM_ID</code>.
+     * Setter for <code>PUBLIC.INVENTORY.FILM_ID</code>.
      */
     public void setFilmId(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.INVENTORY.FILM_ID</code>.
+     * Getter for <code>PUBLIC.INVENTORY.FILM_ID</code>.
      */
     public Long getFilmId() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.INVENTORY.STORE_ID</code>.
+     * Setter for <code>PUBLIC.INVENTORY.STORE_ID</code>.
      */
     public void setStoreId(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.INVENTORY.STORE_ID</code>.
+     * Getter for <code>PUBLIC.INVENTORY.STORE_ID</code>.
      */
     public Long getStoreId() {
         return (Long) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.INVENTORY.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.INVENTORY.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>SAKILA.INVENTORY.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.INVENTORY.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(3);

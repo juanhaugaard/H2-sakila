@@ -5,14 +5,13 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Language;
-
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record3;
 import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -24,42 +23,42 @@ public class LanguageRecord extends UpdatableRecordImpl<LanguageRecord> implemen
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.LANGUAGE.LANGUAGE_ID</code>.
+     * Setter for <code>PUBLIC.LANGUAGE.LANGUAGE_ID</code>.
      */
     public void setLanguageId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.LANGUAGE.LANGUAGE_ID</code>.
+     * Getter for <code>PUBLIC.LANGUAGE.LANGUAGE_ID</code>.
      */
     public Long getLanguageId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.LANGUAGE.NAME</code>.
+     * Setter for <code>PUBLIC.LANGUAGE.NAME</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.LANGUAGE.NAME</code>.
+     * Getter for <code>PUBLIC.LANGUAGE.NAME</code>.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.LANGUAGE.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.LANGUAGE.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.LANGUAGE.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.LANGUAGE.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(2);

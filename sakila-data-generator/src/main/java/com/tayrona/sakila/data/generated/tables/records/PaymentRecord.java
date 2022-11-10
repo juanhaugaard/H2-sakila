@@ -5,16 +5,15 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.Payment;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record7;
 import org.jooq.Row7;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 
 /**
@@ -26,98 +25,98 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>SAKILA.PAYMENT.PAYMENT_ID</code>.
+     * Setter for <code>PUBLIC.PAYMENT.PAYMENT_ID</code>.
      */
     public void setPaymentId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>SAKILA.PAYMENT.PAYMENT_ID</code>.
+     * Getter for <code>PUBLIC.PAYMENT.PAYMENT_ID</code>.
      */
     public Long getPaymentId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>SAKILA.PAYMENT.CUSTOMER_ID</code>.
+     * Setter for <code>PUBLIC.PAYMENT.CUSTOMER_ID</code>.
      */
     public void setCustomerId(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.PAYMENT.CUSTOMER_ID</code>.
+     * Getter for <code>PUBLIC.PAYMENT.CUSTOMER_ID</code>.
      */
     public Long getCustomerId() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>SAKILA.PAYMENT.STAFF_ID</code>.
+     * Setter for <code>PUBLIC.PAYMENT.STAFF_ID</code>.
      */
     public void setStaffId(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>SAKILA.PAYMENT.STAFF_ID</code>.
+     * Getter for <code>PUBLIC.PAYMENT.STAFF_ID</code>.
      */
     public Long getStaffId() {
         return (Long) get(2);
     }
 
     /**
-     * Setter for <code>SAKILA.PAYMENT.RENTAL_ID</code>.
+     * Setter for <code>PUBLIC.PAYMENT.RENTAL_ID</code>.
      */
     public void setRentalId(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>SAKILA.PAYMENT.RENTAL_ID</code>.
+     * Getter for <code>PUBLIC.PAYMENT.RENTAL_ID</code>.
      */
     public Long getRentalId() {
         return (Long) get(3);
     }
 
     /**
-     * Setter for <code>SAKILA.PAYMENT.AMOUNT</code>.
+     * Setter for <code>PUBLIC.PAYMENT.AMOUNT</code>.
      */
     public void setAmount(BigDecimal value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>SAKILA.PAYMENT.AMOUNT</code>.
+     * Getter for <code>PUBLIC.PAYMENT.AMOUNT</code>.
      */
     public BigDecimal getAmount() {
         return (BigDecimal) get(4);
     }
 
     /**
-     * Setter for <code>SAKILA.PAYMENT.PAYMENT_DATE</code>.
+     * Setter for <code>PUBLIC.PAYMENT.PAYMENT_DATE</code>.
      */
     public void setPaymentDate(LocalDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>SAKILA.PAYMENT.PAYMENT_DATE</code>.
+     * Getter for <code>PUBLIC.PAYMENT.PAYMENT_DATE</code>.
      */
     public LocalDateTime getPaymentDate() {
         return (LocalDateTime) get(5);
     }
 
     /**
-     * Setter for <code>SAKILA.PAYMENT.LAST_UPDATE</code>.
+     * Setter for <code>PUBLIC.PAYMENT.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>SAKILA.PAYMENT.LAST_UPDATE</code>.
+     * Getter for <code>PUBLIC.PAYMENT.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(6);

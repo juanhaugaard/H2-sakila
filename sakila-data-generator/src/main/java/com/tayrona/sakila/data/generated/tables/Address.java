@@ -5,14 +5,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.AddressRecord;
-
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function8;
@@ -31,6 +25,11 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Address details table
@@ -41,7 +40,7 @@ public class Address extends TableImpl<AddressRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.ADDRESS</code>
+     * The reference instance of <code>PUBLIC.ADDRESS</code>
      */
     public static final Address ADDRESS = new Address();
 
@@ -54,42 +53,42 @@ public class Address extends TableImpl<AddressRecord> {
     }
 
     /**
-     * The column <code>SAKILA.ADDRESS.ADDRESS_ID</code>.
+     * The column <code>PUBLIC.ADDRESS.ADDRESS_ID</code>.
      */
     public final TableField<AddressRecord, Long> ADDRESS_ID = createField(DSL.name("ADDRESS_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.ADDRESS.ADDRESS</code>.
+     * The column <code>PUBLIC.ADDRESS.ADDRESS</code>.
      */
     public final TableField<AddressRecord, String> ADDRESS_ = createField(DSL.name("ADDRESS"), SQLDataType.VARCHAR(50).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.ADDRESS.ADDRESS2</code>.
+     * The column <code>PUBLIC.ADDRESS.ADDRESS2</code>.
      */
     public final TableField<AddressRecord, String> ADDRESS2 = createField(DSL.name("ADDRESS2"), SQLDataType.VARCHAR(50).defaultValue(DSL.field("NULL", SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>SAKILA.ADDRESS.DISTRICT</code>.
+     * The column <code>PUBLIC.ADDRESS.DISTRICT</code>.
      */
     public final TableField<AddressRecord, String> DISTRICT = createField(DSL.name("DISTRICT"), SQLDataType.VARCHAR(20).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.ADDRESS.CITY_ID</code>.
+     * The column <code>PUBLIC.ADDRESS.CITY_ID</code>.
      */
     public final TableField<AddressRecord, Long> CITY_ID = createField(DSL.name("CITY_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.ADDRESS.POSTAL_CODE</code>.
+     * The column <code>PUBLIC.ADDRESS.POSTAL_CODE</code>.
      */
     public final TableField<AddressRecord, String> POSTAL_CODE = createField(DSL.name("POSTAL_CODE"), SQLDataType.VARCHAR(10).defaultValue(DSL.field("NULL", SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>SAKILA.ADDRESS.PHONE</code>.
+     * The column <code>PUBLIC.ADDRESS.PHONE</code>.
      */
     public final TableField<AddressRecord, String> PHONE = createField(DSL.name("PHONE"), SQLDataType.VARCHAR(20).nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.ADDRESS.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.ADDRESS.LAST_UPDATE</code>.
      */
     public final TableField<AddressRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -102,21 +101,21 @@ public class Address extends TableImpl<AddressRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.ADDRESS</code> table reference
+     * Create an aliased <code>PUBLIC.ADDRESS</code> table reference
      */
     public Address(String alias) {
         this(DSL.name(alias), ADDRESS);
     }
 
     /**
-     * Create an aliased <code>SAKILA.ADDRESS</code> table reference
+     * Create an aliased <code>PUBLIC.ADDRESS</code> table reference
      */
     public Address(Name alias) {
         this(alias, ADDRESS);
     }
 
     /**
-     * Create a <code>SAKILA.ADDRESS</code> table reference
+     * Create a <code>PUBLIC.ADDRESS</code> table reference
      */
     public Address() {
         this(DSL.name("ADDRESS"), null);
@@ -128,7 +127,7 @@ public class Address extends TableImpl<AddressRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -149,7 +148,7 @@ public class Address extends TableImpl<AddressRecord> {
     private transient City _city;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.CITY</code> table.
+     * Get the implicit join path to the <code>PUBLIC.CITY</code> table.
      */
     public City city() {
         if (_city == null)

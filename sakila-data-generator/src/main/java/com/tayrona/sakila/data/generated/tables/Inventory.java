@@ -6,14 +6,8 @@ package com.tayrona.sakila.data.generated.tables;
 
 import com.tayrona.sakila.data.generated.Indexes;
 import com.tayrona.sakila.data.generated.Keys;
-import com.tayrona.sakila.data.generated.Sakila;
+import com.tayrona.sakila.data.generated.Public;
 import com.tayrona.sakila.data.generated.tables.records.InventoryRecord;
-
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
@@ -33,6 +27,11 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 
 /**
  * Inventory details table
@@ -43,7 +42,7 @@ public class Inventory extends TableImpl<InventoryRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>SAKILA.INVENTORY</code>
+     * The reference instance of <code>PUBLIC.INVENTORY</code>
      */
     public static final Inventory INVENTORY = new Inventory();
 
@@ -56,22 +55,22 @@ public class Inventory extends TableImpl<InventoryRecord> {
     }
 
     /**
-     * The column <code>SAKILA.INVENTORY.INVENTORY_ID</code>.
+     * The column <code>PUBLIC.INVENTORY.INVENTORY_ID</code>.
      */
     public final TableField<InventoryRecord, Long> INVENTORY_ID = createField(DSL.name("INVENTORY_ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.INVENTORY.FILM_ID</code>.
+     * The column <code>PUBLIC.INVENTORY.FILM_ID</code>.
      */
     public final TableField<InventoryRecord, Long> FILM_ID = createField(DSL.name("FILM_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.INVENTORY.STORE_ID</code>.
+     * The column <code>PUBLIC.INVENTORY.STORE_ID</code>.
      */
     public final TableField<InventoryRecord, Long> STORE_ID = createField(DSL.name("STORE_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>SAKILA.INVENTORY.LAST_UPDATE</code>.
+     * The column <code>PUBLIC.INVENTORY.LAST_UPDATE</code>.
      */
     public final TableField<InventoryRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -84,21 +83,21 @@ public class Inventory extends TableImpl<InventoryRecord> {
     }
 
     /**
-     * Create an aliased <code>SAKILA.INVENTORY</code> table reference
+     * Create an aliased <code>PUBLIC.INVENTORY</code> table reference
      */
     public Inventory(String alias) {
         this(DSL.name(alias), INVENTORY);
     }
 
     /**
-     * Create an aliased <code>SAKILA.INVENTORY</code> table reference
+     * Create an aliased <code>PUBLIC.INVENTORY</code> table reference
      */
     public Inventory(Name alias) {
         this(alias, INVENTORY);
     }
 
     /**
-     * Create a <code>SAKILA.INVENTORY</code> table reference
+     * Create a <code>PUBLIC.INVENTORY</code> table reference
      */
     public Inventory() {
         this(DSL.name("INVENTORY"), null);
@@ -110,7 +109,7 @@ public class Inventory extends TableImpl<InventoryRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Sakila.SAKILA;
+        return aliased() ? null : Public.PUBLIC;
     }
 
     @Override
@@ -137,7 +136,7 @@ public class Inventory extends TableImpl<InventoryRecord> {
     private transient Store _store;
 
     /**
-     * Get the implicit join path to the <code>SAKILA.FILM</code> table.
+     * Get the implicit join path to the <code>PUBLIC.FILM</code> table.
      */
     public Film film() {
         if (_film == null)
@@ -147,7 +146,7 @@ public class Inventory extends TableImpl<InventoryRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>SAKILA.STORE</code> table.
+     * Get the implicit join path to the <code>PUBLIC.STORE</code> table.
      */
     public Store store() {
         if (_store == null)
