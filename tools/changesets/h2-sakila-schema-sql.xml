@@ -1,61 +1,57 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
-    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog
-    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd
-    ">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
 
     <changeSet id="1" author="Juan Haugaard">
         <comment>Create domain yearValue</comment>
         <sql>
-            CREATE DOMAIN SAKILA.YEARVALUE AS SMALLINT
+            CREATE DOMAIN YEARVALUE AS SMALLINT
             COMMENT 'YearValue a small int between 1900 and 2155'
             CHECK ((VALUE &gt;= 1900) AND (VALUE &lt;= 2155));
         </sql>
         <rollback>
             <sql>
-                DROP DOMAIN SAKILA.YEARVALUE;
+                DROP DOMAIN YEARVALUE;
             </sql>
         </rollback>
     </changeSet>
     <changeSet id="2" author="Juan Haugaard">
         <comment>Create domain mpaa_rating</comment>
         <sql>
-            CREATE DOMAIN SAKILA.MPAA_RATING AS ENUM ('G','PG','PG-13','R','NC-17')
+            CREATE DOMAIN MPAA_RATING AS ENUM ('G','PG','PG-13','R','NC-17')
             COMMENT 'MPAA Rating ENUM (G,PG,PG-13,R,NC-17)';
         </sql>
         <rollback>
             <sql>
-                DROP DOMAIN SAKILA.MPAA_RATING;
+                DROP DOMAIN MPAA_RATING;
             </sql>
         </rollback>
     </changeSet>
     <changeSet id="3" author="Juan Haugaard">
         <comment>Create domain Special Features ENUM</comment>
         <sql>
-            CREATE DOMAIN SAKILA.SPECIAL_FEATURES_ENUM AS ENUM ('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')
+            CREATE DOMAIN SPECIAL_FEATURES_ENUM AS ENUM ('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')
             COMMENT 'Special Features ENUM (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)';
         </sql>
         <rollback>
             <sql>
-                DROP DOMAIN SAKILA.SPECIAL_FEATURES_ENUM;
+                DROP DOMAIN SPECIAL_FEATURES_ENUM;
             </sql>
         </rollback>
     </changeSet>
     <changeSet id="4" author="Juan Haugaard">
         <comment>Create domain special_features</comment>
         <sql>
-            CREATE DOMAIN SAKILA.SPECIAL_FEATURES AS VARCHAR(200) ARRAY[4]
+            CREATE DOMAIN SPECIAL_FEATURES AS VARCHAR(200) ARRAY[4]
             COMMENT 'Special features array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)'
             CHECK(EXISTS(VALUES ('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')));
         </sql>
         <rollback>
             <sql>
-                DROP DOMAIN SAKILA.SPECIAL_FEATURES;
+                DROP DOMAIN SPECIAL_FEATURES;
             </sql>
         </rollback>
     </changeSet>
@@ -75,6 +71,21 @@
         </rollback>
     </changeSet>
     <changeSet id="6" author="Juan Haugaard">
+        <comment>Create text reverse function</comment>
+        <sql>
+<!--            CREATE ALIAS REVERSE DETERMINISTIC FOR 'com.tayrona.sakila.procedures.StringUtils.reverse';-->
+            CREATE ALIAS REVERSE DETERMINISTIC AS
+            'String reverse(String value) {
+            if (null != value) return (new StringBuilder(value)).reverse().toString();
+            else return null}';
+        </sql>
+        <rollback>
+            <sql>
+                DROP ALIAS REVERSE;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="7" author="Juan Haugaard">
         <comment>Create table Category</comment>
         <sql>
             CREATE TABLE SAKILA.CATEGORY (
@@ -91,7 +102,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="7" author="Juan Haugaard">
+    <changeSet id="8" author="Juan Haugaard">
         <comment>Create table Country</comment>
         <sql>
             CREATE TABLE SAKILA.COUNTRY (
@@ -108,7 +119,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="8" author="Juan Haugaard">
+    <changeSet id="9" author="Juan Haugaard">
         <comment>Create table City</comment>
         <sql>
             CREATE TABLE SAKILA.CITY (
@@ -128,7 +139,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="9" author="Juan Haugaard">
+    <changeSet id="10" author="Juan Haugaard">
         <comment>Create table Address</comment>
         <sql>
             CREATE TABLE SAKILA.ADDRESS (
@@ -152,7 +163,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="10" author="Juan Haugaard">
+    <changeSet id="11" author="Juan Haugaard">
         <comment>Create table Language</comment>
         <sql>
             CREATE TABLE SAKILA.LANGUAGE (
@@ -169,7 +180,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="11" author="Juan Haugaard">
+    <changeSet id="12" author="Juan Haugaard">
         <comment>Create table ACTOR</comment>
         <sql>
             CREATE TABLE SAKILA.ACTOR (
@@ -187,7 +198,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="12" author="Juan Haugaard">
+    <changeSet id="13" author="Juan Haugaard">
         <comment>Create table Store</comment>
         <sql>
             CREATE TABLE SAKILA.STORE (
@@ -208,7 +219,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="13" author="Juan Haugaard">
+    <changeSet id="14" author="Juan Haugaard">
         <comment>Create table Staff</comment>
         <sql>
             CREATE TABLE SAKILA.STAFF (
@@ -237,7 +248,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="14" author="Juan Haugaard">
+    <changeSet id="15" author="Juan Haugaard">
         <comment>Alter table Store to add Foreign key to staff table</comment>
         <sql>
             ALTER TABLE SAKILA.STORE
@@ -251,7 +262,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="15" author="Juan Haugaard">
+    <changeSet id="16" author="Juan Haugaard">
         <comment>Create table Customer</comment>
         <sql>
             CREATE TABLE SAKILA.CUSTOMER (
@@ -279,22 +290,24 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="16" author="Juan Haugaard">
+    <changeSet id="17" author="Juan Haugaard">
         <comment>Create table Film</comment>
         <sql>
             CREATE TABLE SAKILA.FILM (
                 film_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 title VARCHAR(255) NOT NULL,
                 description TEXT DEFAULT NULL,
-                release_year SAKILA.YEARVALUE DEFAULT NULL,
+                release_year YEARVALUE DEFAULT NULL,
                 language_id BIGINT NOT NULL,
                 original_language_id BIGINT DEFAULT NULL,
                 rental_duration TINYINT NOT NULL DEFAULT 3,
                 rental_rate DECIMAL(4,2) NOT NULL DEFAULT 4.99,
                 length SMALLINT DEFAULT NULL,
                 replacement_cost DECIMAL(5,2) NOT NULL DEFAULT 19.99,
-                rating SAKILA.MPAA_RATING DEFAULT 'G',
-                special_features SAKILA.SPECIAL_FEATURES DEFAULT NULL,
+                barcode CHAR(20),
+                reverse_barcode CHAR(20) GENERATED ALWAYS AS (REVERSE(barcode)),
+                rating MPAA_RATING DEFAULT 'G',
+                special_features SPECIAL_FEATURES DEFAULT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_FILM PRIMARY KEY (film_id),
                 CONSTRAINT fk_film_language FOREIGN KEY (language_id)
@@ -304,8 +317,9 @@
             );
             COMMENT ON TABLE SAKILA.FILM IS 'Film details table';
             CREATE INDEX SAKILA.idx_title ON SAKILA.FILM(title);
-            CREATE INDEX SAKILA.idx_fk_language_id ON SAKILA.FILM(language_id);
-            CREATE INDEX SAKILA.idx_fk_original_language_id ON SAKILA.FILM(original_language_id);
+            CREATE INDEX SAKILA.idx_barcode ON SAKILA.FILM(barcode);
+            CREATE INDEX SAKILA.idx_reverse_barcode ON SAKILA.FILM(reverse_barcode);
+<!--            ALTER TABLE SAKILA.FILM ALTER COLUMN barcode CHAR(20) GENERATED ALWAYS AS (LPAD(barcode ,12,'0'));-->
         </sql>
         <rollback>
             <sql>
@@ -313,7 +327,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="17" author="Juan Haugaard">
+    <changeSet id="18" author="Juan Haugaard">
         <comment>Add insert trigger to table Film</comment>
         <sql>
             CREATE TRIGGER SAKILA.InsertFilmTrigger AFTER INSERT ON
@@ -325,7 +339,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="18" author="Juan Haugaard">
+    <changeSet id="19" author="Juan Haugaard">
         <comment>Add update trigger to table Film</comment>
         <sql>
             CREATE TRIGGER SAKILA.UpdateFilmTrigger AFTER UPDATE ON
@@ -337,7 +351,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="19" author="Juan Haugaard">
+    <changeSet id="20" author="Juan Haugaard">
         <comment>Add delete trigger to table Film</comment>
         <sql>
             CREATE TRIGGER SAKILA.DeleteFilmTrigger AFTER DELETE ON
@@ -349,7 +363,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="20" author="Juan Haugaard">
+    <changeSet id="21" author="Juan Haugaard">
         <comment>Create table film_text</comment>
         <sql>
             CREATE TABLE SAKILA.FILM_TEXT (
@@ -367,7 +381,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="21" author="Juan Haugaard">
+    <changeSet id="22" author="Juan Haugaard">
         <comment>Create table inventory</comment>
         <sql>
             CREATE TABLE SAKILA.INVENTORY (
@@ -390,7 +404,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="22" author="Juan Haugaard">
+    <changeSet id="23" author="Juan Haugaard">
         <comment>Create table Rental</comment>
         <sql>
             CREATE TABLE SAKILA.RENTAL (
@@ -419,7 +433,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="23" author="Juan Haugaard">
+    <changeSet id="24" author="Juan Haugaard">
         <comment>Create table Payment</comment>
         <sql>
             CREATE TABLE SAKILA.PAYMENT (
@@ -446,7 +460,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="24" author="Juan Haugaard">
+    <changeSet id="25" author="Juan Haugaard">
         <comment>Create table Film Actor cross-reference</comment>
         <sql>
             CREATE TABLE SAKILA.FILM_ACTOR (
@@ -467,7 +481,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="25" author="Juan Haugaard">
+    <changeSet id="26" author="Juan Haugaard">
         <comment>Create table Film Category cross-reference</comment>
         <sql>
             CREATE TABLE SAKILA.FILM_CATEGORY (
@@ -488,36 +502,36 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="26" author="Juan Haugaard">
+    <changeSet id="27" author="Juan Haugaard">
         <comment>Define function enum_to_ordinal</comment>
         <sql>
-            CREATE ALIAS SAKILA.ENUM_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.valueToOrdinal';
+            CREATE ALIAS ENUM_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.valueToOrdinal';
         </sql>
         <rollback>
             <sql>
-                DROP ALIAS SAKILA.ENUM_TO_ORDINAL;
-            </sql>
-        </rollback>
-    </changeSet>
-    <changeSet id="27" author="Juan Haugaard">
-        <comment>Define function mpaa_rating_to_ordinal</comment>
-        <sql>
-            CREATE ALIAS SAKILA.MPAA_RATING_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.mpaaRatingToOrdinal';
-        </sql>
-        <rollback>
-            <sql>
-                DROP ALIAS SAKILA.MPAA_RATING_TO_ORDINAL;
+                DROP ALIAS ENUM_TO_ORDINAL;
             </sql>
         </rollback>
     </changeSet>
     <changeSet id="28" author="Juan Haugaard">
-        <comment>Define function special_features_to_ordinal</comment>
+        <comment>Define function mpaa_rating_to_ordinal</comment>
         <sql>
-            CREATE ALIAS SAKILA.SPECIAL_FEATURES_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.specialFeaturesToOrdinal';
+            CREATE ALIAS MPAA_RATING_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.mpaaRatingToOrdinal';
         </sql>
         <rollback>
             <sql>
-                DROP ALIAS SAKILA.SPECIAL_FEATURES_TO_ORDINAL;
+                DROP ALIAS MPAA_RATING_TO_ORDINAL;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="29" author="Juan Haugaard">
+        <comment>Define function special_features_to_ordinal</comment>
+        <sql>
+            CREATE ALIAS SPECIAL_FEATURES_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.specialFeaturesToOrdinal';
+        </sql>
+        <rollback>
+            <sql>
+                DROP ALIAS SPECIAL_FEATURES_TO_ORDINAL;
             </sql>
         </rollback>
     </changeSet>
@@ -526,7 +540,7 @@
         <sql>
             create table SAKILA.TEST_TABLE (
                 id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                features SAKILA.SPECIAL_FEATURES default NULL,
+                features SPECIAL_FEATURES default NULL,
                 CONSTRAINT PK_TESTTABLE PRIMARY KEY (id)
             );
             COMMENT ON TABLE SAKILA.TEST_TABLE IS 'test table';

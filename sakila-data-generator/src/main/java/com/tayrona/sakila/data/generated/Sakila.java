@@ -21,14 +21,12 @@ import com.tayrona.sakila.data.generated.tables.Rental;
 import com.tayrona.sakila.data.generated.tables.Staff;
 import com.tayrona.sakila.data.generated.tables.Store;
 import com.tayrona.sakila.data.generated.tables.TestTable;
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 import java.util.Arrays;
 import java.util.List;
-
-import org.jooq.Catalog;
-import org.jooq.Domain;
-import org.jooq.Table;
-import org.jooq.impl.SchemaImpl;
 
 
 /**
@@ -140,14 +138,6 @@ public class Sakila extends SchemaImpl {
     @Override
     public Catalog getCatalog() {
         return DefaultCatalog.DEFAULT_CATALOG;
-    }
-
-    @Override
-    public final List<Domain<?>> getDomains() {
-        return Arrays.asList(
-            Domains.SPECIAL_FEATURES,
-            Domains.YEARVALUE
-        );
     }
 
     @Override

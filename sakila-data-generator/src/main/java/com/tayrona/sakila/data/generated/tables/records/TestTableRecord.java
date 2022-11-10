@@ -5,7 +5,6 @@ package com.tayrona.sakila.data.generated.tables.records;
 
 
 import com.tayrona.sakila.data.generated.tables.TestTable;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record2;
@@ -36,14 +35,16 @@ public class TestTableRecord extends UpdatableRecordImpl<TestTableRecord> implem
     }
 
     /**
-     * Setter for <code>SAKILA.TEST_TABLE.FEATURES</code>.
+     * Setter for <code>SAKILA.TEST_TABLE.FEATURES</code>. Special features
+     * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public void setFeatures(String[] value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>SAKILA.TEST_TABLE.FEATURES</code>.
+     * Getter for <code>SAKILA.TEST_TABLE.FEATURES</code>. Special features
+     * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public String[] getFeatures() {
         return (String[]) get(1);

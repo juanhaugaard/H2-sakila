@@ -9,7 +9,6 @@ import com.tayrona.sakila.data.generated.tables.Film;
 import com.tayrona.sakila.data.generated.tables.FilmText;
 import com.tayrona.sakila.data.generated.tables.Inventory;
 import com.tayrona.sakila.data.generated.tables.Rental;
-
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;
@@ -26,10 +25,10 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index IDX_FK_LANGUAGE_ID = Internal.createIndex(DSL.name("IDX_FK_LANGUAGE_ID"), Film.FILM, new OrderField[] { Film.FILM.LANGUAGE_ID }, false);
-    public static final Index IDX_FK_ORIGINAL_LANGUAGE_ID = Internal.createIndex(DSL.name("IDX_FK_ORIGINAL_LANGUAGE_ID"), Film.FILM, new OrderField[] { Film.FILM.ORIGINAL_LANGUAGE_ID }, false);
+    public static final Index IDX_BARCODE = Internal.createIndex(DSL.name("IDX_BARCODE"), Film.FILM, new OrderField[] { Film.FILM.BARCODE }, false);
     public static final Index IDX_LAST_NAME = Internal.createIndex(DSL.name("IDX_LAST_NAME"), Customer.CUSTOMER, new OrderField[] { Customer.CUSTOMER.LAST_NAME }, false);
     public static final Index IDX_RENTAL_DATE_INVENTORY_ID_CUSTOMER_ID = Internal.createIndex(DSL.name("IDX_RENTAL_DATE_INVENTORY_ID_CUSTOMER_ID"), Rental.RENTAL, new OrderField[] { Rental.RENTAL.RENTAL_DATE, Rental.RENTAL.INVENTORY_ID, Rental.RENTAL.CUSTOMER_ID }, true);
+    public static final Index IDX_REVERSE_BARCODE = Internal.createIndex(DSL.name("IDX_REVERSE_BARCODE"), Film.FILM, new OrderField[] { Film.FILM.REVERSE_BARCODE }, false);
     public static final Index IDX_STORE_ID_FILM_ID = Internal.createIndex(DSL.name("IDX_STORE_ID_FILM_ID"), Inventory.INVENTORY, new OrderField[] { Inventory.INVENTORY.STORE_ID, Inventory.INVENTORY.FILM_ID }, false);
     public static final Index IDX_TITLE = Internal.createIndex(DSL.name("IDX_TITLE"), Film.FILM, new OrderField[] { Film.FILM.TITLE }, false);
     public static final Index IDX_TITLE_DESCRIPTION = Internal.createIndex(DSL.name("IDX_TITLE_DESCRIPTION"), FilmText.FILM_TEXT, new OrderField[] { FilmText.FILM_TEXT.TITLE, FilmText.FILM_TEXT.DESCRIPTION }, false);

@@ -1,15 +1,14 @@
 package com.tayrona.sakila.data.generators;
 
 import com.github.javafaker.Faker;
-
 import com.tayrona.sakila.data.generated.tables.City;
 import com.tayrona.sakila.data.generated.tables.Country;
 import com.tayrona.sakila.data.generated.tables.records.CityRecord;
 import com.tayrona.sakila.data.generated.tables.records.CountryRecord;
+import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.jooq.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,14 +16,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
+@Component
 public class CityAndState {
-    private static final Logger log = LoggerFactory.getLogger(CityAndState.class);
 
-    private CityAndState() {
-        //disable instantiation
+    private final DSLContext dslContext;
+
+    private final Faker faker;
+
+    public CityAndState(DSLContext dslContext, Faker faker) {
+        this.dslContext = dslContext;
+        this.faker = faker;
     }
 
-    public static Set<String> generateStates(int count, Faker faker) {
+    public Set<String> generateStates(int count) {
         Set<String> states = new HashSet<>();
         int limit = count * 100;
         int iteration = 0;
@@ -38,12 +43,12 @@ public class CityAndState {
         return states;
     }
 
-    public static void persistStates(DSLContext create, Collection<String> states) {
-        Result<CountryRecord> existingStates = create.selectFrom(Country.COUNTRY).fetch();
+    public void persistStates(Collection<String> states) {
+        Result<CountryRecord> existingStates = dslContext.selectFrom(Country.COUNTRY).fetch();
         int count = 0;
         for (String state : states) {
             if (existingStates.stream().map(CountryRecord::getCountry).noneMatch(state::equals)) {
-                create.insertInto(Country.COUNTRY)
+                dslContext.insertInto(Country.COUNTRY)
                         .columns(Country.COUNTRY.COUNTRY_)
                         .values(state)
                         .execute();
@@ -52,11 +57,11 @@ public class CityAndState {
         }
         log.info("Persisted {} states in table Country", count);
     }
-    public static List<CityRecord> generateACityPerState(DSLContext create, Faker faker) {
+    public List<CityRecord> generateACityPerState() {
         List<CityRecord> cities = new ArrayList<>();
-        Result<CountryRecord> existingStates = create.selectFrom(Country.COUNTRY).fetch();
+        Result<CountryRecord> existingStates = dslContext.selectFrom(Country.COUNTRY).fetch();
         for (CountryRecord state : existingStates) {
-            Result<CityRecord> cityRecords = create.selectFrom(City.CITY)
+            Result<CityRecord> cityRecords = dslContext.selectFrom(City.CITY)
                     .where(City.CITY.COUNTRY_ID.eq(state.getCountryId()))
                     .fetch();
             if (cityRecords.isEmpty()) {
@@ -68,15 +73,15 @@ public class CityAndState {
         }
         return cities;
     }
-    public static void persistCities(DSLContext create, List<CityRecord> cities) {
-        Result<CityRecord> cityRecords = create.selectFrom(City.CITY).fetch();
+    public void persistCities(List<CityRecord> cities) {
+        Result<CityRecord> cityRecords = dslContext.selectFrom(City.CITY).fetch();
         int count = 0;
         for (CityRecord city : cities) {
             boolean found = cityRecords.stream()
                     .map(CityRecord::getCityId)
                     .anyMatch(it->it.equals(city.getCountryId()));
             if (!found) {
-                create.insertInto(City.CITY)
+                dslContext.insertInto(City.CITY)
                         .columns(City.CITY.CITY_, City.CITY.COUNTRY_ID).values(city.getCity(), city.getCountryId())
                         .execute();
                 count += 1;

@@ -2,40 +2,49 @@
 
 --changeset Juan Haugaard:1
 --comment: Create domain yearValue
-            CREATE DOMAIN SAKILA.YEARVALUE AS SMALLINT
+            CREATE DOMAIN YEARVALUE AS SMALLINT
             COMMENT 'YearValue a small int between 1900 and 2155'
             CHECK ((VALUE >= 1900) AND (VALUE <= 2155));
---rollback DROP DOMAIN SAKILA.YEARVALUE;
+--rollback DROP DOMAIN YEARVALUE;
 
 --changeset Juan Haugaard:2
 --comment: Create domain mpaa_rating
-            CREATE DOMAIN SAKILA.MPAA_RATING AS ENUM ('G','PG','PG-13','R','NC-17')
+            CREATE DOMAIN MPAA_RATING AS ENUM ('G','PG','PG-13','R','NC-17')
             COMMENT 'MPAA Rating ENUM (G,PG,PG-13,R,NC-17)';
---rollback DROP DOMAIN SAKILA.MPAA_RATING;
+--rollback DROP DOMAIN MPAA_RATING;
 
 --changeset Juan Haugaard:3
 --comment: Create domain Special Features ENUM
-            CREATE DOMAIN SAKILA.SPECIAL_FEATURES_ENUM AS ENUM ('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')
+            CREATE DOMAIN SPECIAL_FEATURES_ENUM AS ENUM ('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')
             COMMENT 'Special Features ENUM (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)';
---rollback DROP DOMAIN SAKILA.SPECIAL_FEATURES_ENUM;
+--rollback DROP DOMAIN SPECIAL_FEATURES_ENUM;
 
 --changeset Juan Haugaard:4
 --comment: Create domain special_features
-            CREATE DOMAIN SAKILA.SPECIAL_FEATURES AS VARCHAR(200) ARRAY[4]
+            CREATE DOMAIN SPECIAL_FEATURES AS VARCHAR(200) ARRAY[4]
             COMMENT 'Special features array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)'
             CHECK(EXISTS(VALUES ('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')));
---rollback DROP DOMAIN SAKILA.SPECIAL_FEATURES;
+--rollback DROP DOMAIN SPECIAL_FEATURES;
 
 --changeset Juan Haugaard:5
 --comment: Create text concatenation function
-            CREATE ALIAS SAKILA._group_concat DETERMINISTIC AS
+            CREATE ALIAS _group_concat DETERMINISTIC AS
             'String group_concat(String text1, String text2) {
             if (null == text1) return text2;
             if (null == text2) return text1;
             return text1 + "," + text2;}';
---rollback DROP ALIAS SAKILA._group_concat;
+--rollback DROP ALIAS _group_concat;
 
 --changeset Juan Haugaard:6
+--comment: Create text reverse function
+--            CREATE ALIAS REVERSE DETERMINISTIC FOR 'com.tayrona.sakila.procedures.StringUtils.reverse';
+            CREATE ALIAS REVERSE DETERMINISTIC AS
+            'String reverse(String value) {
+            if (null != value) return (new StringBuilder(value)).reverse().toString();
+            else return null;}';
+--rollback DROP ALIAS REVERSE;
+
+--changeset Juan Haugaard:7
 --comment: Create table Category
             CREATE TABLE SAKILA.CATEGORY (
                 category_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -46,7 +55,7 @@
             COMMENT ON TABLE SAKILA.CATEGORY IS 'Category details table';
 --rollback DROP TABLE SAKILA.CATEGORY;
 
---changeset Juan Haugaard:7
+--changeset Juan Haugaard:8
 --comment: Create table Country
             CREATE TABLE SAKILA.COUNTRY (
             country_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -57,7 +66,7 @@
             COMMENT ON TABLE SAKILA.COUNTRY IS 'Country details table';
 --rollback DROP TABLE SAKILA.COUNTRY;
 
---changeset Juan Haugaard:8
+--changeset Juan Haugaard:9
 --comment: Create table City
             CREATE TABLE SAKILA.CITY (
                 city_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -71,7 +80,7 @@
             COMMENT ON TABLE SAKILA.CITY IS 'City details table';
 --rollback DROP TABLE SAKILA.CITY;
 
---changeset Juan Haugaard:9
+--changeset Juan Haugaard:10
 --comment: Create table Address
             CREATE TABLE SAKILA.ADDRESS (
                 address_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -89,7 +98,7 @@
             COMMENT ON TABLE SAKILA.ADDRESS IS 'Address details table';
 --rollback DROP TABLE SAKILA.ADDRESS;
 
---changeset Juan Haugaard:10
+--changeset Juan Haugaard:11
 --comment: Create table Language
             CREATE TABLE SAKILA.LANGUAGE (
                 language_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -100,7 +109,7 @@
             COMMENT ON TABLE SAKILA.LANGUAGE IS 'Language details table';
 --rollback DROP TABLE SAKILA.LANGUAGE;
 
---changeset Juan Haugaard:11
+--changeset Juan Haugaard:12
 --comment: Create table ACTOR
             CREATE TABLE SAKILA.ACTOR (
                 actor_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -112,7 +121,7 @@
             COMMENT ON TABLE SAKILA.ACTOR IS 'Actor details table';
 --rollback DROP TABLE SAKILA.ACTOR;
 
---changeset Juan Haugaard:12
+--changeset Juan Haugaard:13
 --comment: Create table Store
             CREATE TABLE SAKILA.STORE (
                 store_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -127,7 +136,7 @@
             COMMENT ON TABLE SAKILA.STORE IS 'Store details table';
 --rollback DROP TABLE SAKILA.STORE;
 
---changeset Juan Haugaard:13
+--changeset Juan Haugaard:14
 --comment: Create table Staff
             CREATE TABLE SAKILA.STAFF (
                 staff_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -150,7 +159,7 @@
             COMMENT ON TABLE SAKILA.STAFF IS 'Staff details table';
 --rollback DROP TABLE SAKILA.STAFF;
 
---changeset Juan Haugaard:14
+--changeset Juan Haugaard:15
 --comment: Alter table Store to add Foreign key to staff table
             ALTER TABLE SAKILA.STORE
             ADD CONSTRAINT fk_store_staff FOREIGN KEY (manager_staff_id)
@@ -158,7 +167,7 @@
 --rollback ALTER TABLE SAKILA.STORE
 --rollback DROP CONSTRAINT SAKILA.fk_store_staff;
 
---changeset Juan Haugaard:15
+--changeset Juan Haugaard:16
 --comment: Create table Customer
             CREATE TABLE SAKILA.CUSTOMER (
                 customer_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -180,21 +189,23 @@
             CREATE INDEX SAKILA.idx_last_name ON SAKILA.CUSTOMER (last_name);
 --rollback DROP TABLE SAKILA.CUSTOMER;
 
---changeset Juan Haugaard:16
+--changeset Juan Haugaard:17
 --comment: Create table Film
             CREATE TABLE SAKILA.FILM (
                 film_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 title VARCHAR(255) NOT NULL,
                 description TEXT DEFAULT NULL,
-                release_year SAKILA.YEARVALUE DEFAULT NULL,
+                release_year YEARVALUE DEFAULT NULL,
                 language_id BIGINT NOT NULL,
                 original_language_id BIGINT DEFAULT NULL,
                 rental_duration TINYINT NOT NULL DEFAULT 3,
                 rental_rate DECIMAL(4,2) NOT NULL DEFAULT 4.99,
                 length SMALLINT DEFAULT NULL,
                 replacement_cost DECIMAL(5,2) NOT NULL DEFAULT 19.99,
-                rating SAKILA.MPAA_RATING DEFAULT 'G',
-                special_features SAKILA.SPECIAL_FEATURES DEFAULT NULL,
+                barcode CHAR(20),
+                reverse_barcode CHAR(20) GENERATED ALWAYS AS (REVERSE(barcode)),
+                rating MPAA_RATING DEFAULT 'G',
+                special_features SPECIAL_FEATURES DEFAULT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_FILM PRIMARY KEY (film_id),
                 CONSTRAINT fk_film_language FOREIGN KEY (language_id)
@@ -204,29 +215,30 @@
             );
             COMMENT ON TABLE SAKILA.FILM IS 'Film details table';
             CREATE INDEX SAKILA.idx_title ON SAKILA.FILM(title);
-            CREATE INDEX SAKILA.idx_fk_language_id ON SAKILA.FILM(language_id);
-            CREATE INDEX SAKILA.idx_fk_original_language_id ON SAKILA.FILM(original_language_id);
+            CREATE INDEX SAKILA.idx_barcode ON SAKILA.FILM(barcode);
+            CREATE INDEX SAKILA.idx_reverse_barcode ON SAKILA.FILM(reverse_barcode);
+           -- ALTER TABLE SAKILA.FILM ALTER COLUMN barcode CHAR(20) GENERATED ALWAYS AS (LPAD(barcode ,12,'0'));
 --rollback DROP TABLE SAKILA.FILM;
 
---changeset Juan Haugaard:17
+--changeset Juan Haugaard:18
 --comment: Add insert trigger to table Film
             CREATE TRIGGER SAKILA.InsertFilmTrigger AFTER INSERT ON
                 SAKILA.FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.InsertFilmTrigger';
 --rollback DROP TRIGGER SAKILA.InsertFilmTrigger;
 
---changeset Juan Haugaard:18
+--changeset Juan Haugaard:19
 --comment: Add update trigger to table Film
             CREATE TRIGGER SAKILA.UpdateFilmTrigger AFTER UPDATE ON
                 SAKILA.FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.UpdateFilmTrigger';
 --rollback DROP TRIGGER SAKILA.UpdateFilmTrigger;
 
---changeset Juan Haugaard:19
+--changeset Juan Haugaard:20
 --comment: Add delete trigger to table Film
             CREATE TRIGGER SAKILA.DeleteFilmTrigger AFTER DELETE ON
                 SAKILA.FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.DeleteFilmTrigger';
 --rollback DROP TRIGGER SAKILA.DeleteFilmTrigger;
 
---changeset Juan Haugaard:20
+--changeset Juan Haugaard:21
 --comment: Create table film_text
             CREATE TABLE SAKILA.FILM_TEXT (
                 film_id BIGINT NOT NULL,
@@ -238,7 +250,7 @@
             CREATE INDEX SAKILA.idx_title_description ON SAKILA.FILM_TEXT(title, description);
 --rollback DROP TABLE SAKILA.FILM_TEXT;
 
---changeset Juan Haugaard:21
+--changeset Juan Haugaard:22
 --comment: Create table inventory
             CREATE TABLE SAKILA.INVENTORY (
                 inventory_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -255,7 +267,7 @@
             CREATE INDEX SAKILA.idx_store_id_film_id ON SAKILA.INVENTORY (store_id, film_id);
 --rollback DROP TABLE SAKILA.INVENTORY;
 
---changeset Juan Haugaard:22
+--changeset Juan Haugaard:23
 --comment: Create table Rental
             CREATE TABLE SAKILA.RENTAL (
                 rental_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -278,7 +290,7 @@
                 ON SAKILA.RENTAL (rental_date, inventory_id, customer_id);
 --rollback DROP TABLE SAKILA.RENTAL;
 
---changeset Juan Haugaard:23
+--changeset Juan Haugaard:24
 --comment: Create table Payment
             CREATE TABLE SAKILA.PAYMENT (
                 payment_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -299,7 +311,7 @@
             COMMENT ON TABLE SAKILA.PAYMENT IS 'Payment details table';
 --rollback DROP TABLE SAKILA.PAYMENT;
 
---changeset Juan Haugaard:24
+--changeset Juan Haugaard:25
 --comment: Create table Film Actor cross-reference
             CREATE TABLE SAKILA.FILM_ACTOR (
                 actor_id BIGINT NOT NULL,
@@ -314,7 +326,7 @@
             COMMENT ON TABLE SAKILA.FILM_ACTOR IS 'Film Actor cross-reference table';
 --rollback DROP TABLE SAKILA.FILM_ACTOR;
 
---changeset Juan Haugaard:25
+--changeset Juan Haugaard:26
 --comment: Create table Film Category cross-reference
             CREATE TABLE SAKILA.FILM_CATEGORY (
                 film_id BIGINT NOT NULL,
@@ -329,26 +341,26 @@
             COMMENT ON TABLE SAKILA.FILM_CATEGORY IS 'Film Category cross-reference table';
 --rollback DROP TABLE SAKILA.FILM_CATEGORY;
 
---changeset Juan Haugaard:26
---comment: Define function enum_to_ordinal
-            CREATE ALIAS SAKILA.ENUM_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.valueToOrdinal';
---rollback DROP ALIAS SAKILA.ENUM_TO_ORDINAL;
-
 --changeset Juan Haugaard:27
---comment: Define function mpaa_rating_to_ordinal
-            CREATE ALIAS SAKILA.MPAA_RATING_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.mpaaRatingToOrdinal';
---rollback DROP ALIAS SAKILA.MPAA_RATING_TO_ORDINAL;
+--comment: Define function enum_to_ordinal
+            CREATE ALIAS ENUM_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.valueToOrdinal';
+--rollback DROP ALIAS ENUM_TO_ORDINAL;
 
 --changeset Juan Haugaard:28
+--comment: Define function mpaa_rating_to_ordinal
+            CREATE ALIAS MPAA_RATING_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.mpaaRatingToOrdinal';
+--rollback DROP ALIAS MPAA_RATING_TO_ORDINAL;
+
+--changeset Juan Haugaard:29
 --comment: Define function special_features_to_ordinal
-            CREATE ALIAS SAKILA.SPECIAL_FEATURES_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.specialFeaturesToOrdinal';
---rollback DROP ALIAS SAKILA.SPECIAL_FEATURES_TO_ORDINAL;
+            CREATE ALIAS SPECIAL_FEATURES_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.specialFeaturesToOrdinal';
+--rollback DROP ALIAS SPECIAL_FEATURES_TO_ORDINAL;
 
 --changeset Juan Haugaard:30
 --comment: Create table TEST_TABLE
             create table SAKILA.TEST_TABLE (
                 id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                features SAKILA.SPECIAL_FEATURES default NULL,
+                features SPECIAL_FEATURES default NULL,
                 CONSTRAINT PK_TESTTABLE PRIMARY KEY (id)
             );
             COMMENT ON TABLE SAKILA.TEST_TABLE IS 'test table';

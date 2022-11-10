@@ -7,9 +7,6 @@ package com.tayrona.sakila.data.generated.tables;
 import com.tayrona.sakila.data.generated.Keys;
 import com.tayrona.sakila.data.generated.Sakila;
 import com.tayrona.sakila.data.generated.tables.records.TestTableRecord;
-
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function2;
@@ -27,6 +24,8 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.function.Function;
 
 
 /**
@@ -56,9 +55,10 @@ public class TestTable extends TableImpl<TestTableRecord> {
     public final TableField<TestTableRecord, Long> ID = createField(DSL.name("ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>SAKILA.TEST_TABLE.FEATURES</code>.
+     * The column <code>SAKILA.TEST_TABLE.FEATURES</code>. Special features
+     * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
-    public final TableField<TestTableRecord, String[]> FEATURES = createField(DSL.name("FEATURES"), SQLDataType.VARCHAR(200).getArrayDataType(), this, "");
+    public final TableField<TestTableRecord, String[]> FEATURES = createField(DSL.name("FEATURES"), SQLDataType.VARCHAR(200).getArrayDataType(), this, "Special features array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)");
 
     private TestTable(Name alias, Table<TestTableRecord> aliased) {
         this(alias, aliased, null);

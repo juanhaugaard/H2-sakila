@@ -4,24 +4,22 @@
 package com.tayrona.sakila.data.generated.tables.records;
 
 
-import com.tayrona.sakila.data.generated.enums.MpaaRating;
 import com.tayrona.sakila.data.generated.tables.Film;
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record15;
+import org.jooq.Row15;
+import org.jooq.impl.UpdatableRecordImpl;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-
-import org.jooq.Field;
-import org.jooq.Record1;
-import org.jooq.Record13;
-import org.jooq.Row13;
-import org.jooq.impl.UpdatableRecordImpl;
 
 
 /**
  * Film details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Record13<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, MpaaRating, String[], OffsetDateTime> {
+public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Record15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, Object, String[], OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -168,19 +166,57 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     /**
-     * Setter for <code>SAKILA.FILM.RATING</code>. MPAA Rating ENUM
-     * (G,PG,PG-13,R,NC-17)
+     * Setter for <code>SAKILA.FILM.BARCODE</code>.
      */
-    public void setRating(MpaaRating value) {
+    public void setBarcode(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>SAKILA.FILM.RATING</code>. MPAA Rating ENUM
-     * (G,PG,PG-13,R,NC-17)
+     * Getter for <code>SAKILA.FILM.BARCODE</code>.
      */
-    public MpaaRating getRating() {
-        return (MpaaRating) get(10);
+    public String getBarcode() {
+        return (String) get(10);
+    }
+
+    /**
+     * Setter for <code>SAKILA.FILM.REVERSE_BARCODE</code>.
+     */
+    public void setReverseBarcode(String value) {
+        set(11, value);
+    }
+
+    /**
+     * Getter for <code>SAKILA.FILM.REVERSE_BARCODE</code>.
+     */
+    public String getReverseBarcode() {
+        return (String) get(11);
+    }
+
+    /**
+     * @deprecated Unknown data type. If this is a qualified, user-defined type,
+     * it may have been excluded from code generation. If this is a built-in
+     * type, you can define an explicit {@link org.jooq.Binding} to specify how
+     * this type should be handled. Deprecation can be turned off using
+     * {@literal <deprecationOnUnknownTypes/>} in your code generator
+     * configuration.
+     */
+    @Deprecated
+    public void setRating(Object value) {
+        set(12, value);
+    }
+
+    /**
+     * @deprecated Unknown data type. If this is a qualified, user-defined type,
+     * it may have been excluded from code generation. If this is a built-in
+     * type, you can define an explicit {@link org.jooq.Binding} to specify how
+     * this type should be handled. Deprecation can be turned off using
+     * {@literal <deprecationOnUnknownTypes/>} in your code generator
+     * configuration.
+     */
+    @Deprecated
+    public Object getRating() {
+        return get(12);
     }
 
     /**
@@ -188,7 +224,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
      * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public void setSpecialFeatures(String[] value) {
-        set(11, value);
+        set(13, value);
     }
 
     /**
@@ -196,21 +232,21 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
      * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
      */
     public String[] getSpecialFeatures() {
-        return (String[]) get(11);
+        return (String[]) get(13);
     }
 
     /**
      * Setter for <code>SAKILA.FILM.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
-        set(12, value);
+        set(14, value);
     }
 
     /**
      * Getter for <code>SAKILA.FILM.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
-        return (OffsetDateTime) get(12);
+        return (OffsetDateTime) get(14);
     }
 
     // -------------------------------------------------------------------------
@@ -223,17 +259,17 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     // -------------------------------------------------------------------------
-    // Record13 type implementation
+    // Record15 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row13<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, MpaaRating, String[], OffsetDateTime> fieldsRow() {
-        return (Row13) super.fieldsRow();
+    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, Object, String[], OffsetDateTime> fieldsRow() {
+        return (Row15) super.fieldsRow();
     }
 
     @Override
-    public Row13<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, MpaaRating, String[], OffsetDateTime> valuesRow() {
-        return (Row13) super.valuesRow();
+    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, Object, String[], OffsetDateTime> valuesRow() {
+        return (Row15) super.valuesRow();
     }
 
     @Override
@@ -287,17 +323,36 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public Field<MpaaRating> field11() {
+    public Field<String> field11() {
+        return Film.FILM.BARCODE;
+    }
+
+    @Override
+    public Field<String> field12() {
+        return Film.FILM.REVERSE_BARCODE;
+    }
+
+    /**
+     * @deprecated Unknown data type. If this is a qualified, user-defined type,
+     * it may have been excluded from code generation. If this is a built-in
+     * type, you can define an explicit {@link org.jooq.Binding} to specify how
+     * this type should be handled. Deprecation can be turned off using
+     * {@literal <deprecationOnUnknownTypes/>} in your code generator
+     * configuration.
+     */
+    @Deprecated
+    @Override
+    public Field<Object> field13() {
         return Film.FILM.RATING;
     }
 
     @Override
-    public Field<String[]> field12() {
+    public Field<String[]> field14() {
         return Film.FILM.SPECIAL_FEATURES;
     }
 
     @Override
-    public Field<OffsetDateTime> field13() {
+    public Field<OffsetDateTime> field15() {
         return Film.FILM.LAST_UPDATE;
     }
 
@@ -352,17 +407,36 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public MpaaRating component11() {
+    public String component11() {
+        return getBarcode();
+    }
+
+    @Override
+    public String component12() {
+        return getReverseBarcode();
+    }
+
+    /**
+     * @deprecated Unknown data type. If this is a qualified, user-defined type,
+     * it may have been excluded from code generation. If this is a built-in
+     * type, you can define an explicit {@link org.jooq.Binding} to specify how
+     * this type should be handled. Deprecation can be turned off using
+     * {@literal <deprecationOnUnknownTypes/>} in your code generator
+     * configuration.
+     */
+    @Deprecated
+    @Override
+    public Object component13() {
         return getRating();
     }
 
     @Override
-    public String[] component12() {
+    public String[] component14() {
         return getSpecialFeatures();
     }
 
     @Override
-    public OffsetDateTime component13() {
+    public OffsetDateTime component15() {
         return getLastUpdate();
     }
 
@@ -417,17 +491,36 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public MpaaRating value11() {
+    public String value11() {
+        return getBarcode();
+    }
+
+    @Override
+    public String value12() {
+        return getReverseBarcode();
+    }
+
+    /**
+     * @deprecated Unknown data type. If this is a qualified, user-defined type,
+     * it may have been excluded from code generation. If this is a built-in
+     * type, you can define an explicit {@link org.jooq.Binding} to specify how
+     * this type should be handled. Deprecation can be turned off using
+     * {@literal <deprecationOnUnknownTypes/>} in your code generator
+     * configuration.
+     */
+    @Deprecated
+    @Override
+    public Object value13() {
         return getRating();
     }
 
     @Override
-    public String[] value12() {
+    public String[] value14() {
         return getSpecialFeatures();
     }
 
     @Override
-    public OffsetDateTime value13() {
+    public OffsetDateTime value15() {
         return getLastUpdate();
     }
 
@@ -492,25 +585,46 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public FilmRecord value11(MpaaRating value) {
+    public FilmRecord value11(String value) {
+        setBarcode(value);
+        return this;
+    }
+
+    @Override
+    public FilmRecord value12(String value) {
+        setReverseBarcode(value);
+        return this;
+    }
+
+    /**
+     * @deprecated Unknown data type. If this is a qualified, user-defined type,
+     * it may have been excluded from code generation. If this is a built-in
+     * type, you can define an explicit {@link org.jooq.Binding} to specify how
+     * this type should be handled. Deprecation can be turned off using
+     * {@literal <deprecationOnUnknownTypes/>} in your code generator
+     * configuration.
+     */
+    @Deprecated
+    @Override
+    public FilmRecord value13(Object value) {
         setRating(value);
         return this;
     }
 
     @Override
-    public FilmRecord value12(String[] value) {
+    public FilmRecord value14(String[] value) {
         setSpecialFeatures(value);
         return this;
     }
 
     @Override
-    public FilmRecord value13(OffsetDateTime value) {
+    public FilmRecord value15(OffsetDateTime value) {
         setLastUpdate(value);
         return this;
     }
 
     @Override
-    public FilmRecord values(Long value1, String value2, String value3, Short value4, Long value5, Long value6, Byte value7, BigDecimal value8, Short value9, BigDecimal value10, MpaaRating value11, String[] value12, OffsetDateTime value13) {
+    public FilmRecord values(Long value1, String value2, String value3, Short value4, Long value5, Long value6, Byte value7, BigDecimal value8, Short value9, BigDecimal value10, String value11, String value12, Object value13, String[] value14, OffsetDateTime value15) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -524,6 +638,8 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
         value11(value11);
         value12(value12);
         value13(value13);
+        value14(value14);
+        value15(value15);
         return this;
     }
 
@@ -541,7 +657,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Create a detached, initialised FilmRecord
      */
-    public FilmRecord(Long filmId, String title, String description, Short releaseYear, Long languageId, Long originalLanguageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, MpaaRating rating, String[] specialFeatures, OffsetDateTime lastUpdate) {
+    public FilmRecord(Long filmId, String title, String description, Short releaseYear, Long languageId, Long originalLanguageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, String barcode, String reverseBarcode, Object rating, String[] specialFeatures, OffsetDateTime lastUpdate) {
         super(Film.FILM);
 
         setFilmId(filmId);
@@ -554,6 +670,8 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
         setRentalRate(rentalRate);
         setLength(length);
         setReplacementCost(replacementCost);
+        setBarcode(barcode);
+        setReverseBarcode(reverseBarcode);
         setRating(rating);
         setSpecialFeatures(specialFeatures);
         setLastUpdate(lastUpdate);
