@@ -6,6 +6,7 @@
     <modules>
         <module>sakila-server-procs</module>
         <module>sakila-data-generator</module>
+        <module>jooq-generated-sakila</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -13,14 +14,14 @@
         <version>2.7.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.tayrona.sakila</groupId>
+    <groupId>org.tayrona.sakila</groupId>
     <artifactId>H2-sakila</artifactId>
     <version>1.0.0</version>
     <name>H2-sakila</name>
     <description>Sakila H2 Project</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <jooq.version>3.17.5</jooq.version>
         <javafaker.version>1.0.2</javafaker.version>
         <h2database.version>2.1.214</h2database.version>

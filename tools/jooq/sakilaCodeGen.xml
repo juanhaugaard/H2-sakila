@@ -15,8 +15,8 @@
             <inputSchema>PUBLIC</inputSchema>
         </database>
         <target>
-            <packageName>com.tayrona.sakila.data.generated</packageName>
-            <directory>W:/alt-workspace/H2-sakila/sakila-data-generator/src/main/java</directory>
+            <packageName>org.tayrona.sakila.data</packageName>
+            <directory>../../jooq-generated-sakila/src/main/java</directory>
         </target>
     </generator>
 </configuration>
