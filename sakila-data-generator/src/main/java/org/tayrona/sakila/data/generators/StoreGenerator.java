@@ -3,7 +3,6 @@ package org.tayrona.sakila.data.generators;
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
-import org.jooq.Record1;
 import org.jooq.Result;
 import org.springframework.stereotype.Component;
 import org.tayrona.sakila.data.tables.Address;
@@ -15,7 +14,6 @@ import org.tayrona.sakila.data.tables.records.CityRecord;
 import org.tayrona.sakila.data.tables.records.StaffRecord;
 import org.tayrona.sakila.data.tables.records.StoreRecord;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -56,74 +54,47 @@ public class StoreGenerator {
                 .join(Address.ADDRESS)
                 .on(City.CITY.CITY_ID.eq(Address.ADDRESS.CITY_ID))
                 .where(City.CITY.CITY_ID.eq(cityId))
-                .fetch().isNotEmpty();
+                .fetch()
+                .isNotEmpty();
     }
 
     public void persistOneStorePerCity(int staffCount) {
         if (staffCount < 0) {
             throw new IllegalArgumentException("Staff count cannot be negative");
         }
-        List<CityRecord> existingCities = addressGenerator.existingCities();
+        Result<CityRecord> existingCities = addressGenerator.existingCities();
+//        Map<Long, CityRecord> storeCityByState = dslContext.selectFrom(Store.STORE).fetchMap()
         for (CityRecord cityRecord : existingCities) {
             if (!cityHasStore(cityRecord.getCityId())) {
 
-                log.info("persisting new store for {}", cityRecord.getCity());
                 AddressRecord address = addressGenerator.persistNewAddressForCity(cityRecord);
                 StoreRecord storeRecord = generateNewStoreWithAddress(address);
-                storeRecord = persistNewStore(storeRecord);
+                storeRecord.store();
 
                 StaffRecord manager = generateNewStaff(storeRecord);
                 String fullName = manager.getLastName() + ", " + manager.getFirstName();
-                log.info("persisting store manager {} for {}", fullName, cityRecord.getCity());
+                log.info("persisting store manager {} for new store in {}", fullName, cityRecord.getCity());
                 address = addressGenerator.persistNewAddressForCity(cityRecord);
                 manager.setAddressId(address.getAddressId());
-                manager = persistNewStaff(manager);
+                manager.store();
 
                 storeRecord.setManagerStaffId(manager.getStaffId());
                 storeRecord.update(Store.STORE.MANAGER_STAFF_ID);
 
                 for (int i = 0; i < staffCount; i++) {
                     StaffRecord staff = generateNewStaff(storeRecord);
-                    fullName = staff.getLastName() + ", " + staff.getFirstName();
-                    log.info("persisting store staff {} for {}", fullName, cityRecord.getCity());
                     address = addressGenerator.persistNewAddressForCity(cityRecord);
                     staff.setAddressId(address.getAddressId());
-                    persistNewStaff(staff);
+                    staff.store();
                 }
+                log.info("persisted {} staff for new store in {}", staffCount, cityRecord.getCity());
             }
         }
     }
 
-    public StaffRecord persistNewStaff(StaffRecord staffRecord) {
-        Result<Record1<Long>> staffId = dslContext
-                .insertInto(Staff.STAFF)
-                .set(staffRecord)
-                .returningResult(Staff.STAFF.STAFF_ID)
-                .fetch();
-        if (staffId.isNotEmpty()) {
-            staffRecord.setStaffId(staffId.getValue(0, Staff.STAFF.STAFF_ID));
-        }
-        staffRecord.attach(dslContext.configuration());
-        return staffRecord;
-
-    }
-
     public StoreRecord generateNewStoreWithAddress(AddressRecord storeAddress) {
-        StoreRecord storeRecord = new StoreRecord();
+        StoreRecord storeRecord = dslContext.newRecord(Store.STORE);
         storeRecord.setAddressId(storeAddress.getAddressId());
-        return storeRecord;
-    }
-
-    public StoreRecord persistNewStore(StoreRecord storeRecord) {
-        Result<Record1<Long>> storeId = dslContext
-                .insertInto(Store.STORE)
-                .set(storeRecord)
-                .returningResult(Store.STORE.STORE_ID)
-                .fetch();
-        if (storeId.isNotEmpty()) {
-            storeRecord.setStoreId(storeId.getValue(0, Store.STORE.STORE_ID));
-        }
-        storeRecord.attach(dslContext.configuration());
         return storeRecord;
     }
 
@@ -134,13 +105,14 @@ public class StoreGenerator {
     }
 
     public StaffRecord generateNewStaff(StoreRecord storeRecord) {
-        StaffRecord staffRecord = new StaffRecord();
+        StaffRecord staffRecord = dslContext.newRecord(Staff.STAFF);
         staffRecord.setFirstName(faker.name().firstName());
         staffRecord.setLastName(faker.name().lastName());
-        staffRecord.setEmail(faker.internet().emailAddress());
+        String username = staffRecord.getFirstName().toLowerCase() + "." + staffRecord.getLastName().toLowerCase();
+        staffRecord.setEmail(faker.internet().emailAddress(username));
         staffRecord.setActive(true);
         staffRecord.setStoreId(storeRecord.getStoreId());
-        staffRecord.setUsername(staffRecord.getFirstName().toLowerCase() + "." + staffRecord.getLastName().toLowerCase());
+        staffRecord.setUsername(username);
         staffRecord.setPassword(faker.internet().password(true).getBytes());
         return staffRecord;
     }

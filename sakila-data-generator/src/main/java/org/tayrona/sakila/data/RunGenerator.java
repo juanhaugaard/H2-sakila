@@ -20,7 +20,7 @@ public class RunGenerator implements CommandLineRunner {
     @Override
     public void run(String... args) {
         addressGenerator.persistStates(addressGenerator.generateStates(50));
-        addressGenerator.persistCities(addressGenerator.generateACityPerState());
+        addressGenerator.persistCities(addressGenerator.generateOneCityPerState());
         storeGenerator.persistOneStorePerCity(5);
     }
 }

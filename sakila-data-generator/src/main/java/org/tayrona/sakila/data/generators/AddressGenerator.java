@@ -3,8 +3,9 @@ package org.tayrona.sakila.data.generators;
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jooq.DSLContext;
-import org.jooq.Record1;
 import org.jooq.Result;
 import org.springframework.stereotype.Component;
 import org.tayrona.sakila.data.tables.Address;
@@ -51,7 +52,7 @@ public class AddressGenerator {
         int limit = count * 100;
         int iteration = 0;
         while (setOfStates.size() < count) {
-            setOfStates.add(states[RandomUtils.nextInt(0,states.length)]);
+            setOfStates.add(states[RandomUtils.nextInt(0, states.length)]);
             if (++iteration >= limit) {
                 break;
             }
@@ -77,7 +78,7 @@ public class AddressGenerator {
 
     public void persistStates(Collection<String> states) {
         // we use countries as states for persistence, so as not to change sakila too much from the original
-        List<CountryRecord> existingStates = existingStates();
+        Result<CountryRecord> existingStates = existingStates();
         int count = 0;
         for (String state : states) {
             if (existingStates.stream().map(CountryRecord::getCountry).noneMatch(state::equals)) {
@@ -91,16 +92,17 @@ public class AddressGenerator {
         }
         log.info("Persisted {} states in table Country", count);
     }
-    public List<CityRecord> generateACityPerState() {
+
+    public List<CityRecord> generateOneCityPerState() {
         List<CityRecord> cities = new ArrayList<>();
-        List<CountryRecord> existingStates = existingStates();
+        Result<CountryRecord> existingStates = existingStates();
         for (CountryRecord state : existingStates) {
             Result<CityRecord> cityRecords = dslContext
                     .selectFrom(City.CITY)
                     .where(City.CITY.COUNTRY_ID.eq(state.getCountryId()))
                     .fetch();
             if (cityRecords.isEmpty()) {
-                CityRecord cityRecord = new CityRecord();
+                CityRecord cityRecord = dslContext.newRecord(City.CITY);
                 cityRecord.setCity(faker.address().cityName());
                 cityRecord.setCountryId(state.getCountryId());
                 cities.add(cityRecord);
@@ -109,7 +111,7 @@ public class AddressGenerator {
         return cities;
     }
 
-    public List<CityRecord> existingCities() {
+    public Result<CityRecord> existingCities() {
         return dslContext
                 .selectFrom(City.CITY)
                 .fetch();
@@ -123,69 +125,71 @@ public class AddressGenerator {
                 .stream()
                 .findFirst();
     }
+
     public void persistCities(List<CityRecord> cities) {
         int count = 0;
-        List<CityRecord> existingCities = existingCities();
+        Result<CityRecord> existingCities = existingCities();
         for (CityRecord city : cities) {
             boolean found = existingCities.stream()
                     .map(CityRecord::getCityId)
-                    .anyMatch(it->it.equals(city.getCountryId()));
+                    .anyMatch(it -> it.equals(city.getCountryId()));
             if (!found) {
-                dslContext
-                        .insertInto(City.CITY)
-                        .columns(City.CITY.CITY_, City.CITY.COUNTRY_ID).values(city.getCity(), city.getCountryId())
-                        .execute();
+                city.store();
                 count += 1;
             }
         }
         log.info("Persisted {} cities in table City", count);
     }
+
     public AddressRecord generateAddressForCity(long cityId) {
         CityRecord cityRecord = getCityById(cityId).orElseThrow();
         return generateAddressForCity(cityRecord);
     }
+
     public AddressRecord generateAddressForCity(CityRecord cityRecord) {
         if (null == cityRecord) {
             throw new IllegalArgumentException("cityRecord is required");
         }
         CountryRecord countryRecord = getCountryById(cityRecord.getCountryId()).orElseThrow();
-        AddressRecord addressRecord = new AddressRecord();
-        String zipCode = faker.address().zipCodeByState(countryRecord.getCountryAbbreviation());
+        AddressRecord addressRecord = dslContext.newRecord(Address.ADDRESS);
+        Pair<String, String> zipcodeAndCounty = generateZipcodeAndCountyFromStateAbbreviation(countryRecord.getCountryAbbreviation());
+        String zipCode = zipcodeAndCounty.getLeft();
+        String county = zipcodeAndCounty.getRight();
         String phone = faker.numerify("(###) ###-####");
-        try {
-            String county = faker.address().countyByZipCode(zipCode);
-            addressRecord.setDistrict(county);
-        } catch (RuntimeException rex) {
-            log.error("{}", rex.getMessage());
-        }
         addressRecord.setCityId(cityRecord.getCityId());
         addressRecord.setAddress(faker.address().streetAddress());
         addressRecord.setAddress2(faker.address().secondaryAddress());
         addressRecord.setPostalCode(zipCode);
+        addressRecord.setDistrict(county);
         addressRecord.setPhone(phone);
         return addressRecord;
     }
 
+    private Pair<String, String> generateZipcodeAndCountyFromStateAbbreviation(String stateAbbreviation) {
+        String zipCode = faker.address().zipCodeByState(stateAbbreviation);
+        int limit = 50;
+        int count = limit;
+        while (--count > 0) {
+            try {
+                String county = faker.address().countyByZipCode(zipCode);
+                return new ImmutablePair<>(zipCode, county);
+            } catch (RuntimeException rex) {
+                log.error("ERROR: try {}, message: {}", limit-count, rex.getMessage());
+            }
+            zipCode = faker.address().zipCodeByState(stateAbbreviation);
+        }
+        return new ImmutablePair<>(zipCode, null);
+    }
+
     public AddressRecord persistNewAddressForCity(long cityId) {
         AddressRecord addressRecord = generateAddressForCity(cityId);
-        return persistNewAddress(addressRecord);
+        addressRecord.store();
+        return addressRecord;
     }
 
     public AddressRecord persistNewAddressForCity(CityRecord cityRecord) {
         AddressRecord addressRecord = generateAddressForCity(cityRecord);
-        return persistNewAddress(addressRecord);
-    }
-
-    public AddressRecord persistNewAddress(AddressRecord addressRecord) {
-        Result<Record1<Long>> addressId = dslContext
-                .insertInto(Address.ADDRESS)
-                .set(addressRecord)
-                .returningResult(Address.ADDRESS.ADDRESS_ID)
-                .fetch();
-        if (addressId.isNotEmpty()) {
-            addressRecord.setAddressId(addressId.getValue(0, Address.ADDRESS.ADDRESS_ID));
-        }
-        addressRecord.attach(dslContext.configuration());
+        addressRecord.store();
         return addressRecord;
     }
 
