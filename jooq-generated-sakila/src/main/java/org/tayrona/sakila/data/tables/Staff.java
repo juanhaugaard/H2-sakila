@@ -4,11 +4,6 @@
 package org.tayrona.sakila.data.tables;
 
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function11;
@@ -29,6 +24,11 @@ import org.jooq.impl.TableImpl;
 import org.tayrona.sakila.data.Keys;
 import org.tayrona.sakila.data.Public;
 import org.tayrona.sakila.data.tables.records.StaffRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -95,7 +95,7 @@ public class Staff extends TableImpl<StaffRecord> {
     /**
      * The column <code>PUBLIC.STAFF.USERNAME</code>.
      */
-    public final TableField<StaffRecord, String> USERNAME = createField(DSL.name("USERNAME"), SQLDataType.VARCHAR(16).nullable(false), this, "");
+    public final TableField<StaffRecord, String> USERNAME = createField(DSL.name("USERNAME"), SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
      * The column <code>PUBLIC.STAFF.PASSWORD</code>.

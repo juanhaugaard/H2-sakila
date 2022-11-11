@@ -1,23 +1,26 @@
 package org.tayrona.sakila.data;
 
-import org.tayrona.sakila.data.generators.CityAndState;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.tayrona.sakila.data.generators.AddressGenerator;
+import org.tayrona.sakila.data.generators.StoreGenerator;
 
 @Slf4j
 @Component
 public class RunGenerator implements CommandLineRunner {
+    private final AddressGenerator addressGenerator;
+    private final StoreGenerator storeGenerator;
 
-    private final CityAndState cityAndState;
-
-    public RunGenerator(CityAndState cityAndState) {
-        this.cityAndState = cityAndState;
+    public RunGenerator(AddressGenerator addressGenerator, StoreGenerator storeGenerator) {
+        this.addressGenerator = addressGenerator;
+        this.storeGenerator = storeGenerator;
     }
 
     @Override
     public void run(String... args) {
-        cityAndState.persistStates(cityAndState.generateStates(50));
-        cityAndState.persistCities(cityAndState.generateACityPerState());
+        addressGenerator.persistStates(addressGenerator.generateStates(50));
+        addressGenerator.persistCities(addressGenerator.generateACityPerState());
+        storeGenerator.persistOneStorePerCity(5);
     }
 }

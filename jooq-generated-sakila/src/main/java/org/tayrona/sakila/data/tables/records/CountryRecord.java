@@ -4,21 +4,21 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record3;
-import org.jooq.Row3;
+import org.jooq.Record4;
+import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Country;
+
+import java.time.OffsetDateTime;
 
 
 /**
  * Country details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements Record3<Long, String, OffsetDateTime> {
+public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements Record4<Long, String, String, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,17 +51,31 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     /**
+     * Setter for <code>PUBLIC.COUNTRY.COUNTRY_ABBREVIATION</code>.
+     */
+    public void setCountryAbbreviation(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>PUBLIC.COUNTRY.COUNTRY_ABBREVIATION</code>.
+     */
+    public String getCountryAbbreviation() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>PUBLIC.COUNTRY.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>PUBLIC.COUNTRY.LAST_UPDATE</code>.
      */
     public OffsetDateTime getLastUpdate() {
-        return (OffsetDateTime) get(2);
+        return (OffsetDateTime) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -74,17 +88,17 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     // -------------------------------------------------------------------------
-    // Record3 type implementation
+    // Record4 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Long, String, OffsetDateTime> fieldsRow() {
-        return (Row3) super.fieldsRow();
+    public Row4<Long, String, String, OffsetDateTime> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 
     @Override
-    public Row3<Long, String, OffsetDateTime> valuesRow() {
-        return (Row3) super.valuesRow();
+    public Row4<Long, String, String, OffsetDateTime> valuesRow() {
+        return (Row4) super.valuesRow();
     }
 
     @Override
@@ -98,7 +112,12 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     @Override
-    public Field<OffsetDateTime> field3() {
+    public Field<String> field3() {
+        return Country.COUNTRY.COUNTRY_ABBREVIATION;
+    }
+
+    @Override
+    public Field<OffsetDateTime> field4() {
         return Country.COUNTRY.LAST_UPDATE;
     }
 
@@ -113,7 +132,12 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     @Override
-    public OffsetDateTime component3() {
+    public String component3() {
+        return getCountryAbbreviation();
+    }
+
+    @Override
+    public OffsetDateTime component4() {
         return getLastUpdate();
     }
 
@@ -128,7 +152,12 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     @Override
-    public OffsetDateTime value3() {
+    public String value3() {
+        return getCountryAbbreviation();
+    }
+
+    @Override
+    public OffsetDateTime value4() {
         return getLastUpdate();
     }
 
@@ -145,16 +174,23 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     @Override
-    public CountryRecord value3(OffsetDateTime value) {
+    public CountryRecord value3(String value) {
+        setCountryAbbreviation(value);
+        return this;
+    }
+
+    @Override
+    public CountryRecord value4(OffsetDateTime value) {
         setLastUpdate(value);
         return this;
     }
 
     @Override
-    public CountryRecord values(Long value1, String value2, OffsetDateTime value3) {
+    public CountryRecord values(Long value1, String value2, String value3, OffsetDateTime value4) {
         value1(value1);
         value2(value2);
         value3(value3);
+        value4(value4);
         return this;
     }
 
@@ -172,11 +208,12 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     /**
      * Create a detached, initialised CountryRecord
      */
-    public CountryRecord(Long countryId, String country, OffsetDateTime lastUpdate) {
+    public CountryRecord(Long countryId, String country, String countryAbbreviation, OffsetDateTime lastUpdate) {
         super(Country.COUNTRY);
 
         setCountryId(countryId);
         setCountry(country);
+        setCountryAbbreviation(countryAbbreviation);
         setLastUpdate(lastUpdate);
     }
 }

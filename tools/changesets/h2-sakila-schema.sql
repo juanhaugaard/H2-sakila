@@ -60,6 +60,7 @@
             CREATE TABLE COUNTRY (
             country_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
             country VARCHAR(50) NOT NULL,
+            country_abbreviation VARCHAR(5),
             last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
             CONSTRAINT PK_COUNTRY PRIMARY KEY (country_id)
             );
@@ -86,7 +87,7 @@
                 address_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 address VARCHAR(50) NOT NULL,
                 address2 VARCHAR(50) DEFAULT NULL,
-                district VARCHAR(20) NOT NULL,
+                district VARCHAR(50) DEFAULT 'N/A' DEFAULT ON NULL,
                 city_id BIGINT NOT NULL,
                 postal_code VARCHAR(10) DEFAULT NULL,
                 phone VARCHAR(20) NOT NULL,
@@ -125,7 +126,7 @@
 --comment: Create table Store
             CREATE TABLE STORE (
                 store_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                manager_staff_id BIGINT NOT NULL,
+                manager_staff_id BIGINT,
                 address_id BIGINT NOT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_STORE PRIMARY KEY (store_id),
@@ -147,7 +148,7 @@
                 email VARCHAR(50) DEFAULT NULL,
                 store_id BIGINT NOT NULL,
                 active BOOLEAN NOT NULL DEFAULT TRUE,
-                username VARCHAR(16) NOT NULL,
+                username VARCHAR(32) NOT NULL,
                 password BINARY(40) DEFAULT NULL,
                 last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 CONSTRAINT PK_STAFF PRIMARY KEY (staff_id),

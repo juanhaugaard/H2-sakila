@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <packaging>jar</packaging>
-    <groupId>org.tayrona.sakila</groupId>
     <artifactId>jooq-generated-sakila</artifactId>
     <name>jooq-generated-sakila</name>
     <description>Sakila H2 JOOQ generated code</description>

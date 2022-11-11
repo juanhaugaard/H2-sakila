@@ -4,11 +4,6 @@
 package org.tayrona.sakila.data.tables;
 
 
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
@@ -29,6 +24,11 @@ import org.jooq.impl.TableImpl;
 import org.tayrona.sakila.data.Keys;
 import org.tayrona.sakila.data.Public;
 import org.tayrona.sakila.data.tables.records.StoreRecord;
+
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -60,7 +60,7 @@ public class Store extends TableImpl<StoreRecord> {
     /**
      * The column <code>PUBLIC.STORE.MANAGER_STAFF_ID</code>.
      */
-    public final TableField<StoreRecord, Long> MANAGER_STAFF_ID = createField(DSL.name("MANAGER_STAFF_ID"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<StoreRecord, Long> MANAGER_STAFF_ID = createField(DSL.name("MANAGER_STAFF_ID"), SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>PUBLIC.STORE.ADDRESS_ID</code>.

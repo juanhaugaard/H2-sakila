@@ -1,11 +1,8 @@
 package com.tayrona.sakila.procedures;
 
-public class StringUtils {
-    private StringUtils() {
-        // prevent instantiation
-    }
+public interface StringUtils {
 
-    public static String reverse(String value) {
+    static String reverse(String value) {
         if (null != value) {
             return (new StringBuilder(value)).reverse().toString();
         }

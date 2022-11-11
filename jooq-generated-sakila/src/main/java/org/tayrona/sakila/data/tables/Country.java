@@ -4,17 +4,14 @@
 package org.tayrona.sakila.data.tables;
 
 
-import java.time.OffsetDateTime;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function3;
+import org.jooq.Function4;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row3;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -27,6 +24,9 @@ import org.jooq.impl.TableImpl;
 import org.tayrona.sakila.data.Keys;
 import org.tayrona.sakila.data.Public;
 import org.tayrona.sakila.data.tables.records.CountryRecord;
+
+import java.time.OffsetDateTime;
+import java.util.function.Function;
 
 
 /**
@@ -59,6 +59,11 @@ public class Country extends TableImpl<CountryRecord> {
      * The column <code>PUBLIC.COUNTRY.COUNTRY</code>.
      */
     public final TableField<CountryRecord, String> COUNTRY_ = createField(DSL.name("COUNTRY"), SQLDataType.VARCHAR(50).nullable(false), this, "");
+
+    /**
+     * The column <code>PUBLIC.COUNTRY.COUNTRY_ABBREVIATION</code>.
+     */
+    public final TableField<CountryRecord, String> COUNTRY_ABBREVIATION = createField(DSL.name("COUNTRY_ABBREVIATION"), SQLDataType.VARCHAR(5), this, "");
 
     /**
      * The column <code>PUBLIC.COUNTRY.LAST_UPDATE</code>.
@@ -153,18 +158,18 @@ public class Country extends TableImpl<CountryRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Long, String, OffsetDateTime> fieldsRow() {
-        return (Row3) super.fieldsRow();
+    public Row4<Long, String, String, OffsetDateTime> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function3<? super Long, ? super String, ? super OffsetDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function4<? super Long, ? super String, ? super String, ? super OffsetDateTime, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -172,7 +177,7 @@ public class Country extends TableImpl<CountryRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function3<? super Long, ? super String, ? super OffsetDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function4<? super Long, ? super String, ? super String, ? super OffsetDateTime, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

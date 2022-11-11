@@ -5,15 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EnumUtils {
-    public static Integer mpaaRatingToOrdinal(Connection connection, String valueName) throws SQLException {
+public interface EnumUtils {
+    static Integer mpaaRatingToOrdinal(Connection connection, String valueName) throws SQLException {
         return valueToOrdinal(connection, "MPAA_RATING", "DOMAIN", "TYPE", valueName);
     }
-    public static Integer specialFeaturesToOrdinal(Connection connection, String valueName) throws SQLException {
+
+    static Integer specialFeaturesToOrdinal(Connection connection, String valueName) throws SQLException {
         return valueToOrdinal(connection, "SPECIAL_FEATURES_ENUM", "DOMAIN", "TYPE", valueName);
     }
-    public static Integer valueToOrdinal(Connection connection, String objectName, String objectType,
-                                         String enumIdentifier, String valueName) throws SQLException {
+
+    static Integer valueToOrdinal(Connection connection, String objectName, String objectType,
+                                  String enumIdentifier, String valueName) throws SQLException {
         StringBuilder sql = new StringBuilder("SELECT VALUE_ORDINAL");
         sql.append(" FROM INFORMATION_SCHEMA.ENUM_VALUES");
         sql.append(" WHERE OBJECT_NAME=?");
