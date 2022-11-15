@@ -79,7 +79,7 @@ public class StoreGenerator {
                 manager.store();
 
                 storeRecord.setManagerStaffId(manager.getStaffId());
-                storeRecord.update(Store.STORE.MANAGER_STAFF_ID);
+                storeRecord.update();
 
                 for (int i = 0; i < staffCount; i++) {
                     StaffRecord staff = generateNewStaff(storeRecord);

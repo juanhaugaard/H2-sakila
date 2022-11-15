@@ -20,7 +20,6 @@ import org.tayrona.sakila.data.tables.Payment;
 import org.tayrona.sakila.data.tables.Rental;
 import org.tayrona.sakila.data.tables.Staff;
 import org.tayrona.sakila.data.tables.Store;
-import org.tayrona.sakila.data.tables.TestTable;
 
 
 /**
@@ -108,9 +107,4 @@ public class Tables {
      * Store details table
      */
     public static final Store STORE = Store.STORE;
-
-    /**
-     * test table
-     */
-    public static final TestTable TEST_TABLE = TestTable.TEST_TABLE;
 }

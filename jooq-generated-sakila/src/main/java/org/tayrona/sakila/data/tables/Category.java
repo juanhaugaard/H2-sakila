@@ -4,9 +4,6 @@
 package org.tayrona.sakila.data.tables;
 
 
-import java.time.OffsetDateTime;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function3;
@@ -27,6 +24,11 @@ import org.jooq.impl.TableImpl;
 import org.tayrona.sakila.data.Keys;
 import org.tayrona.sakila.data.Public;
 import org.tayrona.sakila.data.tables.records.CategoryRecord;
+
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -111,6 +113,11 @@ public class Category extends TableImpl<CategoryRecord> {
     @Override
     public UniqueKey<CategoryRecord> getPrimaryKey() {
         return Keys.PK_CATEGORY;
+    }
+
+    @Override
+    public List<UniqueKey<CategoryRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.IDX_CATEGORY_NAME);
     }
 
     @Override

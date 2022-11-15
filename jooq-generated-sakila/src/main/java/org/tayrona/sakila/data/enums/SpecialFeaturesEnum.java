@@ -15,13 +15,13 @@ import org.jooq.Schema;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public enum SpecialFeaturesEnum implements EnumType {
 
-    Trailers("Trailers"),
+    Behind_the_Scenes("Behind the Scenes"),
 
     Commentaries("Commentaries"),
 
     Deleted_Scenes("Deleted Scenes"),
 
-    Behind_the_Scenes("Behind the Scenes");
+    Trailers("Trailers");
 
     private final String literal;
 

@@ -4,8 +4,14 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record4;
@@ -13,11 +19,21 @@ import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Inventory;
 
+import java.time.OffsetDateTime;
+
 
 /**
  * Inventory details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "INVENTORY",
+    schema = "PUBLIC",
+    indexes = {
+        @Index(name = "IDX_STORE_ID_FILM_ID", columnList = "STORE_ID ASC, FILM_ID ASC")
+    }
+)
 public class InventoryRecord extends UpdatableRecordImpl<InventoryRecord> implements Record4<Long, Long, Long, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +48,9 @@ public class InventoryRecord extends UpdatableRecordImpl<InventoryRecord> implem
     /**
      * Getter for <code>PUBLIC.INVENTORY.INVENTORY_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "INVENTORY_ID", nullable = false)
     public Long getInventoryId() {
         return (Long) get(0);
     }
@@ -46,6 +65,8 @@ public class InventoryRecord extends UpdatableRecordImpl<InventoryRecord> implem
     /**
      * Getter for <code>PUBLIC.INVENTORY.FILM_ID</code>.
      */
+    @Column(name = "FILM_ID", nullable = false)
+    @NotNull
     public Long getFilmId() {
         return (Long) get(1);
     }
@@ -60,6 +81,8 @@ public class InventoryRecord extends UpdatableRecordImpl<InventoryRecord> implem
     /**
      * Getter for <code>PUBLIC.INVENTORY.STORE_ID</code>.
      */
+    @Column(name = "STORE_ID", nullable = false)
+    @NotNull
     public Long getStoreId() {
         return (Long) get(2);
     }
@@ -74,6 +97,7 @@ public class InventoryRecord extends UpdatableRecordImpl<InventoryRecord> implem
     /**
      * Getter for <code>PUBLIC.INVENTORY.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(3);
     }
@@ -215,5 +239,19 @@ public class InventoryRecord extends UpdatableRecordImpl<InventoryRecord> implem
         setFilmId(filmId);
         setStoreId(storeId);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised InventoryRecord
+     */
+    public InventoryRecord(org.tayrona.sakila.data.tables.pojos.Inventory value) {
+        super(Inventory.INVENTORY);
+
+        if (value != null) {
+            setInventoryId(value.getInventoryId());
+            setFilmId(value.getFilmId());
+            setStoreId(value.getStoreId());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

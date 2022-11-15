@@ -4,8 +4,14 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record4;
@@ -13,11 +19,22 @@ import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Store;
 
+import javax.annotation.Nullable;
+import java.time.OffsetDateTime;
+
 
 /**
  * Store details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "STORE",
+    schema = "PUBLIC",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "IDX_UNIQUE_MANAGER", columnNames = { "MANAGER_STAFF_ID" })
+    }
+)
 public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Record4<Long, Long, Long, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +49,9 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STORE.STORE_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "STORE_ID", nullable = false)
     public Long getStoreId() {
         return (Long) get(0);
     }
@@ -39,13 +59,15 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     /**
      * Setter for <code>PUBLIC.STORE.MANAGER_STAFF_ID</code>.
      */
-    public void setManagerStaffId(Long value) {
+    public void setManagerStaffId(@Nullable Long value) {
         set(1, value);
     }
 
     /**
      * Getter for <code>PUBLIC.STORE.MANAGER_STAFF_ID</code>.
      */
+    @Column(name = "MANAGER_STAFF_ID")
+    @Nullable
     public Long getManagerStaffId() {
         return (Long) get(1);
     }
@@ -60,6 +82,8 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STORE.ADDRESS_ID</code>.
      */
+    @Column(name = "ADDRESS_ID", nullable = false)
+    @NotNull
     public Long getAddressId() {
         return (Long) get(2);
     }
@@ -74,6 +98,7 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STORE.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(3);
     }
@@ -127,6 +152,7 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     }
 
     @Override
+    @Nullable
     public Long component2() {
         return getManagerStaffId();
     }
@@ -147,6 +173,7 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     }
 
     @Override
+    @Nullable
     public Long value2() {
         return getManagerStaffId();
     }
@@ -168,7 +195,7 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     }
 
     @Override
-    public StoreRecord value2(Long value) {
+    public StoreRecord value2(@Nullable Long value) {
         setManagerStaffId(value);
         return this;
     }
@@ -186,7 +213,7 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     }
 
     @Override
-    public StoreRecord values(Long value1, Long value2, Long value3, OffsetDateTime value4) {
+    public StoreRecord values(Long value1, @Nullable Long value2, Long value3, OffsetDateTime value4) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -208,12 +235,26 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
     /**
      * Create a detached, initialised StoreRecord
      */
-    public StoreRecord(Long storeId, Long managerStaffId, Long addressId, OffsetDateTime lastUpdate) {
+    public StoreRecord(Long storeId, @Nullable Long managerStaffId, Long addressId, OffsetDateTime lastUpdate) {
         super(Store.STORE);
 
         setStoreId(storeId);
         setManagerStaffId(managerStaffId);
         setAddressId(addressId);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised StoreRecord
+     */
+    public StoreRecord(org.tayrona.sakila.data.tables.pojos.Store value) {
+        super(Store.STORE);
+
+        if (value != null) {
+            setStoreId(value.getStoreId());
+            setManagerStaffId(value.getManagerStaffId());
+            setAddressId(value.getAddressId());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

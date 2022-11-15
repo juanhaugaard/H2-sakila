@@ -4,9 +4,14 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record7;
@@ -14,11 +19,23 @@ import org.jooq.Row7;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Rental;
 
+import javax.annotation.Nullable;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 
 /**
  * Rental details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "RENTAL",
+    schema = "PUBLIC",
+    indexes = {
+        @Index(name = "IDX_RENTAL_DATE_INVENTORY_ID_CUSTOMER_ID", unique = true, columnList = "RENTAL_DATE ASC, INVENTORY_ID ASC, CUSTOMER_ID ASC")
+    }
+)
 public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements Record7<Long, LocalDateTime, Long, Long, LocalDateTime, Long, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -33,6 +50,9 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     /**
      * Getter for <code>PUBLIC.RENTAL.RENTAL_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "RENTAL_ID", nullable = false)
     public Long getRentalId() {
         return (Long) get(0);
     }
@@ -47,6 +67,8 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     /**
      * Getter for <code>PUBLIC.RENTAL.RENTAL_DATE</code>.
      */
+    @Column(name = "RENTAL_DATE", nullable = false, precision = 6)
+    @NotNull
     public LocalDateTime getRentalDate() {
         return (LocalDateTime) get(1);
     }
@@ -61,6 +83,8 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     /**
      * Getter for <code>PUBLIC.RENTAL.INVENTORY_ID</code>.
      */
+    @Column(name = "INVENTORY_ID", nullable = false)
+    @NotNull
     public Long getInventoryId() {
         return (Long) get(2);
     }
@@ -75,6 +99,8 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     /**
      * Getter for <code>PUBLIC.RENTAL.CUSTOMER_ID</code>.
      */
+    @Column(name = "CUSTOMER_ID", nullable = false)
+    @NotNull
     public Long getCustomerId() {
         return (Long) get(3);
     }
@@ -82,13 +108,15 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     /**
      * Setter for <code>PUBLIC.RENTAL.RETURN_DATE</code>.
      */
-    public void setReturnDate(LocalDateTime value) {
+    public void setReturnDate(@Nullable LocalDateTime value) {
         set(4, value);
     }
 
     /**
      * Getter for <code>PUBLIC.RENTAL.RETURN_DATE</code>.
      */
+    @Column(name = "RETURN_DATE", precision = 6)
+    @Nullable
     public LocalDateTime getReturnDate() {
         return (LocalDateTime) get(4);
     }
@@ -103,6 +131,8 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     /**
      * Getter for <code>PUBLIC.RENTAL.STAFF_ID</code>.
      */
+    @Column(name = "STAFF_ID", nullable = false)
+    @NotNull
     public Long getStaffId() {
         return (Long) get(5);
     }
@@ -117,6 +147,7 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     /**
      * Getter for <code>PUBLIC.RENTAL.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(6);
     }
@@ -200,6 +231,7 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     }
 
     @Override
+    @Nullable
     public LocalDateTime component5() {
         return getReturnDate();
     }
@@ -235,6 +267,7 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     }
 
     @Override
+    @Nullable
     public LocalDateTime value5() {
         return getReturnDate();
     }
@@ -274,7 +307,7 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     }
 
     @Override
-    public RentalRecord value5(LocalDateTime value) {
+    public RentalRecord value5(@Nullable LocalDateTime value) {
         setReturnDate(value);
         return this;
     }
@@ -292,7 +325,7 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     }
 
     @Override
-    public RentalRecord values(Long value1, LocalDateTime value2, Long value3, Long value4, LocalDateTime value5, Long value6, OffsetDateTime value7) {
+    public RentalRecord values(Long value1, LocalDateTime value2, Long value3, Long value4, @Nullable LocalDateTime value5, Long value6, OffsetDateTime value7) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -317,7 +350,7 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
     /**
      * Create a detached, initialised RentalRecord
      */
-    public RentalRecord(Long rentalId, LocalDateTime rentalDate, Long inventoryId, Long customerId, LocalDateTime returnDate, Long staffId, OffsetDateTime lastUpdate) {
+    public RentalRecord(Long rentalId, LocalDateTime rentalDate, Long inventoryId, Long customerId, @Nullable LocalDateTime returnDate, Long staffId, OffsetDateTime lastUpdate) {
         super(Rental.RENTAL);
 
         setRentalId(rentalId);
@@ -327,5 +360,22 @@ public class RentalRecord extends UpdatableRecordImpl<RentalRecord> implements R
         setReturnDate(returnDate);
         setStaffId(staffId);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised RentalRecord
+     */
+    public RentalRecord(org.tayrona.sakila.data.tables.pojos.Rental value) {
+        super(Rental.RENTAL);
+
+        if (value != null) {
+            setRentalId(value.getRentalId());
+            setRentalDate(value.getRentalDate());
+            setInventoryId(value.getInventoryId());
+            setCustomerId(value.getCustomerId());
+            setReturnDate(value.getReturnDate());
+            setStaffId(value.getStaffId());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

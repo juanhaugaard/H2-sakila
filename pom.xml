@@ -25,6 +25,10 @@
         <jooq.version>3.17.5</jooq.version>
         <javafaker.version>1.0.2</javafaker.version>
         <h2database.version>2.1.214</h2database.version>
+        <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+        <jakarta.validation.version>3.0.2</jakarta.validation.version>
+        <javax.annotation.version>1.3.2</javax.annotation.version>
+        <com.google.findbugs.version>3.0.2</com.google.findbugs.version>
     </properties>
     <build>
         <!-- To define the plugin version in your parent POM -->

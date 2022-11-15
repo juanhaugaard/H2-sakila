@@ -4,8 +4,15 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
@@ -13,11 +20,22 @@ import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Customer;
 
+import javax.annotation.Nullable;
+import java.time.OffsetDateTime;
+
 
 /**
  * Customer details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "CUSTOMER",
+    schema = "PUBLIC",
+    indexes = {
+        @Index(name = "IDX_LAST_NAME", columnList = "LAST_NAME ASC")
+    }
+)
 public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implements Record9<Long, Long, String, String, String, Long, Boolean, OffsetDateTime, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +50,9 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Getter for <code>PUBLIC.CUSTOMER.CUSTOMER_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CUSTOMER_ID", nullable = false)
     public Long getCustomerId() {
         return (Long) get(0);
     }
@@ -46,6 +67,8 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Getter for <code>PUBLIC.CUSTOMER.STORE_ID</code>.
      */
+    @Column(name = "STORE_ID", nullable = false)
+    @NotNull
     public Long getStoreId() {
         return (Long) get(1);
     }
@@ -60,6 +83,9 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Getter for <code>PUBLIC.CUSTOMER.FIRST_NAME</code>.
      */
+    @Column(name = "FIRST_NAME", nullable = false, length = 45)
+    @NotNull
+    @Size(max = 45)
     public String getFirstName() {
         return (String) get(2);
     }
@@ -74,6 +100,9 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Getter for <code>PUBLIC.CUSTOMER.LAST_NAME</code>.
      */
+    @Column(name = "LAST_NAME", nullable = false, length = 45)
+    @NotNull
+    @Size(max = 45)
     public String getLastName() {
         return (String) get(3);
     }
@@ -81,13 +110,16 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Setter for <code>PUBLIC.CUSTOMER.EMAIL</code>.
      */
-    public void setEmail(String value) {
+    public void setEmail(@Nullable String value) {
         set(4, value);
     }
 
     /**
      * Getter for <code>PUBLIC.CUSTOMER.EMAIL</code>.
      */
+    @Column(name = "EMAIL", length = 50)
+    @Size(max = 50)
+    @Nullable
     public String getEmail() {
         return (String) get(4);
     }
@@ -102,6 +134,8 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Getter for <code>PUBLIC.CUSTOMER.ADDRESS_ID</code>.
      */
+    @Column(name = "ADDRESS_ID", nullable = false)
+    @NotNull
     public Long getAddressId() {
         return (Long) get(5);
     }
@@ -116,6 +150,7 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Getter for <code>PUBLIC.CUSTOMER.ACTIVE</code>.
      */
+    @Column(name = "ACTIVE", nullable = false)
     public Boolean getActive() {
         return (Boolean) get(6);
     }
@@ -130,6 +165,7 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Getter for <code>PUBLIC.CUSTOMER.CREATE_DATE</code>.
      */
+    @Column(name = "CREATE_DATE", nullable = false, precision = 6)
     public OffsetDateTime getCreateDate() {
         return (OffsetDateTime) get(7);
     }
@@ -144,6 +180,7 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Getter for <code>PUBLIC.CUSTOMER.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(8);
     }
@@ -237,6 +274,7 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     }
 
     @Override
+    @Nullable
     public String component5() {
         return getEmail();
     }
@@ -282,6 +320,7 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     }
 
     @Override
+    @Nullable
     public String value5() {
         return getEmail();
     }
@@ -331,7 +370,7 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     }
 
     @Override
-    public CustomerRecord value5(String value) {
+    public CustomerRecord value5(@Nullable String value) {
         setEmail(value);
         return this;
     }
@@ -361,7 +400,7 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     }
 
     @Override
-    public CustomerRecord values(Long value1, Long value2, String value3, String value4, String value5, Long value6, Boolean value7, OffsetDateTime value8, OffsetDateTime value9) {
+    public CustomerRecord values(Long value1, Long value2, String value3, String value4, @Nullable String value5, Long value6, Boolean value7, OffsetDateTime value8, OffsetDateTime value9) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -388,7 +427,7 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
     /**
      * Create a detached, initialised CustomerRecord
      */
-    public CustomerRecord(Long customerId, Long storeId, String firstName, String lastName, String email, Long addressId, Boolean active, OffsetDateTime createDate, OffsetDateTime lastUpdate) {
+    public CustomerRecord(Long customerId, Long storeId, String firstName, String lastName, @Nullable String email, Long addressId, Boolean active, OffsetDateTime createDate, OffsetDateTime lastUpdate) {
         super(Customer.CUSTOMER);
 
         setCustomerId(customerId);
@@ -400,5 +439,24 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> implemen
         setActive(active);
         setCreateDate(createDate);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised CustomerRecord
+     */
+    public CustomerRecord(org.tayrona.sakila.data.tables.pojos.Customer value) {
+        super(Customer.CUSTOMER);
+
+        if (value != null) {
+            setCustomerId(value.getCustomerId());
+            setStoreId(value.getStoreId());
+            setFirstName(value.getFirstName());
+            setLastName(value.getLastName());
+            setEmail(value.getEmail());
+            setAddressId(value.getAddressId());
+            setActive(value.getActive());
+            setCreateDate(value.getCreateDate());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

@@ -4,9 +4,6 @@
 package org.tayrona.sakila.data;
 
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.jooq.Catalog;
 import org.jooq.Domain;
 import org.jooq.Table;
@@ -27,7 +24,9 @@ import org.tayrona.sakila.data.tables.Payment;
 import org.tayrona.sakila.data.tables.Rental;
 import org.tayrona.sakila.data.tables.Staff;
 import org.tayrona.sakila.data.tables.Store;
-import org.tayrona.sakila.data.tables.TestTable;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -124,11 +123,6 @@ public class Public extends SchemaImpl {
     public final Store STORE = Store.STORE;
 
     /**
-     * test table
-     */
-    public final TestTable TEST_TABLE = TestTable.TEST_TABLE;
-
-    /**
      * No further instances allowed
      */
     private Public() {
@@ -144,7 +138,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Domain<?>> getDomains() {
         return Arrays.asList(
-            Domains.SPECIAL_FEATURES,
+            Domains.UPC,
             Domains.YEARVALUE
         );
     }
@@ -167,8 +161,7 @@ public class Public extends SchemaImpl {
             Payment.PAYMENT,
             Rental.RENTAL,
             Staff.STAFF,
-            Store.STORE,
-            TestTable.TEST_TABLE
+            Store.STORE
         );
     }
 }

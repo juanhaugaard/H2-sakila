@@ -4,8 +4,14 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record4;
@@ -13,11 +19,18 @@ import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.City;
 
+import java.time.OffsetDateTime;
+
 
 /**
  * City details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "CITY",
+    schema = "PUBLIC"
+)
 public class CityRecord extends UpdatableRecordImpl<CityRecord> implements Record4<Long, String, Long, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +45,9 @@ public class CityRecord extends UpdatableRecordImpl<CityRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.CITY.CITY_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CITY_ID", nullable = false)
     public Long getCityId() {
         return (Long) get(0);
     }
@@ -46,6 +62,9 @@ public class CityRecord extends UpdatableRecordImpl<CityRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.CITY.CITY</code>.
      */
+    @Column(name = "CITY", nullable = false, length = 50)
+    @NotNull
+    @Size(max = 50)
     public String getCity() {
         return (String) get(1);
     }
@@ -60,6 +79,8 @@ public class CityRecord extends UpdatableRecordImpl<CityRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.CITY.COUNTRY_ID</code>.
      */
+    @Column(name = "COUNTRY_ID", nullable = false)
+    @NotNull
     public Long getCountryId() {
         return (Long) get(2);
     }
@@ -74,6 +95,7 @@ public class CityRecord extends UpdatableRecordImpl<CityRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.CITY.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(3);
     }
@@ -215,5 +237,19 @@ public class CityRecord extends UpdatableRecordImpl<CityRecord> implements Recor
         setCity(city);
         setCountryId(countryId);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised CityRecord
+     */
+    public CityRecord(org.tayrona.sakila.data.tables.pojos.City value) {
+        super(City.CITY);
+
+        if (value != null) {
+            setCityId(value.getCityId());
+            setCity(value.getCity());
+            setCountryId(value.getCountryId());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

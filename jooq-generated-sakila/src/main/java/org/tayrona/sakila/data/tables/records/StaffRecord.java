@@ -4,8 +4,14 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.LocalDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record11;
@@ -13,11 +19,19 @@ import org.jooq.Row11;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Staff;
 
+import javax.annotation.Nullable;
+import java.time.LocalDateTime;
+
 
 /**
  * Staff details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "STAFF",
+    schema = "PUBLIC"
+)
 public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Record11<Long, String, String, Long, byte[], String, Long, Boolean, String, byte[], LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +46,9 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STAFF.STAFF_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "STAFF_ID", nullable = false)
     public Long getStaffId() {
         return (Long) get(0);
     }
@@ -46,6 +63,9 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STAFF.FIRST_NAME</code>.
      */
+    @Column(name = "FIRST_NAME", nullable = false, length = 45)
+    @NotNull
+    @Size(max = 45)
     public String getFirstName() {
         return (String) get(1);
     }
@@ -60,6 +80,9 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STAFF.LAST_NAME</code>.
      */
+    @Column(name = "LAST_NAME", nullable = false, length = 45)
+    @NotNull
+    @Size(max = 45)
     public String getLastName() {
         return (String) get(2);
     }
@@ -74,6 +97,8 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STAFF.ADDRESS_ID</code>.
      */
+    @Column(name = "ADDRESS_ID", nullable = false)
+    @NotNull
     public Long getAddressId() {
         return (Long) get(3);
     }
@@ -81,13 +106,15 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Setter for <code>PUBLIC.STAFF.PICTURE</code>.
      */
-    public void setPicture(byte[] value) {
+    public void setPicture(@Nullable byte[] value) {
         set(4, value);
     }
 
     /**
      * Getter for <code>PUBLIC.STAFF.PICTURE</code>.
      */
+    @Column(name = "PICTURE")
+    @Nullable
     public byte[] getPicture() {
         return (byte[]) get(4);
     }
@@ -95,13 +122,16 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Setter for <code>PUBLIC.STAFF.EMAIL</code>.
      */
-    public void setEmail(String value) {
+    public void setEmail(@Nullable String value) {
         set(5, value);
     }
 
     /**
      * Getter for <code>PUBLIC.STAFF.EMAIL</code>.
      */
+    @Column(name = "EMAIL", length = 50)
+    @Size(max = 50)
+    @Nullable
     public String getEmail() {
         return (String) get(5);
     }
@@ -116,6 +146,8 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STAFF.STORE_ID</code>.
      */
+    @Column(name = "STORE_ID", nullable = false)
+    @NotNull
     public Long getStoreId() {
         return (Long) get(6);
     }
@@ -130,6 +162,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STAFF.ACTIVE</code>.
      */
+    @Column(name = "ACTIVE", nullable = false)
     public Boolean getActive() {
         return (Boolean) get(7);
     }
@@ -144,6 +177,9 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STAFF.USERNAME</code>.
      */
+    @Column(name = "USERNAME", nullable = false, length = 32)
+    @NotNull
+    @Size(max = 32)
     public String getUsername() {
         return (String) get(8);
     }
@@ -151,13 +187,16 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Setter for <code>PUBLIC.STAFF.PASSWORD</code>.
      */
-    public void setPassword(byte[] value) {
+    public void setPassword(@Nullable byte[] value) {
         set(9, value);
     }
 
     /**
      * Getter for <code>PUBLIC.STAFF.PASSWORD</code>.
      */
+    @Column(name = "PASSWORD", length = 40)
+    @Size(max = 40)
+    @Nullable
     public byte[] getPassword() {
         return (byte[]) get(9);
     }
@@ -172,6 +211,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.STAFF.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public LocalDateTime getLastUpdate() {
         return (LocalDateTime) get(10);
     }
@@ -275,11 +315,13 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
+    @Nullable
     public byte[] component5() {
         return getPicture();
     }
 
     @Override
+    @Nullable
     public String component6() {
         return getEmail();
     }
@@ -300,6 +342,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
+    @Nullable
     public byte[] component10() {
         return getPassword();
     }
@@ -330,11 +373,13 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
+    @Nullable
     public byte[] value5() {
         return getPicture();
     }
 
     @Override
+    @Nullable
     public String value6() {
         return getEmail();
     }
@@ -355,6 +400,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
+    @Nullable
     public byte[] value10() {
         return getPassword();
     }
@@ -389,13 +435,13 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
-    public StaffRecord value5(byte[] value) {
+    public StaffRecord value5(@Nullable byte[] value) {
         setPicture(value);
         return this;
     }
 
     @Override
-    public StaffRecord value6(String value) {
+    public StaffRecord value6(@Nullable String value) {
         setEmail(value);
         return this;
     }
@@ -419,7 +465,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
-    public StaffRecord value10(byte[] value) {
+    public StaffRecord value10(@Nullable byte[] value) {
         setPassword(value);
         return this;
     }
@@ -431,7 +477,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
-    public StaffRecord values(Long value1, String value2, String value3, Long value4, byte[] value5, String value6, Long value7, Boolean value8, String value9, byte[] value10, LocalDateTime value11) {
+    public StaffRecord values(Long value1, String value2, String value3, Long value4, @Nullable byte[] value5, @Nullable String value6, Long value7, Boolean value8, String value9, @Nullable byte[] value10, LocalDateTime value11) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -460,7 +506,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Create a detached, initialised StaffRecord
      */
-    public StaffRecord(Long staffId, String firstName, String lastName, Long addressId, byte[] picture, String email, Long storeId, Boolean active, String username, byte[] password, LocalDateTime lastUpdate) {
+    public StaffRecord(Long staffId, String firstName, String lastName, Long addressId, @Nullable byte[] picture, @Nullable String email, Long storeId, Boolean active, String username, @Nullable byte[] password, LocalDateTime lastUpdate) {
         super(Staff.STAFF);
 
         setStaffId(staffId);
@@ -474,5 +520,26 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
         setUsername(username);
         setPassword(password);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised StaffRecord
+     */
+    public StaffRecord(org.tayrona.sakila.data.tables.pojos.Staff value) {
+        super(Staff.STAFF);
+
+        if (value != null) {
+            setStaffId(value.getStaffId());
+            setFirstName(value.getFirstName());
+            setLastName(value.getLastName());
+            setAddressId(value.getAddressId());
+            setPicture(value.getPicture());
+            setEmail(value.getEmail());
+            setStoreId(value.getStoreId());
+            setActive(value.getActive());
+            setUsername(value.getUsername());
+            setPassword(value.getPassword());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

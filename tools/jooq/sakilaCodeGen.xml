@@ -14,6 +14,15 @@
             <excludes>DATABASECHANGELOG.*</excludes>
             <inputSchema>PUBLIC</inputSchema>
         </database>
+        <generate>
+            <pojos>true</pojos>
+            <javaTimeTypes>true</javaTimeTypes>
+            <nullableAnnotation>true</nullableAnnotation>
+            <nullableAnnotationType>javax.annotation.Nullable</nullableAnnotationType>
+            <jpaAnnotations>true</jpaAnnotations>
+            <jpaVersion>2.2</jpaVersion>
+            <validationAnnotations>true</validationAnnotations>
+        </generate>
         <target>
             <packageName>org.tayrona.sakila.data</packageName>
             <directory>../../jooq-generated-sakila/src/main/java</directory>

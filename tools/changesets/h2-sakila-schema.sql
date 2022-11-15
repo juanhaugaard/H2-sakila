@@ -15,16 +15,15 @@
 
 --changeset Juan Haugaard:3
 --comment: Create domain Special Features ENUM
-            CREATE DOMAIN SPECIAL_FEATURES_ENUM AS ENUM ('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')
-            COMMENT 'Special Features ENUM (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)';
+            CREATE DOMAIN SPECIAL_FEATURES_ENUM AS ENUM ('Behind the Scenes','Commentaries','Deleted Scenes','Trailers')
+            COMMENT 'Special Features ENUM (Behind the Scenes, Commentaries, Deleted Scenes, Trailers)';
 --rollback DROP DOMAIN SPECIAL_FEATURES_ENUM;
 
 --changeset Juan Haugaard:4
---comment: Create domain special_features
-            CREATE DOMAIN SPECIAL_FEATURES AS VARCHAR(200) ARRAY[4]
-            COMMENT 'Special features array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)'
-            CHECK(EXISTS(VALUES ('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')));
---rollback DROP DOMAIN SPECIAL_FEATURES;
+--comment: Create domain UPC for 12 character barcodes
+            CREATE DOMAIN UPC AS CHAR(12)
+            COMMENT 'UPC is barcode of length 12 characters';
+--rollback DROP DOMAIN UPC;
 
 --changeset Juan Haugaard:5
 --comment: Create text concatenation function
@@ -50,24 +49,39 @@
                 category_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
                 name VARCHAR(25) NOT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() NOT NULL,
-                CONSTRAINT PK_CATEGORY PRIMARY KEY (category_id)
+                CONSTRAINT PK_CATEGORY PRIMARY KEY (category_id),
+                CONSTRAINT IDX_CATEGORY_NAME UNIQUE (name)
             );
             COMMENT ON TABLE CATEGORY IS 'Category details table';
 --rollback DROP TABLE CATEGORY;
 
 --changeset Juan Haugaard:8
+--comment: Insert standard film categories into table CATEGORY
+            INSERT INTO CATEGORY (name) VALUES('Thriller'), ('Mystery'), ('Suspense'), ('Children'), ('Animation');
+            INSERT INTO CATEGORY (name) VALUES('Action'), ('Sci-Fi'), ('Fiction'), ('Biography'), ('History');
+            INSERT INTO CATEGORY (name) VALUES('Crime'), ('Drama'), ('Experimental'), ('Fantasy'), ('Comedy');
+            INSERT INTO CATEGORY (name) VALUES('Horror'), ('Romance'), ('Western'), ('War'), ('Military');
+            INSERT INTO CATEGORY (name) VALUES('Heroic'), ('Espionage'), ('Disaster'), ('Adventure'), ('Satire');
+            INSERT INTO CATEGORY (name) VALUES('Sports'), ('Musical'), ('Martial arts'), ('Dark comedy'), ('Time');
+            INSERT INTO CATEGORY (name) VALUES('Documentary'), ('Police'), ('Courtroom'), ('Supernatural');
+            INSERT INTO CATEGORY (name) VALUES('Fairy tale'), ('Legend'), ('Mythology'), ('Aliens'), ('Space');
+            INSERT INTO CATEGORY (name) VALUES('Apocalyptic'), ('Futuristic'), ('Dystopian'), ('Video game');
+            INSERT INTO CATEGORY (name) VALUES('Political'), ('Teen'), ('Medical'), ('Family'), ('Psychological');
+--rollback TRUNCATE TABLE CATEGORY;
+
+--changeset Juan Haugaard:9
 --comment: Create table Country
             CREATE TABLE COUNTRY (
-            country_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-            country VARCHAR(50) NOT NULL,
-            country_abbreviation VARCHAR(5),
-            last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
-            CONSTRAINT PK_COUNTRY PRIMARY KEY (country_id)
+                country_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+                country VARCHAR(50) NOT NULL,
+                country_abbreviation VARCHAR(5),
+                last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
+                CONSTRAINT PK_COUNTRY PRIMARY KEY (country_id)
             );
             COMMENT ON TABLE COUNTRY IS 'Country details table';
 --rollback DROP TABLE COUNTRY;
 
---changeset Juan Haugaard:9
+--changeset Juan Haugaard:10
 --comment: Create table City
             CREATE TABLE CITY (
                 city_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -76,12 +90,12 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_CITY PRIMARY KEY (city_id),
                 CONSTRAINT FK_CITY_COUNTRY FOREIGN KEY (country_id)
-                    REFERENCES COUNTRY (country_id) ON DELETE    RESTRICT ON UPDATE CASCADE
+                    REFERENCES COUNTRY (country_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE CITY IS 'City details table';
 --rollback DROP TABLE CITY;
 
---changeset Juan Haugaard:10
+--changeset Juan Haugaard:11
 --comment: Create table Address
             CREATE TABLE ADDRESS (
                 address_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -99,7 +113,7 @@
             COMMENT ON TABLE ADDRESS IS 'Address details table';
 --rollback DROP TABLE ADDRESS;
 
---changeset Juan Haugaard:11
+--changeset Juan Haugaard:12
 --comment: Create table Language
             CREATE TABLE LANGUAGE (
                 language_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -110,7 +124,7 @@
             COMMENT ON TABLE LANGUAGE IS 'Language details table';
 --rollback DROP TABLE LANGUAGE;
 
---changeset Juan Haugaard:12
+--changeset Juan Haugaard:13
 --comment: Create table ACTOR
             CREATE TABLE ACTOR (
                 actor_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -122,7 +136,7 @@
             COMMENT ON TABLE ACTOR IS 'Actor details table';
 --rollback DROP TABLE ACTOR;
 
---changeset Juan Haugaard:13
+--changeset Juan Haugaard:14
 --comment: Create table Store
             CREATE TABLE STORE (
                 store_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -137,7 +151,7 @@
             COMMENT ON TABLE STORE IS 'Store details table';
 --rollback DROP TABLE STORE;
 
---changeset Juan Haugaard:14
+--changeset Juan Haugaard:15
 --comment: Create table Staff
             CREATE TABLE STAFF (
                 staff_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -160,7 +174,7 @@
             COMMENT ON TABLE STAFF IS 'Staff details table';
 --rollback DROP TABLE STAFF;
 
---changeset Juan Haugaard:15
+--changeset Juan Haugaard:16
 --comment: Alter table Store to add Foreign key to staff table
             ALTER TABLE STORE
             ADD CONSTRAINT fk_store_staff FOREIGN KEY (manager_staff_id)
@@ -168,7 +182,7 @@
 --rollback ALTER TABLE STORE
 --rollback DROP CONSTRAINT fk_store_staff;
 
---changeset Juan Haugaard:16
+--changeset Juan Haugaard:17
 --comment: Create table Customer
             CREATE TABLE CUSTOMER (
                 customer_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -190,7 +204,7 @@
             CREATE INDEX idx_last_name ON CUSTOMER (last_name);
 --rollback DROP TABLE CUSTOMER;
 
---changeset Juan Haugaard:17
+--changeset Juan Haugaard:18
 --comment: Create table Film
             CREATE TABLE FILM (
                 film_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -203,10 +217,9 @@
                 rental_rate DECIMAL(4,2) NOT NULL DEFAULT 4.99,
                 length SMALLINT DEFAULT NULL,
                 replacement_cost DECIMAL(5,2) NOT NULL DEFAULT 19.99,
-                barcode CHAR(20),
-                reverse_barcode CHAR(20) GENERATED ALWAYS AS (REVERSE(barcode)),
+                barcode UPC,
+                reverse_barcode UPC GENERATED ALWAYS AS (REVERSE(barcode)),
                 rating MPAA_RATING DEFAULT 'G',
-                special_features SPECIAL_FEATURES DEFAULT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_FILM PRIMARY KEY (film_id),
                 CONSTRAINT fk_film_language FOREIGN KEY (language_id)
@@ -218,28 +231,39 @@
             CREATE INDEX idx_title ON FILM(title);
             CREATE INDEX idx_barcode ON FILM(barcode);
             CREATE INDEX idx_reverse_barcode ON FILM(reverse_barcode);
-           -- ALTER TABLE FILM ALTER COLUMN barcode CHAR(20) GENERATED ALWAYS AS (LPAD(barcode ,12,'0'));
 --rollback DROP TABLE FILM;
 
---changeset Juan Haugaard:18
---comment: Add insert trigger to table Film
+--changeset Juan Haugaard:19
+--comment: Add after insert trigger to table Film
             CREATE TRIGGER InsertFilmTrigger AFTER INSERT ON
-                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.InsertFilmTrigger';
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.AfterInsertFilmTrigger';
 --rollback DROP TRIGGER InsertFilmTrigger;
 
---changeset Juan Haugaard:19
---comment: Add update trigger to table Film
+--changeset Juan Haugaard:20
+--comment: Add after update trigger to table Film
             CREATE TRIGGER UpdateFilmTrigger AFTER UPDATE ON
-                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.UpdateFilmTrigger';
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.AfterUpdateFilmTrigger';
 --rollback DROP TRIGGER UpdateFilmTrigger;
 
---changeset Juan Haugaard:20
---comment: Add delete trigger to table Film
+--changeset Juan Haugaard:21
+--comment: Add after delete trigger to table Film
             CREATE TRIGGER DeleteFilmTrigger AFTER DELETE ON
-                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.DeleteFilmTrigger';
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.AfterDeleteFilmTrigger';
 --rollback DROP TRIGGER DeleteFilmTrigger;
 
---changeset Juan Haugaard:21
+--changeset Juan Haugaard:22
+--comment: Add before insert trigger to table Film
+            CREATE TRIGGER InsertLeftPadBarcodeFilmTrigger BEFORE INSERT ON
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.BeforeInsertFilmTrigger';
+--rollback DROP TRIGGER InsertLeftPadBarcodeFilmTrigger;
+
+--changeset Juan Haugaard:23
+--comment: Add before update trigger to table Film
+            CREATE TRIGGER UpdateLeftPadBarcodeFilmTrigger BEFORE UPDATE ON
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.BeforeUpdateFilmTrigger';
+--rollback DROP TRIGGER UpdateLeftPadBarcodeFilmTrigger;
+
+--changeset Juan Haugaard:24
 --comment: Create table film_text
             CREATE TABLE FILM_TEXT (
                 film_id BIGINT NOT NULL,
@@ -251,7 +275,7 @@
             CREATE INDEX idx_title_description ON FILM_TEXT(title, description);
 --rollback DROP TABLE FILM_TEXT;
 
---changeset Juan Haugaard:22
+--changeset Juan Haugaard:25
 --comment: Create table inventory
             CREATE TABLE INVENTORY (
                 inventory_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -268,7 +292,7 @@
             CREATE INDEX idx_store_id_film_id ON INVENTORY (store_id, film_id);
 --rollback DROP TABLE INVENTORY;
 
---changeset Juan Haugaard:23
+--changeset Juan Haugaard:26
 --comment: Create table Rental
             CREATE TABLE RENTAL (
                 rental_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -291,7 +315,7 @@
                 ON RENTAL (rental_date, inventory_id, customer_id);
 --rollback DROP TABLE RENTAL;
 
---changeset Juan Haugaard:24
+--changeset Juan Haugaard:27
 --comment: Create table Payment
             CREATE TABLE PAYMENT (
                 payment_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -312,7 +336,7 @@
             COMMENT ON TABLE PAYMENT IS 'Payment details table';
 --rollback DROP TABLE PAYMENT;
 
---changeset Juan Haugaard:25
+--changeset Juan Haugaard:28
 --comment: Create table Film Actor cross-reference
             CREATE TABLE FILM_ACTOR (
                 actor_id BIGINT NOT NULL,
@@ -327,7 +351,7 @@
             COMMENT ON TABLE FILM_ACTOR IS 'Film Actor cross-reference table';
 --rollback DROP TABLE FILM_ACTOR;
 
---changeset Juan Haugaard:26
+--changeset Juan Haugaard:29
 --comment: Create table Film Category cross-reference
             CREATE TABLE FILM_CATEGORY (
                 film_id BIGINT NOT NULL,
@@ -342,45 +366,18 @@
             COMMENT ON TABLE FILM_CATEGORY IS 'Film Category cross-reference table';
 --rollback DROP TABLE FILM_CATEGORY;
 
---changeset Juan Haugaard:27
+--changeset Juan Haugaard:30
 --comment: Define function enum_to_ordinal
             CREATE ALIAS ENUM_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.valueToOrdinal';
 --rollback DROP ALIAS ENUM_TO_ORDINAL;
 
---changeset Juan Haugaard:28
+--changeset Juan Haugaard:31
 --comment: Define function mpaa_rating_to_ordinal
             CREATE ALIAS MPAA_RATING_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.mpaaRatingToOrdinal';
 --rollback DROP ALIAS MPAA_RATING_TO_ORDINAL;
 
---changeset Juan Haugaard:29
+--changeset Juan Haugaard:32
 --comment: Define function special_features_to_ordinal
             CREATE ALIAS SPECIAL_FEATURES_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.specialFeaturesToOrdinal';
 --rollback DROP ALIAS SPECIAL_FEATURES_TO_ORDINAL;
 
---changeset Juan Haugaard:30
---comment: Create table TEST_TABLE
-            create table TEST_TABLE (
-                id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                features SPECIAL_FEATURES default NULL,
-                CONSTRAINT PK_TESTTABLE PRIMARY KEY (id)
-            );
-            COMMENT ON TABLE TEST_TABLE IS 'test table';
---rollback DROP TABLE TEST_TABLE;
-
---changeset Juan Haugaard:31
---comment: Add trigger to table TEST_TABLE
-            CREATE TRIGGER TestTrigger AFTER INSERT,UPDATE,DELETE ON
-                TEST_TABLE FOR EACH ROW CALL 'com.tayrona.sakila.procedures.TestTrigger';
---rollback DROP TRIGGER TestTrigger;
-
---changeset Juan Haugaard:32
---comment: TEST_TABLE initial data
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries', 'Deleted Scenes']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries', 'Trailers']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Trailers']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Deleted Scenes']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Behind the Scenes']);
-            UPDATE TEST_TABLE SET FEATURES = ARRAY_APPEND(FEATURES, 'Deleted Scenes') WHERE ID=2;
-            UPDATE TEST_TABLE SET FEATURES = ARRAY_APPEND(FEATURES, 'Behind the Scenes') WHERE ID=2;
---rollback TRUNCATE TABLE TEST_TABLE;

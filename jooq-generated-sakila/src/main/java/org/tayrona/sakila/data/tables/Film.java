@@ -4,21 +4,15 @@
 package org.tayrona.sakila.data.tables;
 
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function15;
+import org.jooq.Function14;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row15;
+import org.jooq.Row14;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -33,6 +27,12 @@ import org.tayrona.sakila.data.Keys;
 import org.tayrona.sakila.data.Public;
 import org.tayrona.sakila.data.enums.MpaaRating;
 import org.tayrona.sakila.data.tables.records.FilmRecord;
+
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -108,26 +108,22 @@ public class Film extends TableImpl<FilmRecord> {
     public final TableField<FilmRecord, BigDecimal> REPLACEMENT_COST = createField(DSL.name("REPLACEMENT_COST"), SQLDataType.DECIMAL(5, 2).nullable(false).defaultValue(DSL.field("19.99", SQLDataType.DECIMAL)), this, "");
 
     /**
-     * The column <code>PUBLIC.FILM.BARCODE</code>.
+     * The column <code>PUBLIC.FILM.BARCODE</code>. UPC is barcode of length 12
+     * characters
      */
-    public final TableField<FilmRecord, String> BARCODE = createField(DSL.name("BARCODE"), SQLDataType.CHAR(20), this, "");
+    public final TableField<FilmRecord, String> BARCODE = createField(DSL.name("BARCODE"), org.tayrona.sakila.data.Domains.UPC.getDataType(), this, "UPC is barcode of length 12 characters");
 
     /**
-     * The column <code>PUBLIC.FILM.REVERSE_BARCODE</code>.
+     * The column <code>PUBLIC.FILM.REVERSE_BARCODE</code>. UPC is barcode of
+     * length 12 characters
      */
-    public final TableField<FilmRecord, String> REVERSE_BARCODE = createField(DSL.name("REVERSE_BARCODE"), SQLDataType.CHAR(20), this, "");
+    public final TableField<FilmRecord, String> REVERSE_BARCODE = createField(DSL.name("REVERSE_BARCODE"), org.tayrona.sakila.data.Domains.UPC.getDataType(), this, "UPC is barcode of length 12 characters");
 
     /**
      * The column <code>PUBLIC.FILM.RATING</code>. MPAA Rating ENUM
      * (G,PG,PG-13,R,NC-17)
      */
     public final TableField<FilmRecord, MpaaRating> RATING = createField(DSL.name("RATING"), SQLDataType.VARCHAR.defaultValue(DSL.field("'G'", SQLDataType.VARCHAR)).asEnumDataType(org.tayrona.sakila.data.enums.MpaaRating.class), this, "MPAA Rating ENUM (G,PG,PG-13,R,NC-17)");
-
-    /**
-     * The column <code>PUBLIC.FILM.SPECIAL_FEATURES</code>. Special features
-     * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
-     */
-    public final TableField<FilmRecord, String[]> SPECIAL_FEATURES = createField(DSL.name("SPECIAL_FEATURES"), SQLDataType.VARCHAR(200).getArrayDataType(), this, "Special features array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)");
 
     /**
      * The column <code>PUBLIC.FILM.LAST_UPDATE</code>.
@@ -257,18 +253,18 @@ public class Film extends TableImpl<FilmRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row15 type methods
+    // Row14 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, String[], OffsetDateTime> fieldsRow() {
-        return (Row15) super.fieldsRow();
+    public Row14<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, OffsetDateTime> fieldsRow() {
+        return (Row14) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function15<? super Long, ? super String, ? super String, ? super Short, ? super Long, ? super Long, ? super Byte, ? super BigDecimal, ? super Short, ? super BigDecimal, ? super String, ? super String, ? super MpaaRating, ? super String[], ? super OffsetDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function14<? super Long, ? super String, ? super String, ? super Short, ? super Long, ? super Long, ? super Byte, ? super BigDecimal, ? super Short, ? super BigDecimal, ? super String, ? super String, ? super MpaaRating, ? super OffsetDateTime, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -276,7 +272,7 @@ public class Film extends TableImpl<FilmRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function15<? super Long, ? super String, ? super String, ? super Short, ? super Long, ? super Long, ? super Byte, ? super BigDecimal, ? super Short, ? super BigDecimal, ? super String, ? super String, ? super MpaaRating, ? super String[], ? super OffsetDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function14<? super Long, ? super String, ? super String, ? super Short, ? super Long, ? super Long, ? super Byte, ? super BigDecimal, ? super Short, ? super BigDecimal, ? super String, ? super String, ? super MpaaRating, ? super OffsetDateTime, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

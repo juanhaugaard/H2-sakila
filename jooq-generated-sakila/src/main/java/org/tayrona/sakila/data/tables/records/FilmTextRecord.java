@@ -4,6 +4,13 @@
 package org.tayrona.sakila.data.tables.records;
 
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record3;
@@ -11,11 +18,21 @@ import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.FilmText;
 
+import javax.annotation.Nullable;
+
 
 /**
  * Film title and description table for fulltext search
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "FILM_TEXT",
+    schema = "PUBLIC",
+    indexes = {
+        @Index(name = "IDX_TITLE_DESCRIPTION", columnList = "TITLE ASC, DESCRIPTION ASC")
+    }
+)
 public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implements Record3<Long, String, String> {
 
     private static final long serialVersionUID = 1L;
@@ -30,6 +47,9 @@ public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implemen
     /**
      * Getter for <code>PUBLIC.FILM_TEXT.FILM_ID</code>.
      */
+    @Id
+    @Column(name = "FILM_ID", nullable = false)
+    @NotNull
     public Long getFilmId() {
         return (Long) get(0);
     }
@@ -44,6 +64,9 @@ public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implemen
     /**
      * Getter for <code>PUBLIC.FILM_TEXT.TITLE</code>.
      */
+    @Column(name = "TITLE", nullable = false, length = 255)
+    @NotNull
+    @Size(max = 255)
     public String getTitle() {
         return (String) get(1);
     }
@@ -51,13 +74,16 @@ public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implemen
     /**
      * Setter for <code>PUBLIC.FILM_TEXT.DESCRIPTION</code>.
      */
-    public void setDescription(String value) {
+    public void setDescription(@Nullable String value) {
         set(2, value);
     }
 
     /**
      * Getter for <code>PUBLIC.FILM_TEXT.DESCRIPTION</code>.
      */
+    @Column(name = "DESCRIPTION", length = 1000000000)
+    @Size(max = 1000000000)
+    @Nullable
     public String getDescription() {
         return (String) get(2);
     }
@@ -111,6 +137,7 @@ public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implemen
     }
 
     @Override
+    @Nullable
     public String component3() {
         return getDescription();
     }
@@ -126,6 +153,7 @@ public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implemen
     }
 
     @Override
+    @Nullable
     public String value3() {
         return getDescription();
     }
@@ -143,13 +171,13 @@ public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implemen
     }
 
     @Override
-    public FilmTextRecord value3(String value) {
+    public FilmTextRecord value3(@Nullable String value) {
         setDescription(value);
         return this;
     }
 
     @Override
-    public FilmTextRecord values(Long value1, String value2, String value3) {
+    public FilmTextRecord values(Long value1, String value2, @Nullable String value3) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -170,11 +198,24 @@ public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implemen
     /**
      * Create a detached, initialised FilmTextRecord
      */
-    public FilmTextRecord(Long filmId, String title, String description) {
+    public FilmTextRecord(Long filmId, String title, @Nullable String description) {
         super(FilmText.FILM_TEXT);
 
         setFilmId(filmId);
         setTitle(title);
         setDescription(description);
+    }
+
+    /**
+     * Create a detached, initialised FilmTextRecord
+     */
+    public FilmTextRecord(org.tayrona.sakila.data.tables.pojos.FilmText value) {
+        super(FilmText.FILM_TEXT);
+
+        if (value != null) {
+            setFilmId(value.getFilmId());
+            setTitle(value.getTitle());
+            setDescription(value.getDescription());
+        }
     }
 }

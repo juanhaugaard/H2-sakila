@@ -19,13 +19,12 @@ import org.jooq.impl.SQLDataType;
 public class Domains {
 
     /**
-     * The domain <code>PUBLIC.SPECIAL_FEATURES</code>.
+     * The domain <code>PUBLIC.UPC</code>.
      */
-    public static final Domain<Object[]> SPECIAL_FEATURES = Internal.createDomain(
+    public static final Domain<String> UPC = Internal.createDomain(
           schema()
-        , DSL.name("SPECIAL_FEATURES")
-        , SQLDataType.OTHER.getArrayDataType()
-        , Internal.createCheck(null, null, "EXISTS(    VALUES ('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes'))")
+        , DSL.name("UPC")
+        , SQLDataType.CHAR(12)
     );
 
     /**

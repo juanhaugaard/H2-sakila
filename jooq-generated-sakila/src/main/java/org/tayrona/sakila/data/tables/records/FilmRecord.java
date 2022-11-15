@@ -4,23 +4,43 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record15;
-import org.jooq.Row15;
+import org.jooq.Record14;
+import org.jooq.Row14;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.enums.MpaaRating;
 import org.tayrona.sakila.data.tables.Film;
+
+import javax.annotation.Nullable;
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 
 /**
  * Film details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Record15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, String[], OffsetDateTime> {
+@Entity
+@Table(
+    name = "FILM",
+    schema = "PUBLIC",
+    indexes = {
+        @Index(name = "IDX_BARCODE", columnList = "BARCODE ASC"),
+        @Index(name = "IDX_REVERSE_BARCODE", columnList = "REVERSE_BARCODE ASC"),
+        @Index(name = "IDX_TITLE", columnList = "TITLE ASC")
+    }
+)
+public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Record14<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,6 +54,9 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.FILM.FILM_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "FILM_ID", nullable = false)
     public Long getFilmId() {
         return (Long) get(0);
     }
@@ -48,6 +71,9 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.FILM.TITLE</code>.
      */
+    @Column(name = "TITLE", nullable = false, length = 255)
+    @NotNull
+    @Size(max = 255)
     public String getTitle() {
         return (String) get(1);
     }
@@ -55,13 +81,16 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Setter for <code>PUBLIC.FILM.DESCRIPTION</code>.
      */
-    public void setDescription(String value) {
+    public void setDescription(@Nullable String value) {
         set(2, value);
     }
 
     /**
      * Getter for <code>PUBLIC.FILM.DESCRIPTION</code>.
      */
+    @Column(name = "DESCRIPTION", length = 1000000000)
+    @Size(max = 1000000000)
+    @Nullable
     public String getDescription() {
         return (String) get(2);
     }
@@ -70,7 +99,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
      * Setter for <code>PUBLIC.FILM.RELEASE_YEAR</code>. YearValue a small int
      * between 1900 and 2155
      */
-    public void setReleaseYear(Short value) {
+    public void setReleaseYear(@Nullable Short value) {
         set(3, value);
     }
 
@@ -78,6 +107,8 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
      * Getter for <code>PUBLIC.FILM.RELEASE_YEAR</code>. YearValue a small int
      * between 1900 and 2155
      */
+    @Column(name = "RELEASE_YEAR")
+    @Nullable
     public Short getReleaseYear() {
         return (Short) get(3);
     }
@@ -92,6 +123,8 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.FILM.LANGUAGE_ID</code>.
      */
+    @Column(name = "LANGUAGE_ID", nullable = false)
+    @NotNull
     public Long getLanguageId() {
         return (Long) get(4);
     }
@@ -99,13 +132,15 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Setter for <code>PUBLIC.FILM.ORIGINAL_LANGUAGE_ID</code>.
      */
-    public void setOriginalLanguageId(Long value) {
+    public void setOriginalLanguageId(@Nullable Long value) {
         set(5, value);
     }
 
     /**
      * Getter for <code>PUBLIC.FILM.ORIGINAL_LANGUAGE_ID</code>.
      */
+    @Column(name = "ORIGINAL_LANGUAGE_ID")
+    @Nullable
     public Long getOriginalLanguageId() {
         return (Long) get(5);
     }
@@ -120,6 +155,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.FILM.RENTAL_DURATION</code>.
      */
+    @Column(name = "RENTAL_DURATION", nullable = false)
     public Byte getRentalDuration() {
         return (Byte) get(6);
     }
@@ -134,6 +170,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.FILM.RENTAL_RATE</code>.
      */
+    @Column(name = "RENTAL_RATE", nullable = false, precision = 4, scale = 2)
     public BigDecimal getRentalRate() {
         return (BigDecimal) get(7);
     }
@@ -141,13 +178,15 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Setter for <code>PUBLIC.FILM.LENGTH</code>.
      */
-    public void setLength(Short value) {
+    public void setLength(@Nullable Short value) {
         set(8, value);
     }
 
     /**
      * Getter for <code>PUBLIC.FILM.LENGTH</code>.
      */
+    @Column(name = "LENGTH")
+    @Nullable
     public Short getLength() {
         return (Short) get(8);
     }
@@ -162,34 +201,45 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Getter for <code>PUBLIC.FILM.REPLACEMENT_COST</code>.
      */
+    @Column(name = "REPLACEMENT_COST", nullable = false, precision = 5, scale = 2)
     public BigDecimal getReplacementCost() {
         return (BigDecimal) get(9);
     }
 
     /**
-     * Setter for <code>PUBLIC.FILM.BARCODE</code>.
+     * Setter for <code>PUBLIC.FILM.BARCODE</code>. UPC is barcode of length 12
+     * characters
      */
-    public void setBarcode(String value) {
+    public void setBarcode(@Nullable String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>PUBLIC.FILM.BARCODE</code>.
+     * Getter for <code>PUBLIC.FILM.BARCODE</code>. UPC is barcode of length 12
+     * characters
      */
+    @Column(name = "BARCODE", length = 12)
+    @Size(max = 12)
+    @Nullable
     public String getBarcode() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>PUBLIC.FILM.REVERSE_BARCODE</code>.
+     * Setter for <code>PUBLIC.FILM.REVERSE_BARCODE</code>. UPC is barcode of
+     * length 12 characters
      */
-    public void setReverseBarcode(String value) {
+    public void setReverseBarcode(@Nullable String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>PUBLIC.FILM.REVERSE_BARCODE</code>.
+     * Getter for <code>PUBLIC.FILM.REVERSE_BARCODE</code>. UPC is barcode of
+     * length 12 characters
      */
+    @Column(name = "REVERSE_BARCODE", length = 12)
+    @Size(max = 12)
+    @Nullable
     public String getReverseBarcode() {
         return (String) get(11);
     }
@@ -198,7 +248,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
      * Setter for <code>PUBLIC.FILM.RATING</code>. MPAA Rating ENUM
      * (G,PG,PG-13,R,NC-17)
      */
-    public void setRating(MpaaRating value) {
+    public void setRating(@Nullable MpaaRating value) {
         set(12, value);
     }
 
@@ -206,38 +256,25 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
      * Getter for <code>PUBLIC.FILM.RATING</code>. MPAA Rating ENUM
      * (G,PG,PG-13,R,NC-17)
      */
+    @Column(name = "RATING")
+    @Nullable
     public MpaaRating getRating() {
         return (MpaaRating) get(12);
-    }
-
-    /**
-     * Setter for <code>PUBLIC.FILM.SPECIAL_FEATURES</code>. Special features
-     * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
-     */
-    public void setSpecialFeatures(String[] value) {
-        set(13, value);
-    }
-
-    /**
-     * Getter for <code>PUBLIC.FILM.SPECIAL_FEATURES</code>. Special features
-     * array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)
-     */
-    public String[] getSpecialFeatures() {
-        return (String[]) get(13);
     }
 
     /**
      * Setter for <code>PUBLIC.FILM.LAST_UPDATE</code>.
      */
     public void setLastUpdate(OffsetDateTime value) {
-        set(14, value);
+        set(13, value);
     }
 
     /**
      * Getter for <code>PUBLIC.FILM.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
-        return (OffsetDateTime) get(14);
+        return (OffsetDateTime) get(13);
     }
 
     // -------------------------------------------------------------------------
@@ -250,17 +287,17 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     // -------------------------------------------------------------------------
-    // Record15 type implementation
+    // Record14 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, String[], OffsetDateTime> fieldsRow() {
-        return (Row15) super.fieldsRow();
+    public Row14<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, OffsetDateTime> fieldsRow() {
+        return (Row14) super.fieldsRow();
     }
 
     @Override
-    public Row15<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, String[], OffsetDateTime> valuesRow() {
-        return (Row15) super.valuesRow();
+    public Row14<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, OffsetDateTime> valuesRow() {
+        return (Row14) super.valuesRow();
     }
 
     @Override
@@ -329,12 +366,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public Field<String[]> field14() {
-        return Film.FILM.SPECIAL_FEATURES;
-    }
-
-    @Override
-    public Field<OffsetDateTime> field15() {
+    public Field<OffsetDateTime> field14() {
         return Film.FILM.LAST_UPDATE;
     }
 
@@ -349,11 +381,13 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
+    @Nullable
     public String component3() {
         return getDescription();
     }
 
     @Override
+    @Nullable
     public Short component4() {
         return getReleaseYear();
     }
@@ -364,6 +398,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
+    @Nullable
     public Long component6() {
         return getOriginalLanguageId();
     }
@@ -379,6 +414,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
+    @Nullable
     public Short component9() {
         return getLength();
     }
@@ -389,27 +425,25 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
+    @Nullable
     public String component11() {
         return getBarcode();
     }
 
     @Override
+    @Nullable
     public String component12() {
         return getReverseBarcode();
     }
 
     @Override
+    @Nullable
     public MpaaRating component13() {
         return getRating();
     }
 
     @Override
-    public String[] component14() {
-        return getSpecialFeatures();
-    }
-
-    @Override
-    public OffsetDateTime component15() {
+    public OffsetDateTime component14() {
         return getLastUpdate();
     }
 
@@ -424,11 +458,13 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
+    @Nullable
     public String value3() {
         return getDescription();
     }
 
     @Override
+    @Nullable
     public Short value4() {
         return getReleaseYear();
     }
@@ -439,6 +475,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
+    @Nullable
     public Long value6() {
         return getOriginalLanguageId();
     }
@@ -454,6 +491,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
+    @Nullable
     public Short value9() {
         return getLength();
     }
@@ -464,27 +502,25 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
+    @Nullable
     public String value11() {
         return getBarcode();
     }
 
     @Override
+    @Nullable
     public String value12() {
         return getReverseBarcode();
     }
 
     @Override
+    @Nullable
     public MpaaRating value13() {
         return getRating();
     }
 
     @Override
-    public String[] value14() {
-        return getSpecialFeatures();
-    }
-
-    @Override
-    public OffsetDateTime value15() {
+    public OffsetDateTime value14() {
         return getLastUpdate();
     }
 
@@ -501,13 +537,13 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public FilmRecord value3(String value) {
+    public FilmRecord value3(@Nullable String value) {
         setDescription(value);
         return this;
     }
 
     @Override
-    public FilmRecord value4(Short value) {
+    public FilmRecord value4(@Nullable Short value) {
         setReleaseYear(value);
         return this;
     }
@@ -519,7 +555,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public FilmRecord value6(Long value) {
+    public FilmRecord value6(@Nullable Long value) {
         setOriginalLanguageId(value);
         return this;
     }
@@ -537,7 +573,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public FilmRecord value9(Short value) {
+    public FilmRecord value9(@Nullable Short value) {
         setLength(value);
         return this;
     }
@@ -549,37 +585,31 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     }
 
     @Override
-    public FilmRecord value11(String value) {
+    public FilmRecord value11(@Nullable String value) {
         setBarcode(value);
         return this;
     }
 
     @Override
-    public FilmRecord value12(String value) {
+    public FilmRecord value12(@Nullable String value) {
         setReverseBarcode(value);
         return this;
     }
 
     @Override
-    public FilmRecord value13(MpaaRating value) {
+    public FilmRecord value13(@Nullable MpaaRating value) {
         setRating(value);
         return this;
     }
 
     @Override
-    public FilmRecord value14(String[] value) {
-        setSpecialFeatures(value);
-        return this;
-    }
-
-    @Override
-    public FilmRecord value15(OffsetDateTime value) {
+    public FilmRecord value14(OffsetDateTime value) {
         setLastUpdate(value);
         return this;
     }
 
     @Override
-    public FilmRecord values(Long value1, String value2, String value3, Short value4, Long value5, Long value6, Byte value7, BigDecimal value8, Short value9, BigDecimal value10, String value11, String value12, MpaaRating value13, String[] value14, OffsetDateTime value15) {
+    public FilmRecord values(Long value1, String value2, @Nullable String value3, @Nullable Short value4, Long value5, @Nullable Long value6, Byte value7, BigDecimal value8, @Nullable Short value9, BigDecimal value10, @Nullable String value11, @Nullable String value12, @Nullable MpaaRating value13, OffsetDateTime value14) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -594,7 +624,6 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
         value12(value12);
         value13(value13);
         value14(value14);
-        value15(value15);
         return this;
     }
 
@@ -612,7 +641,7 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
     /**
      * Create a detached, initialised FilmRecord
      */
-    public FilmRecord(Long filmId, String title, String description, Short releaseYear, Long languageId, Long originalLanguageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, String barcode, String reverseBarcode, MpaaRating rating, String[] specialFeatures, OffsetDateTime lastUpdate) {
+    public FilmRecord(Long filmId, String title, @Nullable String description, @Nullable Short releaseYear, Long languageId, @Nullable Long originalLanguageId, Byte rentalDuration, BigDecimal rentalRate, @Nullable Short length, BigDecimal replacementCost, @Nullable String barcode, @Nullable String reverseBarcode, @Nullable MpaaRating rating, OffsetDateTime lastUpdate) {
         super(Film.FILM);
 
         setFilmId(filmId);
@@ -628,7 +657,30 @@ public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Recor
         setBarcode(barcode);
         setReverseBarcode(reverseBarcode);
         setRating(rating);
-        setSpecialFeatures(specialFeatures);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised FilmRecord
+     */
+    public FilmRecord(org.tayrona.sakila.data.tables.pojos.Film value) {
+        super(Film.FILM);
+
+        if (value != null) {
+            setFilmId(value.getFilmId());
+            setTitle(value.getTitle());
+            setDescription(value.getDescription());
+            setReleaseYear(value.getReleaseYear());
+            setLanguageId(value.getLanguageId());
+            setOriginalLanguageId(value.getOriginalLanguageId());
+            setRentalDuration(value.getRentalDuration());
+            setRentalRate(value.getRentalRate());
+            setLength(value.getLength());
+            setReplacementCost(value.getReplacementCost());
+            setBarcode(value.getBarcode());
+            setReverseBarcode(value.getReverseBarcode());
+            setRating(value.getRating());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

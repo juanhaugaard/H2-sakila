@@ -4,10 +4,13 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record7;
@@ -15,11 +18,21 @@ import org.jooq.Row7;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Payment;
 
+import javax.annotation.Nullable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 
 /**
  * Payment details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "PAYMENT",
+    schema = "PUBLIC"
+)
 public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements Record7<Long, Long, Long, Long, BigDecimal, LocalDateTime, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -34,6 +47,9 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     /**
      * Getter for <code>PUBLIC.PAYMENT.PAYMENT_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PAYMENT_ID", nullable = false)
     public Long getPaymentId() {
         return (Long) get(0);
     }
@@ -48,6 +64,8 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     /**
      * Getter for <code>PUBLIC.PAYMENT.CUSTOMER_ID</code>.
      */
+    @Column(name = "CUSTOMER_ID", nullable = false)
+    @NotNull
     public Long getCustomerId() {
         return (Long) get(1);
     }
@@ -62,6 +80,8 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     /**
      * Getter for <code>PUBLIC.PAYMENT.STAFF_ID</code>.
      */
+    @Column(name = "STAFF_ID", nullable = false)
+    @NotNull
     public Long getStaffId() {
         return (Long) get(2);
     }
@@ -69,13 +89,15 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     /**
      * Setter for <code>PUBLIC.PAYMENT.RENTAL_ID</code>.
      */
-    public void setRentalId(Long value) {
+    public void setRentalId(@Nullable Long value) {
         set(3, value);
     }
 
     /**
      * Getter for <code>PUBLIC.PAYMENT.RENTAL_ID</code>.
      */
+    @Column(name = "RENTAL_ID")
+    @Nullable
     public Long getRentalId() {
         return (Long) get(3);
     }
@@ -90,6 +112,8 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     /**
      * Getter for <code>PUBLIC.PAYMENT.AMOUNT</code>.
      */
+    @Column(name = "AMOUNT", nullable = false, precision = 5, scale = 2)
+    @NotNull
     public BigDecimal getAmount() {
         return (BigDecimal) get(4);
     }
@@ -104,6 +128,8 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     /**
      * Getter for <code>PUBLIC.PAYMENT.PAYMENT_DATE</code>.
      */
+    @Column(name = "PAYMENT_DATE", nullable = false, precision = 6)
+    @NotNull
     public LocalDateTime getPaymentDate() {
         return (LocalDateTime) get(5);
     }
@@ -118,6 +144,7 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     /**
      * Getter for <code>PUBLIC.PAYMENT.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(6);
     }
@@ -196,6 +223,7 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     }
 
     @Override
+    @Nullable
     public Long component4() {
         return getRentalId();
     }
@@ -231,6 +259,7 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     }
 
     @Override
+    @Nullable
     public Long value4() {
         return getRentalId();
     }
@@ -269,7 +298,7 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     }
 
     @Override
-    public PaymentRecord value4(Long value) {
+    public PaymentRecord value4(@Nullable Long value) {
         setRentalId(value);
         return this;
     }
@@ -293,7 +322,7 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     }
 
     @Override
-    public PaymentRecord values(Long value1, Long value2, Long value3, Long value4, BigDecimal value5, LocalDateTime value6, OffsetDateTime value7) {
+    public PaymentRecord values(Long value1, Long value2, Long value3, @Nullable Long value4, BigDecimal value5, LocalDateTime value6, OffsetDateTime value7) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -318,7 +347,7 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
     /**
      * Create a detached, initialised PaymentRecord
      */
-    public PaymentRecord(Long paymentId, Long customerId, Long staffId, Long rentalId, BigDecimal amount, LocalDateTime paymentDate, OffsetDateTime lastUpdate) {
+    public PaymentRecord(Long paymentId, Long customerId, Long staffId, @Nullable Long rentalId, BigDecimal amount, LocalDateTime paymentDate, OffsetDateTime lastUpdate) {
         super(Payment.PAYMENT);
 
         setPaymentId(paymentId);
@@ -328,5 +357,22 @@ public class PaymentRecord extends UpdatableRecordImpl<PaymentRecord> implements
         setAmount(amount);
         setPaymentDate(paymentDate);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised PaymentRecord
+     */
+    public PaymentRecord(org.tayrona.sakila.data.tables.pojos.Payment value) {
+        super(Payment.PAYMENT);
+
+        if (value != null) {
+            setPaymentId(value.getPaymentId());
+            setCustomerId(value.getCustomerId());
+            setStaffId(value.getStaffId());
+            setRentalId(value.getRentalId());
+            setAmount(value.getAmount());
+            setPaymentDate(value.getPaymentDate());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

@@ -4,6 +4,14 @@
 package org.tayrona.sakila.data.tables.records;
 
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record4;
@@ -11,6 +19,7 @@ import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Country;
 
+import javax.annotation.Nullable;
 import java.time.OffsetDateTime;
 
 
@@ -18,6 +27,11 @@ import java.time.OffsetDateTime;
  * Country details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "COUNTRY",
+    schema = "PUBLIC"
+)
 public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements Record4<Long, String, String, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +46,9 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     /**
      * Getter for <code>PUBLIC.COUNTRY.COUNTRY_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COUNTRY_ID", nullable = false)
     public Long getCountryId() {
         return (Long) get(0);
     }
@@ -46,6 +63,9 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     /**
      * Getter for <code>PUBLIC.COUNTRY.COUNTRY</code>.
      */
+    @Column(name = "COUNTRY", nullable = false, length = 50)
+    @NotNull
+    @Size(max = 50)
     public String getCountry() {
         return (String) get(1);
     }
@@ -53,13 +73,16 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     /**
      * Setter for <code>PUBLIC.COUNTRY.COUNTRY_ABBREVIATION</code>.
      */
-    public void setCountryAbbreviation(String value) {
+    public void setCountryAbbreviation(@Nullable String value) {
         set(2, value);
     }
 
     /**
      * Getter for <code>PUBLIC.COUNTRY.COUNTRY_ABBREVIATION</code>.
      */
+    @Column(name = "COUNTRY_ABBREVIATION", length = 5)
+    @Size(max = 5)
+    @Nullable
     public String getCountryAbbreviation() {
         return (String) get(2);
     }
@@ -74,6 +97,7 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     /**
      * Getter for <code>PUBLIC.COUNTRY.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(3);
     }
@@ -132,6 +156,7 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     @Override
+    @Nullable
     public String component3() {
         return getCountryAbbreviation();
     }
@@ -152,6 +177,7 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     @Override
+    @Nullable
     public String value3() {
         return getCountryAbbreviation();
     }
@@ -174,7 +200,7 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     @Override
-    public CountryRecord value3(String value) {
+    public CountryRecord value3(@Nullable String value) {
         setCountryAbbreviation(value);
         return this;
     }
@@ -186,7 +212,7 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     }
 
     @Override
-    public CountryRecord values(Long value1, String value2, String value3, OffsetDateTime value4) {
+    public CountryRecord values(Long value1, String value2, @Nullable String value3, OffsetDateTime value4) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -208,12 +234,26 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord> implements
     /**
      * Create a detached, initialised CountryRecord
      */
-    public CountryRecord(Long countryId, String country, String countryAbbreviation, OffsetDateTime lastUpdate) {
+    public CountryRecord(Long countryId, String country, @Nullable String countryAbbreviation, OffsetDateTime lastUpdate) {
         super(Country.COUNTRY);
 
         setCountryId(countryId);
         setCountry(country);
         setCountryAbbreviation(countryAbbreviation);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised CountryRecord
+     */
+    public CountryRecord(org.tayrona.sakila.data.tables.pojos.Country value) {
+        super(Country.COUNTRY);
+
+        if (value != null) {
+            setCountryId(value.getCountryId());
+            setCountry(value.getCountry());
+            setCountryAbbreviation(value.getCountryAbbreviation());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

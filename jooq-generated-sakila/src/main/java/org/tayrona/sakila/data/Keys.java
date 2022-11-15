@@ -25,7 +25,6 @@ import org.tayrona.sakila.data.tables.Payment;
 import org.tayrona.sakila.data.tables.Rental;
 import org.tayrona.sakila.data.tables.Staff;
 import org.tayrona.sakila.data.tables.Store;
-import org.tayrona.sakila.data.tables.TestTable;
 import org.tayrona.sakila.data.tables.records.ActorRecord;
 import org.tayrona.sakila.data.tables.records.AddressRecord;
 import org.tayrona.sakila.data.tables.records.CategoryRecord;
@@ -42,7 +41,6 @@ import org.tayrona.sakila.data.tables.records.PaymentRecord;
 import org.tayrona.sakila.data.tables.records.RentalRecord;
 import org.tayrona.sakila.data.tables.records.StaffRecord;
 import org.tayrona.sakila.data.tables.records.StoreRecord;
-import org.tayrona.sakila.data.tables.records.TestTableRecord;
 
 
 /**
@@ -58,6 +56,7 @@ public class Keys {
 
     public static final UniqueKey<ActorRecord> PK_ACTOR = Internal.createUniqueKey(Actor.ACTOR, DSL.name("PK_ACTOR"), new TableField[] { Actor.ACTOR.ACTOR_ID }, true);
     public static final UniqueKey<AddressRecord> PK_ADDRESS = Internal.createUniqueKey(Address.ADDRESS, DSL.name("PK_ADDRESS"), new TableField[] { Address.ADDRESS.ADDRESS_ID }, true);
+    public static final UniqueKey<CategoryRecord> IDX_CATEGORY_NAME = Internal.createUniqueKey(Category.CATEGORY, DSL.name("IDX_CATEGORY_NAME"), new TableField[] { Category.CATEGORY.NAME }, true);
     public static final UniqueKey<CategoryRecord> PK_CATEGORY = Internal.createUniqueKey(Category.CATEGORY, DSL.name("PK_CATEGORY"), new TableField[] { Category.CATEGORY.CATEGORY_ID }, true);
     public static final UniqueKey<CityRecord> PK_CITY = Internal.createUniqueKey(City.CITY, DSL.name("PK_CITY"), new TableField[] { City.CITY.CITY_ID }, true);
     public static final UniqueKey<CountryRecord> PK_COUNTRY = Internal.createUniqueKey(Country.COUNTRY, DSL.name("PK_COUNTRY"), new TableField[] { Country.COUNTRY.COUNTRY_ID }, true);
@@ -73,7 +72,6 @@ public class Keys {
     public static final UniqueKey<StaffRecord> PK_STAFF = Internal.createUniqueKey(Staff.STAFF, DSL.name("PK_STAFF"), new TableField[] { Staff.STAFF.STAFF_ID }, true);
     public static final UniqueKey<StoreRecord> IDX_UNIQUE_MANAGER = Internal.createUniqueKey(Store.STORE, DSL.name("IDX_UNIQUE_MANAGER"), new TableField[] { Store.STORE.MANAGER_STAFF_ID }, true);
     public static final UniqueKey<StoreRecord> PK_STORE = Internal.createUniqueKey(Store.STORE, DSL.name("PK_STORE"), new TableField[] { Store.STORE.STORE_ID }, true);
-    public static final UniqueKey<TestTableRecord> PK_TESTTABLE = Internal.createUniqueKey(TestTable.TEST_TABLE, DSL.name("PK_TESTTABLE"), new TableField[] { TestTable.TEST_TABLE.ID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions

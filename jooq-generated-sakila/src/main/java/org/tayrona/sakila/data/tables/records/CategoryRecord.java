@@ -4,8 +4,15 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record3;
@@ -13,11 +20,21 @@ import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Category;
 
+import java.time.OffsetDateTime;
+
 
 /**
  * Category details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "CATEGORY",
+    schema = "PUBLIC",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "IDX_CATEGORY_NAME", columnNames = { "NAME" })
+    }
+)
 public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implements Record3<Long, String, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +49,9 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     /**
      * Getter for <code>PUBLIC.CATEGORY.CATEGORY_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CATEGORY_ID", nullable = false)
     public Long getCategoryId() {
         return (Long) get(0);
     }
@@ -46,6 +66,9 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     /**
      * Getter for <code>PUBLIC.CATEGORY.NAME</code>.
      */
+    @Column(name = "NAME", nullable = false, length = 25)
+    @NotNull
+    @Size(max = 25)
     public String getName() {
         return (String) get(1);
     }
@@ -60,6 +83,7 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     /**
      * Getter for <code>PUBLIC.CATEGORY.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(2);
     }
@@ -178,5 +202,18 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
         setCategoryId(categoryId);
         setName(name);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised CategoryRecord
+     */
+    public CategoryRecord(org.tayrona.sakila.data.tables.pojos.Category value) {
+        super(Category.CATEGORY);
+
+        if (value != null) {
+            setCategoryId(value.getCategoryId());
+            setName(value.getName());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

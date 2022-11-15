@@ -4,8 +4,10 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import org.jooq.Field;
 import org.jooq.Record2;
 import org.jooq.Record3;
@@ -13,11 +15,18 @@ import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.FilmActor;
 
+import java.time.OffsetDateTime;
+
 
 /**
  * Film Actor cross-reference table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "FILM_ACTOR",
+    schema = "PUBLIC"
+)
 public class FilmActorRecord extends UpdatableRecordImpl<FilmActorRecord> implements Record3<Long, Long, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +41,8 @@ public class FilmActorRecord extends UpdatableRecordImpl<FilmActorRecord> implem
     /**
      * Getter for <code>PUBLIC.FILM_ACTOR.ACTOR_ID</code>.
      */
+    @Column(name = "ACTOR_ID", nullable = false)
+    @NotNull
     public Long getActorId() {
         return (Long) get(0);
     }
@@ -46,6 +57,8 @@ public class FilmActorRecord extends UpdatableRecordImpl<FilmActorRecord> implem
     /**
      * Getter for <code>PUBLIC.FILM_ACTOR.FILM_ID</code>.
      */
+    @Column(name = "FILM_ID", nullable = false)
+    @NotNull
     public Long getFilmId() {
         return (Long) get(1);
     }
@@ -60,6 +73,7 @@ public class FilmActorRecord extends UpdatableRecordImpl<FilmActorRecord> implem
     /**
      * Getter for <code>PUBLIC.FILM_ACTOR.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(2);
     }
@@ -178,5 +192,18 @@ public class FilmActorRecord extends UpdatableRecordImpl<FilmActorRecord> implem
         setActorId(actorId);
         setFilmId(filmId);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised FilmActorRecord
+     */
+    public FilmActorRecord(org.tayrona.sakila.data.tables.pojos.FilmActor value) {
+        super(FilmActor.FILM_ACTOR);
+
+        if (value != null) {
+            setActorId(value.getActorId());
+            setFilmId(value.getFilmId());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

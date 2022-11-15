@@ -4,8 +4,10 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import org.jooq.Field;
 import org.jooq.Record2;
 import org.jooq.Record3;
@@ -13,11 +15,18 @@ import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.FilmCategory;
 
+import java.time.OffsetDateTime;
+
 
 /**
  * Film Category cross-reference table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "FILM_CATEGORY",
+    schema = "PUBLIC"
+)
 public class FilmCategoryRecord extends UpdatableRecordImpl<FilmCategoryRecord> implements Record3<Long, Long, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +41,8 @@ public class FilmCategoryRecord extends UpdatableRecordImpl<FilmCategoryRecord> 
     /**
      * Getter for <code>PUBLIC.FILM_CATEGORY.FILM_ID</code>.
      */
+    @Column(name = "FILM_ID", nullable = false)
+    @NotNull
     public Long getFilmId() {
         return (Long) get(0);
     }
@@ -46,6 +57,8 @@ public class FilmCategoryRecord extends UpdatableRecordImpl<FilmCategoryRecord> 
     /**
      * Getter for <code>PUBLIC.FILM_CATEGORY.CATEGORY_ID</code>.
      */
+    @Column(name = "CATEGORY_ID", nullable = false)
+    @NotNull
     public Long getCategoryId() {
         return (Long) get(1);
     }
@@ -60,6 +73,7 @@ public class FilmCategoryRecord extends UpdatableRecordImpl<FilmCategoryRecord> 
     /**
      * Getter for <code>PUBLIC.FILM_CATEGORY.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(2);
     }
@@ -178,5 +192,18 @@ public class FilmCategoryRecord extends UpdatableRecordImpl<FilmCategoryRecord> 
         setFilmId(filmId);
         setCategoryId(categoryId);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised FilmCategoryRecord
+     */
+    public FilmCategoryRecord(org.tayrona.sakila.data.tables.pojos.FilmCategory value) {
+        super(FilmCategory.FILM_CATEGORY);
+
+        if (value != null) {
+            setFilmId(value.getFilmId());
+            setCategoryId(value.getCategoryId());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

@@ -4,8 +4,14 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record3;
@@ -13,11 +19,18 @@ import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Language;
 
+import java.time.OffsetDateTime;
+
 
 /**
  * Language details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "LANGUAGE",
+    schema = "PUBLIC"
+)
 public class LanguageRecord extends UpdatableRecordImpl<LanguageRecord> implements Record3<Long, String, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +45,9 @@ public class LanguageRecord extends UpdatableRecordImpl<LanguageRecord> implemen
     /**
      * Getter for <code>PUBLIC.LANGUAGE.LANGUAGE_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "LANGUAGE_ID", nullable = false)
     public Long getLanguageId() {
         return (Long) get(0);
     }
@@ -46,6 +62,9 @@ public class LanguageRecord extends UpdatableRecordImpl<LanguageRecord> implemen
     /**
      * Getter for <code>PUBLIC.LANGUAGE.NAME</code>.
      */
+    @Column(name = "NAME", nullable = false, length = 20)
+    @NotNull
+    @Size(max = 20)
     public String getName() {
         return (String) get(1);
     }
@@ -60,6 +79,7 @@ public class LanguageRecord extends UpdatableRecordImpl<LanguageRecord> implemen
     /**
      * Getter for <code>PUBLIC.LANGUAGE.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(2);
     }
@@ -178,5 +198,18 @@ public class LanguageRecord extends UpdatableRecordImpl<LanguageRecord> implemen
         setLanguageId(languageId);
         setName(name);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised LanguageRecord
+     */
+    public LanguageRecord(org.tayrona.sakila.data.tables.pojos.Language value) {
+        super(Language.LANGUAGE);
+
+        if (value != null) {
+            setLanguageId(value.getLanguageId());
+            setName(value.getName());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

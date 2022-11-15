@@ -4,8 +4,14 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record4;
@@ -13,11 +19,18 @@ import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Actor;
 
+import java.time.OffsetDateTime;
+
 
 /**
  * Actor details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "ACTOR",
+    schema = "PUBLIC"
+)
 public class ActorRecord extends UpdatableRecordImpl<ActorRecord> implements Record4<Long, String, String, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +45,9 @@ public class ActorRecord extends UpdatableRecordImpl<ActorRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.ACTOR.ACTOR_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ACTOR_ID", nullable = false)
     public Long getActorId() {
         return (Long) get(0);
     }
@@ -46,6 +62,9 @@ public class ActorRecord extends UpdatableRecordImpl<ActorRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.ACTOR.FIRST_NAME</code>.
      */
+    @Column(name = "FIRST_NAME", nullable = false, length = 45)
+    @NotNull
+    @Size(max = 45)
     public String getFirstName() {
         return (String) get(1);
     }
@@ -60,6 +79,9 @@ public class ActorRecord extends UpdatableRecordImpl<ActorRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.ACTOR.LAST_NAME</code>.
      */
+    @Column(name = "LAST_NAME", nullable = false, length = 45)
+    @NotNull
+    @Size(max = 45)
     public String getLastName() {
         return (String) get(2);
     }
@@ -74,6 +96,7 @@ public class ActorRecord extends UpdatableRecordImpl<ActorRecord> implements Rec
     /**
      * Getter for <code>PUBLIC.ACTOR.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(3);
     }
@@ -215,5 +238,19 @@ public class ActorRecord extends UpdatableRecordImpl<ActorRecord> implements Rec
         setFirstName(firstName);
         setLastName(lastName);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised ActorRecord
+     */
+    public ActorRecord(org.tayrona.sakila.data.tables.pojos.Actor value) {
+        super(Actor.ACTOR);
+
+        if (value != null) {
+            setActorId(value.getActorId());
+            setFirstName(value.getFirstName());
+            setLastName(value.getLastName());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

@@ -4,8 +4,14 @@
 package org.tayrona.sakila.data.tables.records;
 
 
-import java.time.OffsetDateTime;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record8;
@@ -13,11 +19,19 @@ import org.jooq.Row8;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Address;
 
+import javax.annotation.Nullable;
+import java.time.OffsetDateTime;
+
 
 /**
  * Address details table
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@Entity
+@Table(
+    name = "ADDRESS",
+    schema = "PUBLIC"
+)
 public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements Record8<Long, String, String, String, Long, String, String, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +46,9 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     /**
      * Getter for <code>PUBLIC.ADDRESS.ADDRESS_ID</code>.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ADDRESS_ID", nullable = false)
     public Long getAddressId() {
         return (Long) get(0);
     }
@@ -46,6 +63,9 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     /**
      * Getter for <code>PUBLIC.ADDRESS.ADDRESS</code>.
      */
+    @Column(name = "ADDRESS", nullable = false, length = 50)
+    @NotNull
+    @Size(max = 50)
     public String getAddress() {
         return (String) get(1);
     }
@@ -53,13 +73,16 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     /**
      * Setter for <code>PUBLIC.ADDRESS.ADDRESS2</code>.
      */
-    public void setAddress2(String value) {
+    public void setAddress2(@Nullable String value) {
         set(2, value);
     }
 
     /**
      * Getter for <code>PUBLIC.ADDRESS.ADDRESS2</code>.
      */
+    @Column(name = "ADDRESS2", length = 50)
+    @Size(max = 50)
+    @Nullable
     public String getAddress2() {
         return (String) get(2);
     }
@@ -67,13 +90,16 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     /**
      * Setter for <code>PUBLIC.ADDRESS.DISTRICT</code>.
      */
-    public void setDistrict(String value) {
+    public void setDistrict(@Nullable String value) {
         set(3, value);
     }
 
     /**
      * Getter for <code>PUBLIC.ADDRESS.DISTRICT</code>.
      */
+    @Column(name = "DISTRICT", length = 50)
+    @Size(max = 50)
+    @Nullable
     public String getDistrict() {
         return (String) get(3);
     }
@@ -88,6 +114,8 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     /**
      * Getter for <code>PUBLIC.ADDRESS.CITY_ID</code>.
      */
+    @Column(name = "CITY_ID", nullable = false)
+    @NotNull
     public Long getCityId() {
         return (Long) get(4);
     }
@@ -95,13 +123,16 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     /**
      * Setter for <code>PUBLIC.ADDRESS.POSTAL_CODE</code>.
      */
-    public void setPostalCode(String value) {
+    public void setPostalCode(@Nullable String value) {
         set(5, value);
     }
 
     /**
      * Getter for <code>PUBLIC.ADDRESS.POSTAL_CODE</code>.
      */
+    @Column(name = "POSTAL_CODE", length = 10)
+    @Size(max = 10)
+    @Nullable
     public String getPostalCode() {
         return (String) get(5);
     }
@@ -116,6 +147,9 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     /**
      * Getter for <code>PUBLIC.ADDRESS.PHONE</code>.
      */
+    @Column(name = "PHONE", nullable = false, length = 20)
+    @NotNull
+    @Size(max = 20)
     public String getPhone() {
         return (String) get(6);
     }
@@ -130,6 +164,7 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     /**
      * Getter for <code>PUBLIC.ADDRESS.LAST_UPDATE</code>.
      */
+    @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
     public OffsetDateTime getLastUpdate() {
         return (OffsetDateTime) get(7);
     }
@@ -208,11 +243,13 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     }
 
     @Override
+    @Nullable
     public String component3() {
         return getAddress2();
     }
 
     @Override
+    @Nullable
     public String component4() {
         return getDistrict();
     }
@@ -223,6 +260,7 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     }
 
     @Override
+    @Nullable
     public String component6() {
         return getPostalCode();
     }
@@ -248,11 +286,13 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     }
 
     @Override
+    @Nullable
     public String value3() {
         return getAddress2();
     }
 
     @Override
+    @Nullable
     public String value4() {
         return getDistrict();
     }
@@ -263,6 +303,7 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     }
 
     @Override
+    @Nullable
     public String value6() {
         return getPostalCode();
     }
@@ -290,13 +331,13 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     }
 
     @Override
-    public AddressRecord value3(String value) {
+    public AddressRecord value3(@Nullable String value) {
         setAddress2(value);
         return this;
     }
 
     @Override
-    public AddressRecord value4(String value) {
+    public AddressRecord value4(@Nullable String value) {
         setDistrict(value);
         return this;
     }
@@ -308,7 +349,7 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     }
 
     @Override
-    public AddressRecord value6(String value) {
+    public AddressRecord value6(@Nullable String value) {
         setPostalCode(value);
         return this;
     }
@@ -326,7 +367,7 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     }
 
     @Override
-    public AddressRecord values(Long value1, String value2, String value3, String value4, Long value5, String value6, String value7, OffsetDateTime value8) {
+    public AddressRecord values(Long value1, String value2, @Nullable String value3, @Nullable String value4, Long value5, @Nullable String value6, String value7, OffsetDateTime value8) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -352,7 +393,7 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
     /**
      * Create a detached, initialised AddressRecord
      */
-    public AddressRecord(Long addressId, String address, String address2, String district, Long cityId, String postalCode, String phone, OffsetDateTime lastUpdate) {
+    public AddressRecord(Long addressId, String address, @Nullable String address2, @Nullable String district, Long cityId, @Nullable String postalCode, String phone, OffsetDateTime lastUpdate) {
         super(Address.ADDRESS);
 
         setAddressId(addressId);
@@ -363,5 +404,23 @@ public class AddressRecord extends UpdatableRecordImpl<AddressRecord> implements
         setPostalCode(postalCode);
         setPhone(phone);
         setLastUpdate(lastUpdate);
+    }
+
+    /**
+     * Create a detached, initialised AddressRecord
+     */
+    public AddressRecord(org.tayrona.sakila.data.tables.pojos.Address value) {
+        super(Address.ADDRESS);
+
+        if (value != null) {
+            setAddressId(value.getAddressId());
+            setAddress(value.getAddress());
+            setAddress2(value.getAddress2());
+            setDistrict(value.getDistrict());
+            setCityId(value.getCityId());
+            setPostalCode(value.getPostalCode());
+            setPhone(value.getPhone());
+            setLastUpdate(value.getLastUpdate());
+        }
     }
 }

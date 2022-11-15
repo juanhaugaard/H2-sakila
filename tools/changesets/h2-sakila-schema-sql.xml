@@ -43,15 +43,14 @@
         </rollback>
     </changeSet>
     <changeSet id="4" author="Juan Haugaard">
-        <comment>Create domain special_features</comment>
+        <comment>Create domain UPC for 12 character barcodes</comment>
         <sql>
-            CREATE DOMAIN SPECIAL_FEATURES AS VARCHAR(200) ARRAY[4]
-            COMMENT 'Special features array (Trailers, Commentaries, Deleted Scenes, Behind the Scenes)'
-            CHECK(EXISTS(VALUES ('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')));
+            CREATE DOMAIN UPC AS CHAR(12)
+            COMMENT 'UPC is barcode of length 12 characters';
         </sql>
         <rollback>
             <sql>
-                DROP DOMAIN SPECIAL_FEATURES;
+                DROP DOMAIN UPC;
             </sql>
         </rollback>
     </changeSet>
@@ -73,11 +72,11 @@
     <changeSet id="6" author="Juan Haugaard">
         <comment>Create text reverse function</comment>
         <sql>
-<!--            CREATE ALIAS REVERSE DETERMINISTIC FOR 'com.tayrona.sakila.procedures.StringUtils.reverse';-->
+            <!-- CREATE ALIAS REVERSE DETERMINISTIC FOR 'com.tayrona.sakila.procedures.StringUtils.reverse';-->
             CREATE ALIAS REVERSE DETERMINISTIC AS
             'String reverse(String value) {
             if (null != value) return (new StringBuilder(value)).reverse().toString();
-            else return null}';
+            else return null;}';
         </sql>
         <rollback>
             <sql>
@@ -89,10 +88,11 @@
         <comment>Create table Category</comment>
         <sql>
             CREATE TABLE CATEGORY (
-                category_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                name VARCHAR(25) NOT NULL,
-                last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() NOT NULL,
-                CONSTRAINT PK_CATEGORY PRIMARY KEY (category_id)
+            category_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+            name VARCHAR(25) NOT NULL,
+            last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() NOT NULL,
+            CONSTRAINT PK_CATEGORY PRIMARY KEY (category_id),
+            CONSTRAINT IDX_CATEGORY_NAME UNIQUE (name)
             );
             COMMENT ON TABLE CATEGORY IS 'Category details table';
         </sql>
@@ -103,6 +103,26 @@
         </rollback>
     </changeSet>
     <changeSet id="8" author="Juan Haugaard">
+        <comment>Insert standard film categories into table CATEGORY</comment>
+        <sql>
+            INSERT INTO CATEGORY (name) VALUES('Thriller'), ('Mystery'), ('Suspense'), ('Children'), ('Animation');
+            INSERT INTO CATEGORY (name) VALUES('Action'), ('Sci-Fi'), ('Fiction'), ('Biography'), ('History');
+            INSERT INTO CATEGORY (name) VALUES('Crime'), ('Drama'), ('Experimental'), ('Fantasy'), ('Comedy');
+            INSERT INTO CATEGORY (name) VALUES('Horror'), ('Romance'), ('Western'), ('War'), ('Military');
+            INSERT INTO CATEGORY (name) VALUES('Heroic'), ('Espionage'), ('Disaster'), ('Adventure'), ('Satire');
+            INSERT INTO CATEGORY (name) VALUES('Sports'), ('Musical'), ('Martial arts'), ('Dark comedy'), ('Time');
+            INSERT INTO CATEGORY (name) VALUES('Documentary'), ('Police'), ('Courtroom'), ('Supernatural');
+            INSERT INTO CATEGORY (name) VALUES('Fairy tale'), ('Legend'), ('Mythology'), ('Aliens'), ('Space');
+            INSERT INTO CATEGORY (name) VALUES('Apocalyptic'), ('Futuristic'), ('Dystopian'), ('Video game');
+            INSERT INTO CATEGORY (name) VALUES('Political'), ('Teen'), ('Medical'), ('Family'), ('Psychological');
+        </sql>
+        <rollback>
+            <sql>
+                TRUNCATE TABLE CATEGORY;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="9" author="Juan Haugaard">
         <comment>Create table Country</comment>
         <sql>
             CREATE TABLE COUNTRY (
@@ -120,17 +140,17 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="9" author="Juan Haugaard">
+    <changeSet id="10" author="Juan Haugaard">
         <comment>Create table City</comment>
         <sql>
             CREATE TABLE CITY (
-                city_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                city VARCHAR(50) NOT NULL,
-                country_id BIGINT NOT NULL,
-                last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
-                CONSTRAINT PK_CITY PRIMARY KEY (city_id),
-                CONSTRAINT FK_CITY_COUNTRY FOREIGN KEY (country_id)
-                    REFERENCES COUNTRY (country_id) ON DELETE    RESTRICT ON UPDATE CASCADE
+            city_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+            city VARCHAR(50) NOT NULL,
+            country_id BIGINT NOT NULL,
+            last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
+            CONSTRAINT PK_CITY PRIMARY KEY (city_id),
+            CONSTRAINT FK_CITY_COUNTRY FOREIGN KEY (country_id)
+            REFERENCES COUNTRY (country_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE CITY IS 'City details table';
         </sql>
@@ -140,21 +160,21 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="10" author="Juan Haugaard">
+    <changeSet id="11" author="Juan Haugaard">
         <comment>Create table Address</comment>
         <sql>
             CREATE TABLE ADDRESS (
-                address_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                addressGenerator VARCHAR(50) NOT NULL,
-                address2 VARCHAR(50) DEFAULT NULL,
-                district VARCHAR(50) DEFAULT 'N/A' DEFAULT ON NULL,
-                city_id BIGINT NOT NULL,
-                postal_code VARCHAR(10) DEFAULT NULL,
-                phone VARCHAR(20) NOT NULL,
-                last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
-                CONSTRAINT PK_ADDRESS PRIMARY KEY (address_id),
-                CONSTRAINT FK_ADDRESS_CITY FOREIGN KEY (city_id)
-                    REFERENCES CITY (city_id) ON DELETE RESTRICT ON UPDATE CASCADE
+            address_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+            addressGenerator VARCHAR(50) NOT NULL,
+            address2 VARCHAR(50) DEFAULT NULL,
+            district VARCHAR(50) DEFAULT 'N/A' DEFAULT ON NULL,
+            city_id BIGINT NOT NULL,
+            postal_code VARCHAR(10) DEFAULT NULL,
+            phone VARCHAR(20) NOT NULL,
+            last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
+            CONSTRAINT PK_ADDRESS PRIMARY KEY (address_id),
+            CONSTRAINT FK_ADDRESS_CITY FOREIGN KEY (city_id)
+            REFERENCES CITY (city_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE ADDRESS IS 'Address details table';
         </sql>
@@ -164,14 +184,14 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="11" author="Juan Haugaard">
+    <changeSet id="12" author="Juan Haugaard">
         <comment>Create table Language</comment>
         <sql>
             CREATE TABLE LANGUAGE (
-                language_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                name VARCHAR(20) NOT NULL,
-                last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
-                CONSTRAINT PK_LANGUAGE PRIMARY KEY (language_id)
+            language_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+            name VARCHAR(20) NOT NULL,
+            last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
+            CONSTRAINT PK_LANGUAGE PRIMARY KEY (language_id)
             );
             COMMENT ON TABLE LANGUAGE IS 'Language details table';
         </sql>
@@ -181,15 +201,15 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="12" author="Juan Haugaard">
+    <changeSet id="13" author="Juan Haugaard">
         <comment>Create table ACTOR</comment>
         <sql>
             CREATE TABLE ACTOR (
-                actor_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                first_name VARCHAR(45) NOT NULL,
-                last_name VARCHAR(45) NOT NULL,
-                last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
-                CONSTRAINT PK_ACTOR PRIMARY KEY (actor_id)
+            actor_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+            first_name VARCHAR(45) NOT NULL,
+            last_name VARCHAR(45) NOT NULL,
+            last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
+            CONSTRAINT PK_ACTOR PRIMARY KEY (actor_id)
             );
             COMMENT ON TABLE ACTOR IS 'Actor details table';
         </sql>
@@ -199,18 +219,18 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="13" author="Juan Haugaard">
+    <changeSet id="14" author="Juan Haugaard">
         <comment>Create table Store</comment>
         <sql>
             CREATE TABLE STORE (
-                store_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                manager_staff_id BIGINT NOT NULL,
-                address_id BIGINT NOT NULL,
-                last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
-                CONSTRAINT PK_STORE PRIMARY KEY (store_id),
-                CONSTRAINT idx_unique_manager UNIQUE (manager_staff_id),
-                CONSTRAINT fk_store_address FOREIGN KEY (address_id)
-                    REFERENCES ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE
+            store_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+            manager_staff_id BIGINT NOT NULL,
+            address_id BIGINT NOT NULL,
+            last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
+            CONSTRAINT PK_STORE PRIMARY KEY (store_id),
+            CONSTRAINT idx_unique_manager UNIQUE (manager_staff_id),
+            CONSTRAINT fk_store_address FOREIGN KEY (address_id)
+            REFERENCES ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE STORE IS 'Store details table';
         </sql>
@@ -220,26 +240,26 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="14" author="Juan Haugaard">
+    <changeSet id="15" author="Juan Haugaard">
         <comment>Create table Staff</comment>
         <sql>
             CREATE TABLE STAFF (
-                staff_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                first_name VARCHAR(45) NOT NULL,
-                last_name VARCHAR(45) NOT NULL,
-                address_id BIGINT NOT NULL,
-                picture BLOB DEFAULT NULL,
-                email VARCHAR(50) DEFAULT NULL,
-                store_id BIGINT NOT NULL,
-                active BOOLEAN NOT NULL DEFAULT TRUE,
-                username VARCHAR(32) NOT NULL,
-                password BINARY(40) DEFAULT NULL,
-                last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                CONSTRAINT PK_STAFF PRIMARY KEY (staff_id),
-                CONSTRAINT fk_staff_store FOREIGN KEY (store_id)
-                    REFERENCES STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                CONSTRAINT fk_staff_address FOREIGN KEY (address_id)
-                    REFERENCES ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE
+            staff_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+            first_name VARCHAR(45) NOT NULL,
+            last_name VARCHAR(45) NOT NULL,
+            address_id BIGINT NOT NULL,
+            picture BLOB DEFAULT NULL,
+            email VARCHAR(50) DEFAULT NULL,
+            store_id BIGINT NOT NULL,
+            active BOOLEAN NOT NULL DEFAULT TRUE,
+            username VARCHAR(32) NOT NULL,
+            password BINARY(40) DEFAULT NULL,
+            last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            CONSTRAINT PK_STAFF PRIMARY KEY (staff_id),
+            CONSTRAINT fk_staff_store FOREIGN KEY (store_id)
+            REFERENCES STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+            CONSTRAINT fk_staff_address FOREIGN KEY (address_id)
+            REFERENCES ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE STAFF IS 'Staff details table';
         </sql>
@@ -249,12 +269,12 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="15" author="Juan Haugaard">
+    <changeSet id="16" author="Juan Haugaard">
         <comment>Alter table Store to add Foreign key to staff table</comment>
         <sql>
             ALTER TABLE STORE
             ADD CONSTRAINT fk_store_staff FOREIGN KEY (manager_staff_id)
-                REFERENCES STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE;
+            REFERENCES STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE;
         </sql>
         <rollback>
             <sql>
@@ -263,24 +283,24 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="16" author="Juan Haugaard">
+    <changeSet id="17" author="Juan Haugaard">
         <comment>Create table Customer</comment>
         <sql>
             CREATE TABLE CUSTOMER (
-                customer_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                store_id BIGINT NOT NULL,
-                first_name VARCHAR(45) NOT NULL,
-                last_name VARCHAR(45) NOT NULL,
-                email VARCHAR(50) DEFAULT NULL,
-                address_id BIGINT NOT NULL,
-                active BOOLEAN NOT NULL DEFAULT TRUE,
-                create_date TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() NOT NULL,
-                last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
-                CONSTRAINT PK_CUSTOMER PRIMARY KEY (customer_id),
-                CONSTRAINT FK_CUSTOMER_ADDRESS FOREIGN KEY (address_id)
-                    REFERENCES ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                CONSTRAINT FK_CUSTOMER_STORE FOREIGN KEY (store_id)
-                    REFERENCES STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE
+            customer_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+            store_id BIGINT NOT NULL,
+            first_name VARCHAR(45) NOT NULL,
+            last_name VARCHAR(45) NOT NULL,
+            email VARCHAR(50) DEFAULT NULL,
+            address_id BIGINT NOT NULL,
+            active BOOLEAN NOT NULL DEFAULT TRUE,
+            create_date TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() NOT NULL,
+            last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
+            CONSTRAINT PK_CUSTOMER PRIMARY KEY (customer_id),
+            CONSTRAINT FK_CUSTOMER_ADDRESS FOREIGN KEY (address_id)
+            REFERENCES ADDRESS (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+            CONSTRAINT FK_CUSTOMER_STORE FOREIGN KEY (store_id)
+            REFERENCES STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE CUSTOMER IS 'Customer details table';
             CREATE INDEX idx_last_name ON CUSTOMER (last_name);
@@ -291,7 +311,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="17" author="Juan Haugaard">
+    <changeSet id="18" author="Juan Haugaard">
         <comment>Create table Film</comment>
         <sql>
             CREATE TABLE FILM (
@@ -308,7 +328,6 @@
                 barcode CHAR(20),
                 reverse_barcode CHAR(20) GENERATED ALWAYS AS (REVERSE(barcode)),
                 rating MPAA_RATING DEFAULT 'G',
-                special_features SPECIAL_FEATURES DEFAULT NULL,
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_FILM PRIMARY KEY (film_id),
                 CONSTRAINT fk_film_language FOREIGN KEY (language_id)
@@ -320,7 +339,6 @@
             CREATE INDEX idx_title ON FILM(title);
             CREATE INDEX idx_barcode ON FILM(barcode);
             CREATE INDEX idx_reverse_barcode ON FILM(reverse_barcode);
-<!--            ALTER TABLE FILM ALTER COLUMN barcode CHAR(20) GENERATED ALWAYS AS (LPAD(barcode ,12,'0'));-->
         </sql>
         <rollback>
             <sql>
@@ -328,11 +346,11 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="18" author="Juan Haugaard">
-        <comment>Add insert trigger to table Film</comment>
+    <changeSet id="19" author="Juan Haugaard">
+        <comment>Add after insert trigger to table Film</comment>
         <sql>
             CREATE TRIGGER InsertFilmTrigger AFTER INSERT ON
-                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.InsertFilmTrigger';
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.AfterInsertFilmTrigger';
         </sql>
         <rollback>
             <sql>
@@ -340,11 +358,11 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="19" author="Juan Haugaard">
-        <comment>Add update trigger to table Film</comment>
+    <changeSet id="20" author="Juan Haugaard">
+        <comment>Add after update trigger to table Film</comment>
         <sql>
             CREATE TRIGGER UpdateFilmTrigger AFTER UPDATE ON
-                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.UpdateFilmTrigger';
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.AfterUpdateFilmTrigger';
         </sql>
         <rollback>
             <sql>
@@ -352,11 +370,11 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="20" author="Juan Haugaard">
-        <comment>Add delete trigger to table Film</comment>
+    <changeSet id="21" author="Juan Haugaard">
+        <comment>Add after delete trigger to table Film</comment>
         <sql>
             CREATE TRIGGER DeleteFilmTrigger AFTER DELETE ON
-                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.DeleteFilmTrigger';
+                FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.AfterDeleteFilmTrigger';
         </sql>
         <rollback>
             <sql>
@@ -364,7 +382,31 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="21" author="Juan Haugaard">
+    <changeSet id="22" author="Juan Haugaard">
+        <comment>Add before insert trigger to table Film</comment>
+        <sql>
+            CREATE TRIGGER InsertLeftPadBarcodeFilmTrigger BEFORE INSERT ON
+            FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.BeforeInsertFilmTrigger';
+        </sql>
+        <rollback>
+            <sql>
+                DROP TRIGGER InsertLeftPadBarcodeFilmTrigger;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="23" author="Juan Haugaard">
+        <comment>Add before update trigger to table Film</comment>
+        <sql>
+            CREATE TRIGGER UpdateLeftPadBarcodeFilmTrigger BEFORE UPDATE ON
+            FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.BeforeUpdateFilmTrigger';
+        </sql>
+        <rollback>
+            <sql>
+                DROP TRIGGER UpdateLeftPadBarcodeFilmTrigger;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="24" author="Juan Haugaard">
         <comment>Create table film_text</comment>
         <sql>
             CREATE TABLE FILM_TEXT (
@@ -382,7 +424,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="22" author="Juan Haugaard">
+    <changeSet id="25" author="Juan Haugaard">
         <comment>Create table inventory</comment>
         <sql>
             CREATE TABLE INVENTORY (
@@ -392,9 +434,9 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_INVENTORY PRIMARY KEY (inventory_id),
                 CONSTRAINT fk_inventory_store FOREIGN KEY (store_id)
-                    REFERENCES STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                REFERENCES STORE (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_inventory_film FOREIGN KEY (film_id)
-                    REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE INVENTORY IS 'Inventory details table';
             CREATE INDEX idx_store_id_film_id ON INVENTORY (store_id, film_id);
@@ -405,7 +447,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="23" author="Juan Haugaard">
+    <changeSet id="26" author="Juan Haugaard">
         <comment>Create table Rental</comment>
         <sql>
             CREATE TABLE RENTAL (
@@ -418,15 +460,15 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_RENTAL PRIMARY KEY (rental_id),
                 CONSTRAINT fk_rental_staff FOREIGN KEY (staff_id)
-                    REFERENCES STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                REFERENCES STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_rental_inventory FOREIGN KEY (inventory_id)
-                    REFERENCES INVENTORY (inventory_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                REFERENCES INVENTORY (inventory_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_rental_customer FOREIGN KEY (customer_id)
-                    REFERENCES CUSTOMER (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                REFERENCES CUSTOMER (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE RENTAL IS 'Rental details table';
             CREATE UNIQUE INDEX idx_rental_date_inventory_id_customer_id
-                ON RENTAL (rental_date, inventory_id, customer_id);
+            ON RENTAL (rental_date, inventory_id, customer_id);
         </sql>
         <rollback>
             <sql>
@@ -434,7 +476,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="24" author="Juan Haugaard">
+    <changeSet id="27" author="Juan Haugaard">
         <comment>Create table Payment</comment>
         <sql>
             CREATE TABLE PAYMENT (
@@ -447,11 +489,11 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_PAYMENT PRIMARY KEY (payment_id),
                 CONSTRAINT fk_payment_rental FOREIGN KEY (rental_id)
-                    REFERENCES RENTAL (rental_id) ON DELETE SET NULL ON UPDATE CASCADE,
+                REFERENCES RENTAL (rental_id) ON DELETE SET NULL ON UPDATE CASCADE,
                 CONSTRAINT fk_payment_customer FOREIGN KEY (customer_id)
-                    REFERENCES CUSTOMER (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                REFERENCES CUSTOMER (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_payment_staff FOREIGN KEY (staff_id)
-                    REFERENCES STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                REFERENCES STAFF (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE PAYMENT IS 'Payment details table';
         </sql>
@@ -461,7 +503,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="25" author="Juan Haugaard">
+    <changeSet id="28" author="Juan Haugaard">
         <comment>Create table Film Actor cross-reference</comment>
         <sql>
             CREATE TABLE FILM_ACTOR (
@@ -470,9 +512,9 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_FILM_ACTOR PRIMARY KEY (actor_id, film_id),
                 CONSTRAINT fk_film_actor_actor FOREIGN KEY (actor_id)
-                    REFERENCES ACTOR (actor_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                REFERENCES ACTOR (actor_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_film_actor_film FOREIGN KEY (film_id)
-                    REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE FILM_ACTOR IS 'Film Actor cross-reference table';
         </sql>
@@ -482,7 +524,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="26" author="Juan Haugaard">
+    <changeSet id="29" author="Juan Haugaard">
         <comment>Create table Film Category cross-reference</comment>
         <sql>
             CREATE TABLE FILM_CATEGORY (
@@ -491,9 +533,9 @@
                 last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
                 CONSTRAINT PK_FILM_CATEGORY PRIMARY KEY (film_id, category_id),
                 CONSTRAINT fk_film_category_film FOREIGN KEY (film_id)
-                    REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE,
                 CONSTRAINT fk_film_category_category FOREIGN KEY (category_id)
-                    REFERENCES CATEGORY (category_id) ON DELETE RESTRICT ON UPDATE CASCADE
+                REFERENCES CATEGORY (category_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE FILM_CATEGORY IS 'Film Category cross-reference table';
         </sql>
@@ -503,7 +545,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="27" author="Juan Haugaard">
+    <changeSet id="30" author="Juan Haugaard">
         <comment>Define function enum_to_ordinal</comment>
         <sql>
             CREATE ALIAS ENUM_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.valueToOrdinal';
@@ -514,7 +556,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="28" author="Juan Haugaard">
+    <changeSet id="31" author="Juan Haugaard">
         <comment>Define function mpaa_rating_to_ordinal</comment>
         <sql>
             CREATE ALIAS MPAA_RATING_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.mpaaRatingToOrdinal';
@@ -525,7 +567,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="29" author="Juan Haugaard">
+    <changeSet id="32" author="Juan Haugaard">
         <comment>Define function special_features_to_ordinal</comment>
         <sql>
             CREATE ALIAS SPECIAL_FEATURES_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.specialFeaturesToOrdinal';
@@ -536,51 +578,4 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="30" author="Juan Haugaard">
-        <comment>Create table TEST_TABLE</comment>
-        <sql>
-            create table TEST_TABLE (
-                id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
-                features SPECIAL_FEATURES default NULL,
-                CONSTRAINT PK_TESTTABLE PRIMARY KEY (id)
-            );
-            COMMENT ON TABLE TEST_TABLE IS 'test table';
-        </sql>
-        <rollback>
-            <sql>
-                DROP TABLE TEST_TABLE;
-            </sql>
-        </rollback>
-    </changeSet>
-    <changeSet id="31" author="Juan Haugaard">
-        <comment>Add trigger to table TEST_TABLE</comment>
-        <sql>
-            CREATE TRIGGER TestTrigger AFTER INSERT,UPDATE,DELETE ON
-                TEST_TABLE FOR EACH ROW CALL 'com.tayrona.sakila.procedures.TestTrigger';
-        </sql>
-        <rollback>
-            <sql>
-                DROP TRIGGER TestTrigger;
-            </sql>
-        </rollback>
-    </changeSet>
-    <changeSet id="32" author="Juan Haugaard">
-        <comment>TEST_TABLE initial data</comment>
-        <sql>
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries', 'Deleted Scenes']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries', 'Trailers']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Commentaries']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Trailers']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Deleted Scenes']);
-            INSERT INTO TEST_TABLE (FEATURES) VALUES(ARRAY['Behind the Scenes']);
-            UPDATE TEST_TABLE SET FEATURES = ARRAY_APPEND(FEATURES, 'Deleted Scenes') WHERE ID=2;
-            UPDATE TEST_TABLE SET FEATURES = ARRAY_APPEND(FEATURES, 'Behind the Scenes') WHERE ID=2;
-        </sql>
-        <rollback>
-            <sql>
-                TRUNCATE TABLE TEST_TABLE;
-            </sql>
-        </rollback>
-    </changeSet>
-
 </databaseChangeLog>

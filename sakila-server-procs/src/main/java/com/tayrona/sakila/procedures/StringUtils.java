@@ -8,4 +8,29 @@ public interface StringUtils {
         }
         return null;
     }
+
+    static String repeat(char value, int times) {
+        if (times < 1) {
+            return "";
+        }
+        char[] buffer = new char[times];
+        for (int i = 0; i < times; i++) {
+            buffer[i] = value;
+        }
+        return new String(buffer);
+    }
+
+    static String lPad(String value, int size) {
+        return lPad(value, size, ' ');
+    }
+
+    static String lPad(String value, int size, char padding) {
+        if (null == value) {
+            return null;
+        }
+        if (size <= value.length()) {
+            return value;
+        }
+        return repeat(padding, size - value.length()) + value;
+    }
 }

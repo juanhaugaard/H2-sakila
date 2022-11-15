@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class UpdateFilmTrigger extends TriggerAdapter {
+public class AfterUpdateFilmTrigger extends TriggerAdapter {
     /**
      * This method is called for each triggered action by the default
      * fire(Connection conn, Object[] oldRow, Object[] newRow) method.
