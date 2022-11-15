@@ -17,7 +17,7 @@ public class AfterUpdateFilmTrigger extends TriggerAdapter {
      * using the ResultSet.updateX methods.
      * </p>
      *
-     * @param conn a connection to the database
+     * @param connection a connection to the database
      * @param oldRow the old row, or null if no old row is available (for INSERT)
      * @param newRow the new row, or null if no new row is available (for DELETE)
      * @throws SQLException if the operation must be undone
@@ -31,7 +31,7 @@ public class AfterUpdateFilmTrigger extends TriggerAdapter {
                 !isEqual(description,oldRow.getString("description"))) {
 
 
-            String sql = "UPDATE SAKILA.FILM_TEXT SET title=?, description=? WHERE film_id=?";
+            String sql = "UPDATE FILM_TEXT SET title=?, description=? WHERE film_id=?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, title);
                 preparedStatement.setString(2, description);

@@ -16,14 +16,14 @@ public class AfterDeleteFilmTrigger extends TriggerAdapter {
      * using the ResultSet.updateX methods.
      * </p>
      *
-     * @param conn a connection to the database
+     * @param connection a connection to the database
      * @param oldRow the old row, or null if no old row is available (for INSERT)
      * @param newRow the new row, or null if no new row is available (for DELETE)
      * @throws SQLException if the operation must be undone
      */
     @Override
     public void fire(Connection connection, ResultSet oldRow, ResultSet newRow) throws SQLException {
-        String sql = "DELETE FROM SAKILA.FILM_TEXT WHERE film_id=?";
+        String sql = "DELETE FROM FILM_TEXT WHERE film_id=?";
         long filmId = oldRow.getLong("film_id");
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, filmId);
