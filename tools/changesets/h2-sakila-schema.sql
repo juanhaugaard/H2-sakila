@@ -125,6 +125,12 @@
 --rollback DROP TABLE LANGUAGE;
 
 --changeset Juan Haugaard:13
+--comment: Initial Language data
+            INSERT INTO LANGUAGE (name) VALUES('English'),('Spanish'),('Italian'),('Mandarin');
+            INSERT INTO LANGUAGE (name) VALUES('French'),('German'),('Portuguese'),('Japanese');
+--rollback TRUNCATE TABLE LANGUAGE;
+
+--changeset Juan Haugaard:14
 --comment: Create table ACTOR
             CREATE TABLE ACTOR (
                 actor_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -134,9 +140,10 @@
                 CONSTRAINT PK_ACTOR PRIMARY KEY (actor_id)
             );
             COMMENT ON TABLE ACTOR IS 'Actor details table';
+            CREATE UNIQUE INDEX idx_first_and_last_name ON ACTOR (first_name, last_name);
 --rollback DROP TABLE ACTOR;
 
---changeset Juan Haugaard:14
+--changeset Juan Haugaard:15
 --comment: Create table Store
             CREATE TABLE STORE (
                 store_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -151,7 +158,7 @@
             COMMENT ON TABLE STORE IS 'Store details table';
 --rollback DROP TABLE STORE;
 
---changeset Juan Haugaard:15
+--changeset Juan Haugaard:16
 --comment: Create table Staff
             CREATE TABLE STAFF (
                 staff_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -174,7 +181,7 @@
             COMMENT ON TABLE STAFF IS 'Staff details table';
 --rollback DROP TABLE STAFF;
 
---changeset Juan Haugaard:16
+--changeset Juan Haugaard:17
 --comment: Alter table Store to add Foreign key to staff table
             ALTER TABLE STORE
             ADD CONSTRAINT fk_store_staff FOREIGN KEY (manager_staff_id)
@@ -182,7 +189,7 @@
 --rollback ALTER TABLE STORE
 --rollback DROP CONSTRAINT fk_store_staff;
 
---changeset Juan Haugaard:17
+--changeset Juan Haugaard:18
 --comment: Create table Customer
             CREATE TABLE CUSTOMER (
                 customer_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -204,7 +211,7 @@
             CREATE INDEX idx_last_name ON CUSTOMER (last_name);
 --rollback DROP TABLE CUSTOMER;
 
---changeset Juan Haugaard:18
+--changeset Juan Haugaard:19
 --comment: Create table Film
             CREATE TABLE FILM (
                 film_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -228,42 +235,42 @@
                     REFERENCES LANGUAGE (language_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE FILM IS 'Film details table';
-            CREATE INDEX idx_title ON FILM(title);
-            CREATE INDEX idx_barcode ON FILM(barcode);
-            CREATE INDEX idx_reverse_barcode ON FILM(reverse_barcode);
+            CREATE UNIQUE INDEX idx_title ON FILM(title);
+            CREATE UNIQUE INDEX idx_barcode ON FILM(barcode);
+            CREATE UNIQUE INDEX idx_reverse_barcode ON FILM(reverse_barcode);
 --rollback DROP TABLE FILM;
 
---changeset Juan Haugaard:19
+--changeset Juan Haugaard:20
 --comment: Add after insert trigger to table Film
             CREATE TRIGGER InsertFilmTrigger AFTER INSERT ON
                 FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.AfterInsertFilmTrigger';
 --rollback DROP TRIGGER InsertFilmTrigger;
 
---changeset Juan Haugaard:20
+--changeset Juan Haugaard:21
 --comment: Add after update trigger to table Film
             CREATE TRIGGER UpdateFilmTrigger AFTER UPDATE ON
                 FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.AfterUpdateFilmTrigger';
 --rollback DROP TRIGGER UpdateFilmTrigger;
 
---changeset Juan Haugaard:21
+--changeset Juan Haugaard:22
 --comment: Add after delete trigger to table Film
             CREATE TRIGGER DeleteFilmTrigger AFTER DELETE ON
                 FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.AfterDeleteFilmTrigger';
 --rollback DROP TRIGGER DeleteFilmTrigger;
 
---changeset Juan Haugaard:22
+--changeset Juan Haugaard:23
 --comment: Add before insert trigger to table Film
             CREATE TRIGGER InsertLeftPadBarcodeFilmTrigger BEFORE INSERT ON
                 FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.BeforeInsertFilmTrigger';
 --rollback DROP TRIGGER InsertLeftPadBarcodeFilmTrigger;
 
---changeset Juan Haugaard:23
+--changeset Juan Haugaard:24
 --comment: Add before update trigger to table Film
             CREATE TRIGGER UpdateLeftPadBarcodeFilmTrigger BEFORE UPDATE ON
                 FILM FOR EACH ROW CALL 'com.tayrona.sakila.procedures.BeforeUpdateFilmTrigger';
 --rollback DROP TRIGGER UpdateLeftPadBarcodeFilmTrigger;
 
---changeset Juan Haugaard:24
+--changeset Juan Haugaard:25
 --comment: Create table film_text
             CREATE TABLE FILM_TEXT (
                 film_id BIGINT NOT NULL,
@@ -272,10 +279,10 @@
                 CONSTRAINT PK_FILM_TEXT PRIMARY KEY (film_id)
             );
             COMMENT ON TABLE FILM_TEXT IS 'Film title and description table for fulltext search';
-            CREATE INDEX idx_title_description ON FILM_TEXT(title, description);
+            CREATE UNIQUE INDEX idx_title_description ON FILM_TEXT(title, description);
 --rollback DROP TABLE FILM_TEXT;
 
---changeset Juan Haugaard:25
+--changeset Juan Haugaard:26
 --comment: Create table inventory
             CREATE TABLE INVENTORY (
                 inventory_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -289,10 +296,10 @@
                     REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE INVENTORY IS 'Inventory details table';
-            CREATE INDEX idx_store_id_film_id ON INVENTORY (store_id, film_id);
+            CREATE UNIQUE INDEX idx_store_id_film_id ON INVENTORY (store_id, film_id);
 --rollback DROP TABLE INVENTORY;
 
---changeset Juan Haugaard:26
+--changeset Juan Haugaard:27
 --comment: Create table Rental
             CREATE TABLE RENTAL (
                 rental_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -315,7 +322,7 @@
                 ON RENTAL (rental_date, inventory_id, customer_id);
 --rollback DROP TABLE RENTAL;
 
---changeset Juan Haugaard:27
+--changeset Juan Haugaard:28
 --comment: Create table Payment
             CREATE TABLE PAYMENT (
                 payment_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
@@ -336,7 +343,7 @@
             COMMENT ON TABLE PAYMENT IS 'Payment details table';
 --rollback DROP TABLE PAYMENT;
 
---changeset Juan Haugaard:28
+--changeset Juan Haugaard:29
 --comment: Create table Film Actor cross-reference
             CREATE TABLE FILM_ACTOR (
                 actor_id BIGINT NOT NULL,
@@ -351,7 +358,7 @@
             COMMENT ON TABLE FILM_ACTOR IS 'Film Actor cross-reference table';
 --rollback DROP TABLE FILM_ACTOR;
 
---changeset Juan Haugaard:29
+--changeset Juan Haugaard:30
 --comment: Create table Film Category cross-reference
             CREATE TABLE FILM_CATEGORY (
                 film_id BIGINT NOT NULL,
@@ -366,17 +373,17 @@
             COMMENT ON TABLE FILM_CATEGORY IS 'Film Category cross-reference table';
 --rollback DROP TABLE FILM_CATEGORY;
 
---changeset Juan Haugaard:30
+--changeset Juan Haugaard:31
 --comment: Define function enum_to_ordinal
             CREATE ALIAS ENUM_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.valueToOrdinal';
 --rollback DROP ALIAS ENUM_TO_ORDINAL;
 
---changeset Juan Haugaard:31
+--changeset Juan Haugaard:32
 --comment: Define function mpaa_rating_to_ordinal
             CREATE ALIAS MPAA_RATING_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.mpaaRatingToOrdinal';
 --rollback DROP ALIAS MPAA_RATING_TO_ORDINAL;
 
---changeset Juan Haugaard:32
+--changeset Juan Haugaard:33
 --comment: Define function special_features_to_ordinal
             CREATE ALIAS SPECIAL_FEATURES_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.specialFeaturesToOrdinal';
 --rollback DROP ALIAS SPECIAL_FEATURES_TO_ORDINAL;

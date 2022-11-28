@@ -202,6 +202,18 @@
         </rollback>
     </changeSet>
     <changeSet id="13" author="Juan Haugaard">
+        <comment>Initial Language data</comment>
+        <sql>
+            INSERT INTO LANGUAGE (name) VALUES('English'),('Spanish'),('Italian'),('Mandarin');
+            INSERT INTO LANGUAGE (name) VALUES('French'),('German'),('Portuguese'),('Japanese');
+        </sql>
+        <rollback>
+            <sql>
+                TRUNCATE TABLE LANGUAGE;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="14" author="Juan Haugaard">
         <comment>Create table ACTOR</comment>
         <sql>
             CREATE TABLE ACTOR (
@@ -212,6 +224,7 @@
             CONSTRAINT PK_ACTOR PRIMARY KEY (actor_id)
             );
             COMMENT ON TABLE ACTOR IS 'Actor details table';
+            CREATE UNIQUE INDEX idx_first_and_last_name ON ACTOR (first_name, last_name);
         </sql>
         <rollback>
             <sql>
@@ -219,7 +232,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="14" author="Juan Haugaard">
+    <changeSet id="15" author="Juan Haugaard">
         <comment>Create table Store</comment>
         <sql>
             CREATE TABLE STORE (
@@ -240,7 +253,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="15" author="Juan Haugaard">
+    <changeSet id="16" author="Juan Haugaard">
         <comment>Create table Staff</comment>
         <sql>
             CREATE TABLE STAFF (
@@ -269,7 +282,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="16" author="Juan Haugaard">
+    <changeSet id="17" author="Juan Haugaard">
         <comment>Alter table Store to add Foreign key to staff table</comment>
         <sql>
             ALTER TABLE STORE
@@ -283,7 +296,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="17" author="Juan Haugaard">
+    <changeSet id="18" author="Juan Haugaard">
         <comment>Create table Customer</comment>
         <sql>
             CREATE TABLE CUSTOMER (
@@ -311,7 +324,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="18" author="Juan Haugaard">
+    <changeSet id="19" author="Juan Haugaard">
         <comment>Create table Film</comment>
         <sql>
             CREATE TABLE FILM (
@@ -336,9 +349,9 @@
                     REFERENCES LANGUAGE (language_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE FILM IS 'Film details table';
-            CREATE INDEX idx_title ON FILM(title);
-            CREATE INDEX idx_barcode ON FILM(barcode);
-            CREATE INDEX idx_reverse_barcode ON FILM(reverse_barcode);
+            CREATE UNIQUE INDEX idx_title ON FILM(title);
+            CREATE UNIQUE INDEX idx_barcode ON FILM(barcode);
+            CREATE UNIQUE INDEX idx_reverse_barcode ON FILM(reverse_barcode);
         </sql>
         <rollback>
             <sql>
@@ -346,7 +359,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="19" author="Juan Haugaard">
+    <changeSet id="20" author="Juan Haugaard">
         <comment>Add after insert trigger to table Film</comment>
         <sql>
             CREATE TRIGGER InsertFilmTrigger AFTER INSERT ON
@@ -358,7 +371,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="20" author="Juan Haugaard">
+    <changeSet id="21" author="Juan Haugaard">
         <comment>Add after update trigger to table Film</comment>
         <sql>
             CREATE TRIGGER UpdateFilmTrigger AFTER UPDATE ON
@@ -370,7 +383,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="21" author="Juan Haugaard">
+    <changeSet id="22" author="Juan Haugaard">
         <comment>Add after delete trigger to table Film</comment>
         <sql>
             CREATE TRIGGER DeleteFilmTrigger AFTER DELETE ON
@@ -382,7 +395,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="22" author="Juan Haugaard">
+    <changeSet id="23" author="Juan Haugaard">
         <comment>Add before insert trigger to table Film</comment>
         <sql>
             CREATE TRIGGER InsertLeftPadBarcodeFilmTrigger BEFORE INSERT ON
@@ -394,7 +407,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="23" author="Juan Haugaard">
+    <changeSet id="24" author="Juan Haugaard">
         <comment>Add before update trigger to table Film</comment>
         <sql>
             CREATE TRIGGER UpdateLeftPadBarcodeFilmTrigger BEFORE UPDATE ON
@@ -406,7 +419,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="24" author="Juan Haugaard">
+    <changeSet id="25" author="Juan Haugaard">
         <comment>Create table film_text</comment>
         <sql>
             CREATE TABLE FILM_TEXT (
@@ -416,7 +429,7 @@
                 CONSTRAINT PK_FILM_TEXT PRIMARY KEY (film_id)
             );
             COMMENT ON TABLE FILM_TEXT IS 'Film title and description table for fulltext search';
-            CREATE INDEX idx_title_description ON FILM_TEXT(title, description);
+            CREATE UNIQUE INDEX idx_title_description ON FILM_TEXT(title, description);
         </sql>
         <rollback>
             <sql>
@@ -424,7 +437,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="25" author="Juan Haugaard">
+    <changeSet id="26" author="Juan Haugaard">
         <comment>Create table inventory</comment>
         <sql>
             CREATE TABLE INVENTORY (
@@ -439,7 +452,7 @@
                 REFERENCES FILM (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
             COMMENT ON TABLE INVENTORY IS 'Inventory details table';
-            CREATE INDEX idx_store_id_film_id ON INVENTORY (store_id, film_id);
+            CREATE UNIQUE INDEX idx_store_id_film_id ON INVENTORY (store_id, film_id);
         </sql>
         <rollback>
             <sql>
@@ -447,7 +460,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="26" author="Juan Haugaard">
+    <changeSet id="27" author="Juan Haugaard">
         <comment>Create table Rental</comment>
         <sql>
             CREATE TABLE RENTAL (
@@ -476,7 +489,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="27" author="Juan Haugaard">
+    <changeSet id="28" author="Juan Haugaard">
         <comment>Create table Payment</comment>
         <sql>
             CREATE TABLE PAYMENT (
@@ -503,7 +516,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="28" author="Juan Haugaard">
+    <changeSet id="29" author="Juan Haugaard">
         <comment>Create table Film Actor cross-reference</comment>
         <sql>
             CREATE TABLE FILM_ACTOR (
@@ -524,7 +537,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="29" author="Juan Haugaard">
+    <changeSet id="30" author="Juan Haugaard">
         <comment>Create table Film Category cross-reference</comment>
         <sql>
             CREATE TABLE FILM_CATEGORY (
@@ -545,7 +558,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="30" author="Juan Haugaard">
+    <changeSet id="31" author="Juan Haugaard">
         <comment>Define function enum_to_ordinal</comment>
         <sql>
             CREATE ALIAS ENUM_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.valueToOrdinal';
@@ -556,7 +569,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="31" author="Juan Haugaard">
+    <changeSet id="32" author="Juan Haugaard">
         <comment>Define function mpaa_rating_to_ordinal</comment>
         <sql>
             CREATE ALIAS MPAA_RATING_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.mpaaRatingToOrdinal';
@@ -567,7 +580,7 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="32" author="Juan Haugaard">
+    <changeSet id="33" author="Juan Haugaard">
         <comment>Define function special_features_to_ordinal</comment>
         <sql>
             CREATE ALIAS SPECIAL_FEATURES_TO_ORDINAL DETERMINISTIC FOR 'com.tayrona.sakila.procedures.EnumUtils.specialFeaturesToOrdinal';
