@@ -8,7 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.springframework.stereotype.Component;
-import org.tayrona.sakila.data.tables.Address;
+import org.tayrona.sakila.data.Tables;
 import org.tayrona.sakila.data.tables.City;
 import org.tayrona.sakila.data.tables.Country;
 import org.tayrona.sakila.data.tables.records.AddressRecord;
@@ -164,7 +164,7 @@ public class AddressGenerator {
             throw new IllegalArgumentException("cityRecord is required");
         }
         CountryRecord countryRecord = getCountryById(cityRecord.getCountryId()).orElseThrow();
-        AddressRecord addressRecord = dslContext.newRecord(Address.ADDRESS);
+        AddressRecord addressRecord = dslContext.newRecord(Tables.ADDRESS);
         Pair<String, String> zipcodeAndCounty = generateZipcodeAndCountyFromStateAbbreviation(countryRecord.getCountryAbbreviation());
         String zipCode = zipcodeAndCounty.getLeft();
         String county = zipcodeAndCounty.getRight();

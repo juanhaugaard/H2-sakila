@@ -226,7 +226,7 @@ public class FilmGenerator {
                     if (!filmByTitleExists(title)) {
                         FilmRecord filmRecord = generateOneFilm(title, description);
                         filmRecord.store();
-                        refreshActorsForFilm(filmRecord.getFilmId(), maxActorId);
+                        refreshActorsForFilm(filmRecord, maxActorId);
                         refreshCategoriesForFilm(filmRecord.getFilmId(), categoryIds);
                         newRows += 1;
                     }
@@ -306,13 +306,13 @@ public class FilmGenerator {
 
     public void refreshCategoriesForFilm(long filmId, List<Long> categoryIds) {
         if (filmExistsById(filmId) && !filmByIdHasCategories(filmId)) {
-            int howManyCategories = faker.random().nextInt(1, Math.min(5,categoryIds.size()));
+            int howManyCategories = faker.random().nextInt(1, Math.min(5, categoryIds.size()));
             Set<Long> categoriesForFilm = new HashSet<>(howManyCategories);
             while (categoriesForFilm.size() < howManyCategories) {
                 int whichCategory = faker.random().nextInt(0, categoryIds.size() - 1);
                 categoriesForFilm.add(categoryIds.get(whichCategory));
             }
-            categoriesForFilm.forEach(categoryId->{
+            categoriesForFilm.forEach(categoryId -> {
                 FilmCategoryRecord filmCategoryRecord = dslContext.newRecord(Tables.FILM_CATEGORY);
                 filmCategoryRecord.setFilmId(filmId);
                 filmCategoryRecord.setCategoryId(categoryId);
@@ -321,25 +321,39 @@ public class FilmGenerator {
         }
     }
 
-    public void refreshActorsForFilm(long filmId, long maxActorId){
+    public void refreshActorsForFilm(long filmId, long maxActorId) {
         if (filmExistsById(filmId) && !filmByIdHasActors(filmId)) {
             // between 5 and 15 actors per film
-            int howManyActors = faker.random().nextInt(0, (int) Math.min(10L,maxActorId)) + 5;
-            Set<Long> actorsForFilm = new HashSet<>(howManyActors);
-            while (actorsForFilm.size() < howManyActors) {
-                long whichActor = faker.random().nextLong(maxActorId - 1);
-                if (actorExistsById(whichActor)) {
-                    actorsForFilm.add(whichActor);
-                }
-            }
-            actorsForFilm.forEach(actorId->{
-                FilmActorRecord filmActorRecord = dslContext.newRecord(Tables.FILM_ACTOR);
-                filmActorRecord.setActorId(actorId);
-                filmActorRecord.setFilmId(filmId);
-                filmActorRecord.store();
-            });
+            refreshActorsForFilmById(filmId, maxActorId);
         }
     }
+
+    public void refreshActorsForFilm(FilmRecord filmRecord, long maxActorId) {
+        if ((null != filmRecord) && (null != filmRecord.getFilmId()) && (0 < filmRecord.getFilmId())) {
+            if (!filmByIdHasActors(filmRecord.getFilmId())) {
+                refreshActorsForFilmById(filmRecord.getFilmId(), maxActorId);
+            }
+        }
+    }
+
+    private void refreshActorsForFilmById(long filmId, long maxActorId) {
+        // between 5 and 15 actors per film
+        int howManyActors = faker.random().nextInt(0, (int) Math.min(10L, maxActorId)) + 5;
+        Set<Long> actorsForFilm = new HashSet<>(howManyActors);
+        while (actorsForFilm.size() < howManyActors) {
+            long whichActor = faker.random().nextLong(maxActorId - 1);
+            if (actorExistsById(whichActor)) {
+                actorsForFilm.add(whichActor);
+            }
+        }
+        actorsForFilm.forEach(actorId -> {
+            FilmActorRecord filmActorRecord = dslContext.newRecord(Tables.FILM_ACTOR);
+            filmActorRecord.setActorId(actorId);
+            filmActorRecord.setFilmId(filmId);
+            filmActorRecord.store();
+        });
+    }
+
     public List<Long> setOfCategoryIds() {
         return dslContext.
                 select(Tables.CATEGORY.CATEGORY_ID)
@@ -375,6 +389,7 @@ public class FilmGenerator {
         log.info("Done. {} out of {} Films had their categories refreshed", count, totalNumberOfFilms);
         return count;
     }
+
     public long refreshActorsForAllFilms() {
         log.info("Refreshing Actors for all Films");
         long count = 0;

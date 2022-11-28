@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.tayrona.sakila.data.generators.AddressGenerator;
 import org.tayrona.sakila.data.generators.FilmGenerator;
 import org.tayrona.sakila.data.generators.StoreGenerator;
+import org.tayrona.sakila.data.generators.TransactionGenerator;
 
 import java.io.IOException;
 
@@ -15,11 +16,14 @@ public class RunGenerator implements CommandLineRunner {
     private final AddressGenerator addressGenerator;
     private final StoreGenerator storeGenerator;
     private final FilmGenerator filmGenerator;
+    private final TransactionGenerator transactionGenerator;
 
-    public RunGenerator(AddressGenerator addressGenerator, StoreGenerator storeGenerator, FilmGenerator filmGenerator) {
+    public RunGenerator(AddressGenerator addressGenerator, StoreGenerator storeGenerator, FilmGenerator filmGenerator,
+                        TransactionGenerator transactionGenerator) {
         this.addressGenerator = addressGenerator;
         this.storeGenerator = storeGenerator;
         this.filmGenerator = filmGenerator;
+        this.transactionGenerator = transactionGenerator;
     }
 
     @Override
@@ -32,9 +36,15 @@ public class RunGenerator implements CommandLineRunner {
         log.info("{} Actors where populated", count);
         count = filmGenerator.populateFilms();
         log.info("{} Films where populated", count);
+        count = storeGenerator.populateInventoryForAllStores(50000);
+        log.info("{} films persisted as inventory across all stores", count);
+        count = storeGenerator.populateCustomersForAllStores(10000);
+        log.info("{} Customers persisted across all stores", count);
         count = filmGenerator.refreshActorsForAllFilms();
         log.info("{} Films had their actors refreshed", count);
         count = filmGenerator.refreshCategoriesForAllFilms();
         log.info("{} Films had their categories refreshed", count);
+        count = transactionGenerator.generateTransactionsForAllStores(5,365*3, 800);
+        log.info("Done. Total transactions generated: {}", count);
     }
 }
