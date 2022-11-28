@@ -4,13 +4,11 @@
 package org.tayrona.sakila.data.tables;
 
 
-import java.time.OffsetDateTime;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
 import org.jooq.Identity;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -24,9 +22,15 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+import org.tayrona.sakila.data.Indexes;
 import org.tayrona.sakila.data.Keys;
 import org.tayrona.sakila.data.Public;
 import org.tayrona.sakila.data.tables.records.ActorRecord;
+
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -106,6 +110,11 @@ public class Actor extends TableImpl<ActorRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
+    }
+
+    @Override
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.IDX_FIRST_AND_LAST_NAME);
     }
 
     @Override

@@ -31,7 +31,7 @@ import java.time.OffsetDateTime;
     name = "INVENTORY",
     schema = "PUBLIC",
     indexes = {
-        @Index(name = "IDX_STORE_ID_FILM_ID", columnList = "STORE_ID ASC, FILM_ID ASC")
+        @Index(name = "IDX_STORE_ID_FILM_ID", unique = true, columnList = "STORE_ID ASC, FILM_ID ASC")
     }
 )
 public class InventoryRecord extends UpdatableRecordImpl<InventoryRecord> implements Record4<Long, Long, Long, OffsetDateTime> {

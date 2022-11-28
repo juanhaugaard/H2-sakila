@@ -35,9 +35,9 @@ import java.time.OffsetDateTime;
     name = "FILM",
     schema = "PUBLIC",
     indexes = {
-        @Index(name = "IDX_BARCODE", columnList = "BARCODE ASC"),
-        @Index(name = "IDX_REVERSE_BARCODE", columnList = "REVERSE_BARCODE ASC"),
-        @Index(name = "IDX_TITLE", columnList = "TITLE ASC")
+        @Index(name = "IDX_BARCODE", unique = true, columnList = "BARCODE ASC"),
+        @Index(name = "IDX_REVERSE_BARCODE", unique = true, columnList = "REVERSE_BARCODE ASC"),
+        @Index(name = "IDX_TITLE", unique = true, columnList = "TITLE ASC")
     }
 )
 public class FilmRecord extends UpdatableRecordImpl<FilmRecord> implements Record14<Long, String, String, Short, Long, Long, Byte, BigDecimal, Short, BigDecimal, String, String, MpaaRating, OffsetDateTime> {

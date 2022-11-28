@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -29,7 +30,10 @@ import java.time.OffsetDateTime;
 @Entity
 @Table(
     name = "ACTOR",
-    schema = "PUBLIC"
+    schema = "PUBLIC",
+    indexes = {
+        @Index(name = "IDX_FIRST_AND_LAST_NAME", unique = true, columnList = "FIRST_NAME ASC, LAST_NAME ASC")
+    }
 )
 public class ActorRecord extends UpdatableRecordImpl<ActorRecord> implements Record4<Long, String, String, OffsetDateTime> {
 

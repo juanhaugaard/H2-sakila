@@ -8,6 +8,7 @@ import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
+import org.tayrona.sakila.data.tables.Actor;
 import org.tayrona.sakila.data.tables.Customer;
 import org.tayrona.sakila.data.tables.Film;
 import org.tayrona.sakila.data.tables.FilmText;
@@ -25,11 +26,12 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index IDX_BARCODE = Internal.createIndex(DSL.name("IDX_BARCODE"), Film.FILM, new OrderField[] { Film.FILM.BARCODE }, false);
+    public static final Index IDX_BARCODE = Internal.createIndex(DSL.name("IDX_BARCODE"), Film.FILM, new OrderField[] { Film.FILM.BARCODE }, true);
+    public static final Index IDX_FIRST_AND_LAST_NAME = Internal.createIndex(DSL.name("IDX_FIRST_AND_LAST_NAME"), Actor.ACTOR, new OrderField[] { Actor.ACTOR.FIRST_NAME, Actor.ACTOR.LAST_NAME }, true);
     public static final Index IDX_LAST_NAME = Internal.createIndex(DSL.name("IDX_LAST_NAME"), Customer.CUSTOMER, new OrderField[] { Customer.CUSTOMER.LAST_NAME }, false);
     public static final Index IDX_RENTAL_DATE_INVENTORY_ID_CUSTOMER_ID = Internal.createIndex(DSL.name("IDX_RENTAL_DATE_INVENTORY_ID_CUSTOMER_ID"), Rental.RENTAL, new OrderField[] { Rental.RENTAL.RENTAL_DATE, Rental.RENTAL.INVENTORY_ID, Rental.RENTAL.CUSTOMER_ID }, true);
-    public static final Index IDX_REVERSE_BARCODE = Internal.createIndex(DSL.name("IDX_REVERSE_BARCODE"), Film.FILM, new OrderField[] { Film.FILM.REVERSE_BARCODE }, false);
-    public static final Index IDX_STORE_ID_FILM_ID = Internal.createIndex(DSL.name("IDX_STORE_ID_FILM_ID"), Inventory.INVENTORY, new OrderField[] { Inventory.INVENTORY.STORE_ID, Inventory.INVENTORY.FILM_ID }, false);
-    public static final Index IDX_TITLE = Internal.createIndex(DSL.name("IDX_TITLE"), Film.FILM, new OrderField[] { Film.FILM.TITLE }, false);
-    public static final Index IDX_TITLE_DESCRIPTION = Internal.createIndex(DSL.name("IDX_TITLE_DESCRIPTION"), FilmText.FILM_TEXT, new OrderField[] { FilmText.FILM_TEXT.TITLE, FilmText.FILM_TEXT.DESCRIPTION }, false);
+    public static final Index IDX_REVERSE_BARCODE = Internal.createIndex(DSL.name("IDX_REVERSE_BARCODE"), Film.FILM, new OrderField[] { Film.FILM.REVERSE_BARCODE }, true);
+    public static final Index IDX_STORE_ID_FILM_ID = Internal.createIndex(DSL.name("IDX_STORE_ID_FILM_ID"), Inventory.INVENTORY, new OrderField[] { Inventory.INVENTORY.STORE_ID, Inventory.INVENTORY.FILM_ID }, true);
+    public static final Index IDX_TITLE = Internal.createIndex(DSL.name("IDX_TITLE"), Film.FILM, new OrderField[] { Film.FILM.TITLE }, true);
+    public static final Index IDX_TITLE_DESCRIPTION = Internal.createIndex(DSL.name("IDX_TITLE_DESCRIPTION"), FilmText.FILM_TEXT, new OrderField[] { FilmText.FILM_TEXT.TITLE, FilmText.FILM_TEXT.DESCRIPTION }, true);
 }

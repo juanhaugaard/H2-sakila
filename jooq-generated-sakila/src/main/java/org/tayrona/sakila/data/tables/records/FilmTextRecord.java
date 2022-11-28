@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
     name = "FILM_TEXT",
     schema = "PUBLIC",
     indexes = {
-        @Index(name = "IDX_TITLE_DESCRIPTION", columnList = "TITLE ASC, DESCRIPTION ASC")
+        @Index(name = "IDX_TITLE_DESCRIPTION", unique = true, columnList = "TITLE ASC, DESCRIPTION ASC")
     }
 )
 public class FilmTextRecord extends UpdatableRecordImpl<FilmTextRecord> implements Record3<Long, String, String> {
