@@ -12,15 +12,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.time.OffsetDateTime;
+
+import javax.annotation.Nullable;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record11;
 import org.jooq.Row11;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Staff;
-
-import javax.annotation.Nullable;
-import java.time.LocalDateTime;
 
 
 /**
@@ -32,7 +34,7 @@ import java.time.LocalDateTime;
     name = "STAFF",
     schema = "PUBLIC"
 )
-public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Record11<Long, String, String, Long, byte[], String, Long, Boolean, String, byte[], LocalDateTime> {
+public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Record11<Long, String, String, Long, byte[], String, Long, Boolean, String, byte[], OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -204,7 +206,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Setter for <code>PUBLIC.STAFF.LAST_UPDATE</code>.
      */
-    public void setLastUpdate(LocalDateTime value) {
+    public void setLastUpdate(OffsetDateTime value) {
         set(10, value);
     }
 
@@ -212,8 +214,8 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
      * Getter for <code>PUBLIC.STAFF.LAST_UPDATE</code>.
      */
     @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
-    public LocalDateTime getLastUpdate() {
-        return (LocalDateTime) get(10);
+    public OffsetDateTime getLastUpdate() {
+        return (OffsetDateTime) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -230,12 +232,12 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<Long, String, String, Long, byte[], String, Long, Boolean, String, byte[], LocalDateTime> fieldsRow() {
+    public Row11<Long, String, String, Long, byte[], String, Long, Boolean, String, byte[], OffsetDateTime> fieldsRow() {
         return (Row11) super.fieldsRow();
     }
 
     @Override
-    public Row11<Long, String, String, Long, byte[], String, Long, Boolean, String, byte[], LocalDateTime> valuesRow() {
+    public Row11<Long, String, String, Long, byte[], String, Long, Boolean, String, byte[], OffsetDateTime> valuesRow() {
         return (Row11) super.valuesRow();
     }
 
@@ -290,7 +292,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
-    public Field<LocalDateTime> field11() {
+    public Field<OffsetDateTime> field11() {
         return Staff.STAFF.LAST_UPDATE;
     }
 
@@ -348,7 +350,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
-    public LocalDateTime component11() {
+    public OffsetDateTime component11() {
         return getLastUpdate();
     }
 
@@ -406,7 +408,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
-    public LocalDateTime value11() {
+    public OffsetDateTime value11() {
         return getLastUpdate();
     }
 
@@ -471,13 +473,13 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     }
 
     @Override
-    public StaffRecord value11(LocalDateTime value) {
+    public StaffRecord value11(OffsetDateTime value) {
         setLastUpdate(value);
         return this;
     }
 
     @Override
-    public StaffRecord values(Long value1, String value2, String value3, Long value4, @Nullable byte[] value5, @Nullable String value6, Long value7, Boolean value8, String value9, @Nullable byte[] value10, LocalDateTime value11) {
+    public StaffRecord values(Long value1, String value2, String value3, Long value4, @Nullable byte[] value5, @Nullable String value6, Long value7, Boolean value8, String value9, @Nullable byte[] value10, OffsetDateTime value11) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -506,7 +508,7 @@ public class StaffRecord extends UpdatableRecordImpl<StaffRecord> implements Rec
     /**
      * Create a detached, initialised StaffRecord
      */
-    public StaffRecord(Long staffId, String firstName, String lastName, Long addressId, @Nullable byte[] picture, @Nullable String email, Long storeId, Boolean active, String username, @Nullable byte[] password, LocalDateTime lastUpdate) {
+    public StaffRecord(Long staffId, String firstName, String lastName, Long addressId, @Nullable byte[] picture, @Nullable String email, Long storeId, Boolean active, String username, @Nullable byte[] password, OffsetDateTime lastUpdate) {
         super(Staff.STAFF);
 
         setStaffId(staffId);

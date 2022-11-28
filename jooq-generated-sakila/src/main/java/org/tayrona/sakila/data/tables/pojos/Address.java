@@ -13,9 +13,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+
+import javax.annotation.Nullable;
 
 
 /**

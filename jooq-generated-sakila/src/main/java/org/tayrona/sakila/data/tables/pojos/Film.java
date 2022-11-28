@@ -13,12 +13,14 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.tayrona.sakila.data.enums.MpaaRating;
 
-import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+
+import javax.annotation.Nullable;
+
+import org.tayrona.sakila.data.enums.MpaaRating;
 
 
 /**

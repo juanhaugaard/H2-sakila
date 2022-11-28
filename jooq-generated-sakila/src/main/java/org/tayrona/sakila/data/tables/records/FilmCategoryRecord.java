@@ -8,14 +8,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+
+import java.time.OffsetDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record2;
 import org.jooq.Record3;
 import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.FilmCategory;
-
-import java.time.OffsetDateTime;
 
 
 /**

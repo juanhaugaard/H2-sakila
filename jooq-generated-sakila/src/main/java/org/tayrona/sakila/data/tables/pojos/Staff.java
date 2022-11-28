@@ -13,10 +13,11 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import javax.annotation.Nullable;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
+
+import javax.annotation.Nullable;
 
 
 /**
@@ -42,7 +43,7 @@ public class Staff implements Serializable {
     private Boolean active;
     private String username;
     private byte[] password;
-    private LocalDateTime lastUpdate;
+    private OffsetDateTime lastUpdate;
 
     public Staff() {}
 
@@ -71,7 +72,7 @@ public class Staff implements Serializable {
         Boolean active,
         String username,
         @Nullable byte[] password,
-        LocalDateTime lastUpdate
+        OffsetDateTime lastUpdate
     ) {
         this.staffId = staffId;
         this.firstName = firstName;
@@ -255,14 +256,14 @@ public class Staff implements Serializable {
      * Getter for <code>PUBLIC.STAFF.LAST_UPDATE</code>.
      */
     @Column(name = "LAST_UPDATE", nullable = false, precision = 6)
-    public LocalDateTime getLastUpdate() {
+    public OffsetDateTime getLastUpdate() {
         return this.lastUpdate;
     }
 
     /**
      * Setter for <code>PUBLIC.STAFF.LAST_UPDATE</code>.
      */
-    public void setLastUpdate(LocalDateTime lastUpdate) {
+    public void setLastUpdate(OffsetDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

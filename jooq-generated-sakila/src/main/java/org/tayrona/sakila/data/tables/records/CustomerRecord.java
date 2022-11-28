@@ -13,15 +13,17 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.time.OffsetDateTime;
+
+import javax.annotation.Nullable;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
 import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.tables.Customer;
-
-import javax.annotation.Nullable;
-import java.time.OffsetDateTime;
 
 
 /**

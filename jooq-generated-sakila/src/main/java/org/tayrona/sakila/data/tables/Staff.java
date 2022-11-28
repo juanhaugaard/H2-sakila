@@ -4,6 +4,11 @@
 package org.tayrona.sakila.data.tables;
 
 
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function11;
@@ -24,11 +29,6 @@ import org.jooq.impl.TableImpl;
 import org.tayrona.sakila.data.Keys;
 import org.tayrona.sakila.data.Public;
 import org.tayrona.sakila.data.tables.records.StaffRecord;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
 
 
 /**
@@ -105,7 +105,7 @@ public class Staff extends TableImpl<StaffRecord> {
     /**
      * The column <code>PUBLIC.STAFF.LAST_UPDATE</code>.
      */
-    public final TableField<StaffRecord, LocalDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<StaffRecord, OffsetDateTime> LAST_UPDATE = createField(DSL.name("LAST_UPDATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
     private Staff(Name alias, Table<StaffRecord> aliased) {
         this(alias, aliased, null);
@@ -227,14 +227,14 @@ public class Staff extends TableImpl<StaffRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<Long, String, String, Long, byte[], String, Long, Boolean, String, byte[], LocalDateTime> fieldsRow() {
+    public Row11<Long, String, String, Long, byte[], String, Long, Boolean, String, byte[], OffsetDateTime> fieldsRow() {
         return (Row11) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function11<? super Long, ? super String, ? super String, ? super Long, ? super byte[], ? super String, ? super Long, ? super Boolean, ? super String, ? super byte[], ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function11<? super Long, ? super String, ? super String, ? super Long, ? super byte[], ? super String, ? super Long, ? super Boolean, ? super String, ? super byte[], ? super OffsetDateTime, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -242,7 +242,7 @@ public class Staff extends TableImpl<StaffRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super Long, ? super String, ? super String, ? super Long, ? super byte[], ? super String, ? super Long, ? super Boolean, ? super String, ? super byte[], ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super Long, ? super String, ? super String, ? super Long, ? super byte[], ? super String, ? super Long, ? super Boolean, ? super String, ? super byte[], ? super OffsetDateTime, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

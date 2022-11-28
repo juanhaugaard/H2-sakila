@@ -4,6 +4,9 @@
 package org.tayrona.sakila.data;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Catalog;
 import org.jooq.Domain;
 import org.jooq.Table;
@@ -24,9 +27,6 @@ import org.tayrona.sakila.data.tables.Payment;
 import org.tayrona.sakila.data.tables.Rental;
 import org.tayrona.sakila.data.tables.Staff;
 import org.tayrona.sakila.data.tables.Store;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 /**

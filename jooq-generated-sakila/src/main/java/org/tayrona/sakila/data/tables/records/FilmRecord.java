@@ -13,6 +13,12 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+
+import javax.annotation.Nullable;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record14;
@@ -20,10 +26,6 @@ import org.jooq.Row14;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.tayrona.sakila.data.enums.MpaaRating;
 import org.tayrona.sakila.data.tables.Film;
-
-import javax.annotation.Nullable;
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 
 
 /**

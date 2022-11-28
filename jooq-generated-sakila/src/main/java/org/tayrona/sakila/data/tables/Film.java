@@ -4,6 +4,12 @@
 package org.tayrona.sakila.data.tables;
 
 
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function14;
@@ -27,12 +33,6 @@ import org.tayrona.sakila.data.Keys;
 import org.tayrona.sakila.data.Public;
 import org.tayrona.sakila.data.enums.MpaaRating;
 import org.tayrona.sakila.data.tables.records.FilmRecord;
-
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
 
 
 /**

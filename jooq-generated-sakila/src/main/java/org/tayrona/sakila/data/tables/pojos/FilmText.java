@@ -12,8 +12,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import javax.annotation.Nullable;
 import java.io.Serializable;
+
+import javax.annotation.Nullable;
 
 
 /**
