@@ -71,6 +71,7 @@ public class AddressGenerator {
         return dslContext
                 .selectFrom(Country.COUNTRY)
                 .where(Country.COUNTRY.COUNTRY_ID.eq(id))
+                .limit(1)
                 .fetch()
                 .stream()
                 .findFirst();
@@ -78,15 +79,15 @@ public class AddressGenerator {
 
     public void persistStates(Collection<String> states) {
         // we use countries as states for persistence, so as not to change sakila too much from the original
-        Result<CountryRecord> existingStates = existingStates();
+        Set<String> existingStateSet = existingStates().intoSet(Country.COUNTRY.COUNTRY_);
         int count = 0;
         for (String state : states) {
-            if (existingStates.stream().map(CountryRecord::getCountry).noneMatch(state::equals)) {
-                dslContext
-                        .insertInto(Country.COUNTRY)
-                        .columns(Country.COUNTRY.COUNTRY_, Country.COUNTRY.COUNTRY_ABBREVIATION)
-                        .values(state, statesMap.get(state))
-                        .execute();
+            if (!existingStateSet.contains(state)) {
+                CountryRecord countryRecord = dslContext.newRecord(Country.COUNTRY);
+                countryRecord.setCountry(state);
+                countryRecord.setCountryAbbreviation(statesMap.get(state));
+                countryRecord.store();
+                existingStateSet.add(countryRecord.getCountry());
                 count += 1;
             }
         }
@@ -94,21 +95,36 @@ public class AddressGenerator {
     }
 
     public List<CityRecord> generateOneCityPerState() {
-        List<CityRecord> cities = new ArrayList<>();
+        Result<CityRecord> existingCities = existingCities();
+        Set<String> cityNames = existingCities.intoSet(City.CITY.CITY_);
+        Map<Long, CityRecord> cityMap = existingCities.intoMap(City.CITY.COUNTRY_ID, City.CITY.getRecordType());
         Result<CountryRecord> existingStates = existingStates();
         for (CountryRecord state : existingStates) {
-            Result<CityRecord> cityRecords = dslContext
-                    .selectFrom(City.CITY)
-                    .where(City.CITY.COUNTRY_ID.eq(state.getCountryId()))
-                    .fetch();
-            if (cityRecords.isEmpty()) {
+            if (!cityMap.containsKey(state.getCountryId())) {
                 CityRecord cityRecord = dslContext.newRecord(City.CITY);
-                cityRecord.setCity(faker.address().cityName());
+                cityRecord.setCity(uniquesCityName(cityNames));
                 cityRecord.setCountryId(state.getCountryId());
-                cities.add(cityRecord);
+                cityMap.put(cityRecord.getCountryId(), cityRecord);
             }
         }
-        return cities;
+        return new ArrayList<>(cityMap.values());
+    }
+
+    private String uniquesCityName(Set<String> cityNames) {
+        String cityName;
+        int count=0;
+        // remove duplicates
+        do {
+            // remove compound city names like 'East Wilfordfurt'
+            do {
+                cityName = faker.address().cityName();
+                count++;
+            } while (cityName.contains(" ") && (count < 100));
+        } while (cityNames.contains(cityName) && (count < 100));
+        if (count>1) {
+            log.warn("Tried {} times to get unique city: {}", count, cityName);
+        }
+        return cityName;
     }
 
     public Result<CityRecord> existingCities() {
@@ -128,12 +144,9 @@ public class AddressGenerator {
 
     public void persistCities(List<CityRecord> cities) {
         int count = 0;
-        Result<CityRecord> existingCities = existingCities();
+        Set<String> existingCities = existingCities().intoSet(City.CITY.CITY_);
         for (CityRecord city : cities) {
-            boolean found = existingCities.stream()
-                    .map(CityRecord::getCityId)
-                    .anyMatch(it -> it.equals(city.getCountryId()));
-            if (!found) {
+            if (!existingCities.contains(city.getCity())) {
                 city.store();
                 count += 1;
             }
@@ -170,6 +183,9 @@ public class AddressGenerator {
         int limit = 50;
         int count = limit;
         while (--count > 0) {
+            // about 3 times in 50 countyByZipCode() fails, so here we retry
+            // failed countyByZipCode() calls to prevent the whole data
+            // generation process from failing before completion
             try {
                 String county = faker.address().countyByZipCode(zipCode);
                 return new ImmutablePair<>(zipCode, county);

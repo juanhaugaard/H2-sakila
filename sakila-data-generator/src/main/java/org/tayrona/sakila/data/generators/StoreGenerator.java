@@ -6,7 +6,6 @@ import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.springframework.stereotype.Component;
 import org.tayrona.sakila.data.tables.Address;
-import org.tayrona.sakila.data.tables.City;
 import org.tayrona.sakila.data.tables.Staff;
 import org.tayrona.sakila.data.tables.Store;
 import org.tayrona.sakila.data.tables.records.AddressRecord;
@@ -14,6 +13,7 @@ import org.tayrona.sakila.data.tables.records.CityRecord;
 import org.tayrona.sakila.data.tables.records.StaffRecord;
 import org.tayrona.sakila.data.tables.records.StoreRecord;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -38,6 +38,13 @@ public class StoreGenerator {
                 .fetch();
     }
 
+    public Map<Long, StoreRecord> storesMappedByCityId() {
+        return dslContext.select(Address.ADDRESS.CITY_ID, Store.STORE.asterisk())
+                .from(Store.STORE.join(Address.ADDRESS).on(Store.STORE.ADDRESS_ID.eq(Address.ADDRESS.ADDRESS_ID)))
+                .fetch()
+                .intoMap(Address.ADDRESS.CITY_ID, StoreRecord.class);
+    }
+
     public Optional<StoreRecord> getStoreById(long storeId) {
         return dslContext
                 .selectFrom(Store.STORE)
@@ -47,25 +54,14 @@ public class StoreGenerator {
                 .findFirst();
     }
 
-    private boolean cityHasStore(long cityId) {
-        return dslContext
-                .select()
-                .from(City.CITY)
-                .join(Address.ADDRESS)
-                .on(City.CITY.CITY_ID.eq(Address.ADDRESS.CITY_ID))
-                .where(City.CITY.CITY_ID.eq(cityId))
-                .fetch()
-                .isNotEmpty();
-    }
-
     public void persistOneStorePerCity(int staffCount) {
         if (staffCount < 0) {
             throw new IllegalArgumentException("Staff count cannot be negative");
         }
+        Map<Long, StoreRecord> citiesWithStores = storesMappedByCityId();
         Result<CityRecord> existingCities = addressGenerator.existingCities();
-//        Map<Long, CityRecord> storeCityByState = dslContext.selectFrom(Store.STORE).fetchMap()
         for (CityRecord cityRecord : existingCities) {
-            if (!cityHasStore(cityRecord.getCityId())) {
+            if (!citiesWithStores.containsKey(cityRecord.getCityId())) {
 
                 AddressRecord address = addressGenerator.persistNewAddressForCity(cityRecord);
                 StoreRecord storeRecord = generateNewStoreWithAddress(address);
@@ -80,6 +76,7 @@ public class StoreGenerator {
 
                 storeRecord.setManagerStaffId(manager.getStaffId());
                 storeRecord.update();
+                citiesWithStores.put(cityRecord.getCityId(), storeRecord);
 
                 for (int i = 0; i < staffCount; i++) {
                     StaffRecord staff = generateNewStaff(storeRecord);
