@@ -15,6 +15,7 @@ import org.tayrona.sakila.data.tables.records.RentalRecord;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -35,47 +36,64 @@ public class TransactionGenerator {
 
     public long generateTransactionsForAllStores(int yearsBack, int numberOfDays, int rentalsPerStore) {
         long transactionCount = 0;
-        Calendar calendar = createCalendar(yearsBack);
         Set<Long> storeIds = existingStoreIds();
-        for (int day = 0; day < numberOfDays; day++) {
-            for (Long storeId : storeIds) {
-                long transactionCountThisStore = persistTransactionsForOneStoreAndDay(storeId, calendar, rentalsPerStore);
-                log.info("{} transactions persisted for store {}, date: {}", transactionCountThisStore, storeId, calendar.getTime());
-                transactionCount += transactionCountThisStore;
-            }
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        for (Long storeId : storeIds) {
+            long transactionCountThisStore = persistTransactionsForOneStoreAllDays(storeId, yearsBack, numberOfDays, rentalsPerStore);
+            transactionCount += transactionCountThisStore;
         }
+        log.info("{} transactions persisted for {} stores and {} days", transactionCount, storeIds.size(), numberOfDays);
         return transactionCount;
     }
 
-    public long persistTransactionsForOneStoreAndDay(Long storeId, Calendar calendar, int rentalsPerStore) {
+    public long persistTransactionsForOneStoreAllDays(Long storeId, int yearsBack, int numberOfDays, int rentalsPerStore) {
         long transactionCount = 0;
-        LocalDateTime now = Timestamp.from(calendar.toInstant()).toLocalDateTime();
-        Result<Record4<Long, Byte, BigDecimal, Long>> inventory = queryForInventory(storeId);
-        Result<Record2<Long, Long>> customerIdRange = fetchCustomerIdsByStore(storeId);
-        Set<Long> customerIds = new HashSet<>();
+        Calendar calendar = createCalendar(yearsBack);
         Set<Long> staffIds = fetchStaffIdsByStore(storeId);
-        if (customerIdRange.isNotEmpty() && inventory.isNotEmpty()) {
-            while (customerIds.size() < rentalsPerStore) {
-                Long customerId = fetchUniqueRandomCustomer(customerIds, customerIdRange.get(0));
-                Record4<Long, Byte, BigDecimal, Long> inventoryRecord = fetchRandomInventory(inventory);
-                Long staffId = fetchRandomStaff(staffIds);
-                RentalRecord rentalRecord = dslContext.newRecord(Tables.RENTAL);
-                rentalRecord.setRentalDate(now);
-                rentalRecord.setInventoryId(inventoryRecord.value1());
-                rentalRecord.setCustomerId(customerId);
-                rentalRecord.setStaffId(staffId);
-                rentalRecord.setReturnDate(now.plusDays(inventoryRecord.value2()));
-                rentalRecord.store();
-                PaymentRecord paymentRecord = dslContext.newRecord(Tables.PAYMENT);
-                paymentRecord.setCustomerId(customerId);
-                paymentRecord.setStaffId(staffId);
-                paymentRecord.setRentalId(rentalRecord.getRentalId());
-                paymentRecord.setAmount(inventoryRecord.value3());
-                paymentRecord.setPaymentDate(now);
-                paymentRecord.store();
-                transactionCount += 1;
+        Set<Long> customerIdsByStore = new HashSet<>();
+        customerIdsByStore.addAll(dslContext
+                .selectDistinct(Tables.CUSTOMER.CUSTOMER_ID)
+                .from(Tables.CUSTOMER)
+                .where(Tables.CUSTOMER.STORE_ID.eq(storeId))
+                .fetchSet(Tables.CUSTOMER.CUSTOMER_ID));
+        Result<Record4<Long, Byte, BigDecimal, Long>> inventory = queryForInventory(storeId);
+        for (int day = 0; day < numberOfDays; day++) {
+            Timestamp nowTimeStamp = Timestamp.from(calendar.toInstant());
+            LocalDateTime today = nowTimeStamp.toLocalDateTime().truncatedTo(ChronoUnit.DAYS);
+            LocalDateTime tomorrow = today.plusDays(1);
+            LocalDateTime now = nowTimeStamp.toLocalDateTime();
+            Set<Long> customerIds = new HashSet<>(rentalsPerStore);
+            customerIds.addAll(dslContext
+                    .selectDistinct(Tables.RENTAL.CUSTOMER_ID)
+                    .from(Tables.RENTAL)
+                    .join(Tables.CUSTOMER)
+                    .on(Tables.RENTAL.CUSTOMER_ID.eq(Tables.CUSTOMER.CUSTOMER_ID)
+                            .and(Tables.CUSTOMER.STORE_ID.eq(storeId))
+                            .and(Tables.RENTAL.RENTAL_DATE.between(today, tomorrow)))
+                    .fetchSet(Tables.RENTAL.CUSTOMER_ID));
+            if (!customerIdsByStore.isEmpty() && inventory.isNotEmpty()) {
+                while (customerIds.size() < rentalsPerStore) {
+                    Long customerId = fetchUniqueRandomCustomer(customerIds, customerIdsByStore);
+                    Record4<Long, Byte, BigDecimal, Long> inventoryRecord = fetchRandomInventory(inventory);
+                    Long staffId = fetchRandomStaff(staffIds);
+                    RentalRecord rentalRecord = dslContext.newRecord(Tables.RENTAL);
+                    rentalRecord.setRentalDate(now);
+                    rentalRecord.setInventoryId(inventoryRecord.value1());
+                    rentalRecord.setCustomerId(customerId);
+                    rentalRecord.setStaffId(staffId);
+                    rentalRecord.setReturnDate(now.plusDays(inventoryRecord.value2()));
+                    rentalRecord.store();
+                    PaymentRecord paymentRecord = dslContext.newRecord(Tables.PAYMENT);
+                    paymentRecord.setCustomerId(customerId);
+                    paymentRecord.setStaffId(staffId);
+                    paymentRecord.setRentalId(rentalRecord.getRentalId());
+                    paymentRecord.setAmount(inventoryRecord.value3());
+                    paymentRecord.setPaymentDate(now);
+                    paymentRecord.store();
+                    transactionCount += 1;
+                }
             }
+            log.info("{} transactions persisted for store {}, date: {}", transactionCount, storeId, calendar.getTime());
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
         return transactionCount;
     }
@@ -114,26 +132,17 @@ public class TransactionGenerator {
         return inventory.get(index);
     }
 
-    private Long fetchUniqueRandomCustomer(Set<Long> customerIds, Record2<Long, Long> customerIdRange) {
+    private Long fetchUniqueRandomCustomer(Set<Long> customerIdsThisStoreToday, Set<Long> customerIdsForThisStore) {
         Long customerId = null;
         while (null == customerId) {
-            long candidateCustomerId = faker.random().nextLong(customerIdRange.value1() - customerIdRange.value2()) + customerIdRange.value2();
-            if (!customerIds.contains(candidateCustomerId) && customerExists(candidateCustomerId)) {
-                customerIds.add(candidateCustomerId);
+            int index = faker.random().nextInt(customerIdsForThisStore.size());
+            long candidateCustomerId = customerIdsForThisStore.stream().skip(index).findFirst().orElseThrow();
+            if (!customerIdsThisStoreToday.contains(candidateCustomerId)) {
+                customerIdsThisStoreToday.add(candidateCustomerId);
                 customerId = candidateCustomerId;
             }
         }
         return customerId;
-    }
-
-    private boolean customerExists(long customerId) {
-        return dslContext
-                .select(Tables.CUSTOMER.CUSTOMER_ID)
-                .from(Tables.CUSTOMER)
-                .where(Tables.CUSTOMER.CUSTOMER_ID.eq(customerId))
-                .limit(1)
-                .fetch()
-                .isNotEmpty();
     }
 
     private Result<Record4<Long, Byte, BigDecimal, Long>> queryForInventory(Long storeId) {

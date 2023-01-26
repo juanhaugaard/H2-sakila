@@ -129,22 +129,29 @@ public class StoreGenerator {
         staffRecord.setPassword(faker.internet().password(true).getBytes());
         return staffRecord;
     }
+
     public long populateInventoryForAllStores(int inventoryCount) {
         log.info("Persisting {} films per store inventory", inventoryCount);
         long totalInventoryCount = 0;
         Result<StoreRecord> existingStores = existingStores();
         long maxFilmId = filmGenerator.getMaxFilmId();
         for (StoreRecord storeRecord : existingStores) {
-            List<InventoryRecord> inventoryRecords = generateInventoryForStore(storeRecord,maxFilmId,inventoryCount);
+            List<InventoryRecord> inventoryRecords = generateInventoryForStore(storeRecord, maxFilmId, inventoryCount);
             totalInventoryCount += persistStoryInventory(inventoryRecords);
             log.info("generated {} inventory items for store {}", inventoryRecords.size(), storeRecord.getStoreId());
         }
         return totalInventoryCount;
     }
+
     public List<InventoryRecord> generateInventoryForStore(StoreRecord storeRecord, long maxFilmId, int inventoryCount) {
         List<InventoryRecord> inventoryRecords = new LinkedList<>();
         Set<Long> chosenFilms = new HashSet<>(inventoryCount);
-        for (int i = 0; i < inventoryCount; i++) {
+        chosenFilms.addAll(dslContext
+                .select(Tables.INVENTORY.FILM_ID)
+                .from(Tables.INVENTORY)
+                .where(Tables.INVENTORY.STORE_ID.eq(storeRecord.getStoreId()))
+                .fetchSet(Tables.INVENTORY.FILM_ID));
+        for (int i = chosenFilms.size(); i < inventoryCount; i++) {
             Long filmId = getRandomExistingFilm(chosenFilms, maxFilmId);
             InventoryRecord inventoryRecord = dslContext.newRecord(Tables.INVENTORY);
             inventoryRecord.setFilmId(filmId);
@@ -153,10 +160,12 @@ public class StoreGenerator {
         }
         return inventoryRecords;
     }
+
     public long persistStoryInventory(List<InventoryRecord> inventoryRecords) {
         inventoryRecords.forEach(UpdatableRecordImpl::store);
         return inventoryRecords.size();
     }
+
     public Long getRandomExistingFilm(Set<Long> chosenFilms, long maxFilmId) {
         int count = 0;
         int limit = 50;
@@ -176,32 +185,35 @@ public class StoreGenerator {
                 .select(Tables.CUSTOMER.FIRST_NAME, Tables.CUSTOMER.LAST_NAME)
                 .from(Tables.CUSTOMER)
                 .fetch();
-        customerRecords.forEach(customerRecord->{
+        customerRecords.forEach(customerRecord -> {
             StringBuilder sb = new StringBuilder(customerRecord.get(Tables.CUSTOMER.FIRST_NAME, String.class));
             sb.append(" ").append(customerRecord.get(Tables.CUSTOMER.LAST_NAME, String.class));
             existingCustomerNames.add(sb.toString());
         });
         return existingCustomerNames;
     }
+
     public long populateCustomersForAllStores(int customerCount) {
         log.info("Persisting {} Customers per store", customerCount);
         long totalCustomerCount = 0;
         Result<StoreRecord> existingStores = existingStores();
         Set<String> existingCustomerNames = existingCustomerNames();
         for (StoreRecord storeRecord : existingStores) {
-            List<CustomerRecord> customerRecords = generateCustomersForStore(storeRecord,existingCustomerNames,customerCount);
-            totalCustomerCount += persistStoryCustomers(customerRecords);
+            List<CustomerRecord> customerRecords = generateCustomersForStore(storeRecord, existingCustomerNames, customerCount);
+            totalCustomerCount += persistStoreCustomers(customerRecords);
             log.info("generated {} Customers for store {}", customerRecords.size(), storeRecord.getStoreId());
         }
         return totalCustomerCount;
     }
-    public List<CustomerRecord> generateCustomersForStore(StoreRecord storeRecord,Set<String> existingCustomerNames,int customerCount) {
+
+    public List<CustomerRecord> generateCustomersForStore(StoreRecord storeRecord, Set<String> existingCustomerNames, int customerCount) {
         List<CustomerRecord> customerRecords = new LinkedList<>();
-        while (customerCount > 0) {
+        while (existingCustomerNames.size() < customerCount) {
             String firstName = faker.name().firstName();
             String lastName = faker.name().lastName();
             StringBuilder sb = new StringBuilder(firstName).append(" ").append(lastName);
-            if (!existingCustomerNames.contains(sb.toString())){
+            if (!existingCustomerNames.contains(sb.toString())) {
+                existingCustomerNames.add(sb.toString());
                 CustomerRecord customerRecord = dslContext.newRecord(Tables.CUSTOMER);
                 customerRecord.setStoreId(storeRecord.getStoreId());
                 customerRecord.setActive(true);
@@ -213,13 +225,12 @@ public class StoreGenerator {
                 addressRecord.store();
                 customerRecord.setAddressId(addressRecord.getAddressId());
                 customerRecords.add(customerRecord);
-                customerCount -= 1;
             }
         }
         return customerRecords;
     }
 
-    public long persistStoryCustomers(List<CustomerRecord> customerRecords) {
+    public long persistStoreCustomers(List<CustomerRecord> customerRecords) {
         customerRecords.forEach(UpdatableRecordImpl::store);
         return customerRecords.size();
     }

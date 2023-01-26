@@ -28,10 +28,10 @@ public class RunGenerator implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws IOException {
+        long count;
         addressGenerator.persistStates(addressGenerator.generateStates(50));
         addressGenerator.persistCities(addressGenerator.generateOneCityPerState());
         storeGenerator.persistOneStorePerCity(5);
-        long count;
         count = filmGenerator.populateActors();
         log.info("{} Actors where populated", count);
         count = filmGenerator.populateFilms();
