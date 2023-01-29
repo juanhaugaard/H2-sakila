@@ -28,7 +28,6 @@ public class TransactionGenerator {
 
     private final Faker faker;
 
-
     public TransactionGenerator(DSLContext dslContext, Faker faker) {
         this.dslContext = dslContext;
         this.faker = faker;
@@ -40,6 +39,7 @@ public class TransactionGenerator {
         for (Long storeId : storeIds) {
             long transactionCountThisStore = persistTransactionsForOneStoreAllDays(storeId, yearsBack, numberOfDays, rentalsPerStore);
             transactionCount += transactionCountThisStore;
+            log.info("{} transactions persisted for store {} and {} days", transactionCount, storeId, numberOfDays);
         }
         log.info("{} transactions persisted for {} stores and {} days", transactionCount, storeIds.size(), numberOfDays);
         return transactionCount;
@@ -57,6 +57,7 @@ public class TransactionGenerator {
                 .fetchSet(Tables.CUSTOMER.CUSTOMER_ID));
         Result<Record4<Long, Byte, BigDecimal, Long>> inventory = queryForInventory(storeId);
         for (int day = 0; day < numberOfDays; day++) {
+            long transactionCountPerDay = 0;
             Timestamp nowTimeStamp = Timestamp.from(calendar.toInstant());
             LocalDateTime today = nowTimeStamp.toLocalDateTime().truncatedTo(ChronoUnit.DAYS);
             LocalDateTime tomorrow = today.plusDays(1);
@@ -89,11 +90,12 @@ public class TransactionGenerator {
                     paymentRecord.setAmount(inventoryRecord.value3());
                     paymentRecord.setPaymentDate(now);
                     paymentRecord.store();
-                    transactionCount += 1;
+                    transactionCountPerDay += 1;
                 }
             }
-            log.info("{} transactions persisted for store {}, date: {}", transactionCount, storeId, calendar.getTime());
+            log.info("{} transactions persisted for store {}, date: {}", transactionCountPerDay, storeId, calendar.getTime());
             calendar.add(Calendar.DAY_OF_YEAR, 1);
+            transactionCount += transactionCountPerDay;
         }
         return transactionCount;
     }
