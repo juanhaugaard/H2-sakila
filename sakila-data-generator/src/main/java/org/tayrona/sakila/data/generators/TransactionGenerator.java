@@ -39,7 +39,7 @@ public class TransactionGenerator {
         for (Long storeId : storeIds) {
             long transactionCountThisStore = persistTransactionsForOneStoreAllDays(storeId, yearsBack, numberOfDays, rentalsPerStore);
             transactionCount += transactionCountThisStore;
-            log.info("{} transactions persisted for store {} and {} days", transactionCount, storeId, numberOfDays);
+            log.info("{} transactions persisted for store {} and {} days", transactionCountThisStore, storeId, numberOfDays);
         }
         log.info("{} transactions persisted for {} stores and {} days", transactionCount, storeIds.size(), numberOfDays);
         return transactionCount;
