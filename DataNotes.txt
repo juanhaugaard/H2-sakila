@@ -1,0 +1,165 @@
+7SBQQEEJPBIAMKE2
+
+call LPAD('Hello',12,'0');
+
+            CREATE ALIAS SAKILA.REVERSE DETERMINISTIC AS
+            'String reverse(String value) {
+            if (null != value) return (new StringBuilder(value)).reverse().toString();
+            else return null;}';
+
+create domain sakila.SKU as CHAR(12) ON UPDATE (LPAD(VALUE,12,'0'));
+drop table sakila.another_test;
+create table sakila.another_test (
+         barcode char(20) generated always as (LPAD(VALUE,12,'0')), 
+         reverse_barcode char(20) generated always as (REVERSE(barcode))
+);
+insert into sakila.another_test (barcode) values ('Hello');
+select * from sakila.another_test;
+            CREATE TABLE SAKILA.AnotherTest (
+                film_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+                title VARCHAR(255) NOT NULL,
+                description TEXT DEFAULT NULL,
+                language_id BIGINT NOT NULL,
+                rental_duration TINYINT NOT NULL DEFAULT 3,
+                rental_rate DECIMAL(4,2) NOT NULL DEFAULT 4.99,
+                length SMALLINT DEFAULT NULL,
+                replacement_cost DECIMAL(5,2) NOT NULL DEFAULT 19.99,
+                barcode VARCHAR(12) GENERATED ALWAYS AS LPAD(VALUE, 12, '0'),
+                reverse_barcode VARCHAR(12) GENERATED ALWAYS AS REVERSE(barcode),
+                last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL,
+                CONSTRAINT PK_AnotherTest PRIMARY KEY (film_id)
+            );
+            CREATE INDEX SAKILA.idx_barcode ON SAKILA.AnotherTest(barcode);
+            CREATE INDEX SAKILA.idx_reverse_barcode ON SAKILA.AnotherTest(reverse_barcode);
+
+SELECT * FROM COUNTRY ;
+SELECT * FROM CITY  ;
+SELECT * FROM ADDRESS  ;
+SELECT * FROM STORE  ;
+SELECT * FROM STAFF  ;
+
+DROP TABLE TEST_SPECIAL_FEATURES ;
+DROP TABLE TEST ;
+DROP DOMAIN SPECIAL_FEATURES_ENUM ;
+
+CREATE DOMAIN SPECIAL_FEATURES_ENUM AS ENUM ('Behind the Scenes','Commentaries','Deleted Scenes','Trailers')
+            COMMENT 'Special Features ENUM (Behind the Scenes, Commentaries, Deleted Scenes, Trailers)';
+
+CREATE TABLE TEST (
+test_id BIGINT GENERATED ALWAYS AS IDENTITY(INCREMENT BY 1 NO MAXVALUE NO MINVALUE CACHE 1) NOT NULL,
+test_name varchar(25),
+CONSTRAINT PK_TEST PRIMARY KEY (test_id)
+);
+
+CREATE TABLE TEST_SPECIAL_FEATURES (
+ test_id BIGINT NOT NULL,
+ special_feature SPECIAL_FEATURES_ENUM NOT NULL,
+CONSTRAINT PK_TEST_SPECIAL_FEATURES PRIMARY KEY (test_id, special_feature),
+CONSTRAINT FK_TEST_SPECIAL_FEATURES FOREIGN KEY (test_id)
+                    REFERENCES TEST (test_id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+INSERT INTO TEST (test_name) VALUES('Test one'),('Test two'),('Test three');
+INSERT INTO TEST_SPECIAL_FEATURES (test_id, special_feature) VALUES (1, 'Trailers'),(1, 'Behind the Scenes');
+INSERT INTO TEST_SPECIAL_FEATURES (test_id, special_feature) VALUES (2, 'Commentaries');
+INSERT INTO TEST_SPECIAL_FEATURES (test_id, special_feature) VALUES (3, 'Trailers'),(3, 'Deleted Scenes'),(3,'Behind the Scenes');
+INSERT INTO TEST_SPECIAL_FEATURES (test_id, special_feature) VALUES (2, 'Dummy');
+
+
+SELECT T.TEST_NAME as Name, ARRAY_AGG(X.special_feature ORDER BY X.special_feature ASC) FROM TEST T
+LEFT JOIN TEST_SPECIAL_FEATURES X ON X.test_id = T.test_id
+GROUP BY T.test_id;
+
+SELECT T.TEST_NAME as Name, ARRAY_AGG(X.special_feature ORDER BY X.special_feature DESC) FROM TEST T
+LEFT JOIN TEST_SPECIAL_FEATURES X ON X.test_id = T.test_id
+GROUP BY T.test_id;
+
+CREATE TABLE IMDB_TITLE_BASICS AS (
+    SELECT * FROM CSVREAD('w:\data\movies\title.basics.tsv', NULL, 'UTF-8', ''||CHAR(9))
+);
+CREATE TABLE IMDB_TITLE_AKAS AS (
+    SELECT * FROM CSVREAD('w:\data\movies\title.akas.tsv', NULL, 'UTF-8', ''||CHAR(9))
+);
+CALL CSVWRITE('w:\data\movies\title.akas.csv', 'SELECT * FROM IMDB_TITLE_AKAS');
+CREATE TABLE IMDB_NAME_BASICS AS (
+    SELECT * FROM CSVREAD('w:\data\movies\name.basics.tsv', NULL, 'UTF-8', ''||CHAR(9))
+);
+
+SELECT count(distinct title), count(title) FROM IMDB_TITLE_AKAS;
+COUNT(DISTINCT TITLE)   COUNT(TITLE)  
+4126170 33840590
+(1 row, 108810 ms)
+
+CALL CSVWRITE('w:\data\movies\title.akas.csv', 'SELECT * FROM IMDB_TITLE_AKAS');
+33840590 rows
+CALL CSVWRITE('w:\data\movies\name.basics.csv', 'SELECT * FROM IMDB_NAME_BASICS');
+12080176 rows
+CALL CSVWRITE('w:\data\movies\movie.titles.csv', 'SELECT * FROM MOVIE_TITLES');
+657931 rows
+CALL CSVWRITE('w:\data\movies\sakila.films.csv', 'SELECT * FROM SAKILA_FILMS');
+1000 rows
+CREATE INDEX IDX_IMDB_TITLE_AKAS_TITLE ON IMDB_TITLE_AKAS (TITLE) ;
+CREATE INDEX IDX_IMDB_TITLE_BASICS_PRIMARYTITLE ON IMDB_TITLE_BASICS (PRIMARYTITLE) ;
+
+SELECT COUNT(DISTINCT TITLE) FROM IMDB_TITLE_AKAS WHERE REGION IN ('US','GB','XWW') OR LANGUAGE='en';
+1363389
+SELECT COUNT(DISTINCT PRIMARYTITLE) FROM IMDB_TITLE_BASICS;
+4287778
+
+SELECT TITLETYPE, COUNT(TITLETYPE) FROM IMDB_TITLE_BASICS GROUP BY TITLETYPE;
+TITLETYPE   COUNT(TITLETYPE)  
+movie   627193
+short   900073
+tvEpisode   7079310
+tvMiniSeries    45979
+tvMovie 138290
+tvPilot 2
+tvSeries    234136
+tvShort 10739
+tvSpecial   39087
+video   267228
+videoGame   32783
+(11 rows, 26227 ms)
+
+SELECT SUBSTRING(PRIMARYTITLE, 1, 1), * FROM IMDB_TITLE_BASICS 
+WHERE TITLETYPE IN ('movie', 'tvMovie')
+  AND SUBSTRING(PRIMARYTITLE, 1, 1) NOT IN ('!', '#', '$', '%', '@', '*', '&', '''', '(', ')', '+', '-', '.', 'Š', 'Ś', 'Č', 'Þ','Ü','Ø', 'Ö', 'Î', 'Ë', 'Û', 'Ô')
+ORDER BY PRIMARYTITLE DESC;
+
+SELECT SUBSTRING(PRIMARYTITLE, 1, 1), * FROM IMDB_TITLE_BASICS 
+WHERE TITLETYPE IN ('movie', 'tvMovie') AND (
+  SUBSTRING(PRIMARYTITLE, 1, 1) BETWEEN CHAR(48) AND CHAR(57) OR -- digits
+  SUBSTRING(PRIMARYTITLE, 1, 1) BETWEEN CHAR(65) AND CHAR(90) OR -- upper case
+  SUBSTRING(PRIMARYTITLE, 1, 1) BETWEEN CHAR(97) AND CHAR(122) -- lower case 
+)
+ORDER BY PRIMARYTITLE DESC;
+
+CREATE TABLE MOVIE_TITLES AS (
+        SELECT PRIMARYTITLE AS TITLE, NULL AS DESCRIPTION FROM IMDB_TITLE_BASICS 
+        WHERE TITLETYPE IN ('movie', 'tvMovie') AND (
+          SUBSTRING(PRIMARYTITLE, 1, 1) BETWEEN CHAR(48) AND CHAR(57) OR -- digits
+          SUBSTRING(PRIMARYTITLE, 1, 1) BETWEEN CHAR(65) AND CHAR(90) OR -- upper case
+          SUBSTRING(PRIMARYTITLE, 1, 1) BETWEEN CHAR(97) AND CHAR(122) -- lower case 
+        )
+);
+
+ALTER TABLE MOVIE_TITLES ADD COLUMN ID BIGINT GENERATED ALWAYS AS IDENTITY;
+ALTER TABLE MOVIE_TITLES ALTER COLUMN DESCRIPTION SET DATA TYPE VARCHAR;
+DELETE FROM MOVIE_TITLES WHERE ID NOT IN (SELECT MAX(ID) FROM MOVIE_TITLES GROUP BY TITLE); 
+SELECT TITLE, COUNT(TITLE) AS Duplicates FROM MOVIE_TITLES GROUP BY TITLE HAVING Duplicates > 1;
+ALTER TABLE MOVIE_TITLES ALTER COLUMN TITLE SET NOT NULL;
+ALTER TABLE MOVIE_TITLES ADD CONSTRAINT PK_MOVIE_TITLES PRIMARY KEY (TITLE);
+9601592 actor names exported
+9326621 actor names exported
+CREATE INDEX IDX_ACTOR_FIRST_AND_LAST_NAME ON ACTOR  (FIRST_NAME, LAST_NAME) ;
+
+ALTER TABLE CATEGORY ALTER COLUMN last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL;
+ALTER TABLE STAFF ALTER COLUMN last_update TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp() ON UPDATE current_timestamp() NOT NULL;
+
+SELECT COUNT(*) from (
+   SELECT DISTINCT CUSTOMER.CUSTOMER_ID FROM RENTAL
+   JOIN CUSTOMER
+      ON  CUSTOMER.CUSTOMER_ID=RENTAL.CUSTOMER_ID
+      AND CUSTOMER.STORE_ID=1
+      AND RENTAL.RENTAL_DATE BETWEEN '2018-01-01T00:00' AND '2018-01-02T00:00'
+);
