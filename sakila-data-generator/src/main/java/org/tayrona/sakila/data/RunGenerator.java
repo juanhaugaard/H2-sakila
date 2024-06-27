@@ -28,7 +28,7 @@ public class RunGenerator implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws IOException {
-        long count;
+        long count = 0;
         addressGenerator.persistStates(addressGenerator.generateStates(50));
         addressGenerator.persistCities(addressGenerator.generateOneCityPerState());
         storeGenerator.persistOneStorePerCity(5);

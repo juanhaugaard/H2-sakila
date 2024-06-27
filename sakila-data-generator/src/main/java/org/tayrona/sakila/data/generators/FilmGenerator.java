@@ -12,11 +12,7 @@ import org.springframework.stereotype.Component;
 import org.tayrona.sakila.data.Tables;
 import org.tayrona.sakila.data.enums.MpaaRating;
 import org.tayrona.sakila.data.tables.Language;
-import org.tayrona.sakila.data.tables.records.ActorRecord;
-import org.tayrona.sakila.data.tables.records.FilmActorRecord;
-import org.tayrona.sakila.data.tables.records.FilmCategoryRecord;
-import org.tayrona.sakila.data.tables.records.FilmRecord;
-import org.tayrona.sakila.data.tables.records.LanguageRecord;
+import org.tayrona.sakila.data.tables.records.*;
 import org.tayrona.sakila.data.utils.ResourceReader;
 import org.tayrona.sakila.data.utils.StringUtils;
 
@@ -113,11 +109,10 @@ public class FilmGenerator {
         return actorRecord;
     }
 
-    public FilmRecord generateOneFilm(String filmTitle, String filmDescription) {
+    public FilmRecord generateOneFilm(String filmTitle, String filmDescription, Result<LanguageRecord> existingLanguages) {
         if (null == filmDescription) {
             filmDescription = faker.lorem().paragraph(faker.random().nextInt(1, 3));
         }
-        Result<LanguageRecord> existingLanguages = existingLanguages();
         FilmRecord filmRecord = dslContext.newRecord(Tables.FILM);
         filmRecord.setTitle(filmTitle);
         filmRecord.setDescription(filmDescription);
@@ -202,12 +197,20 @@ public class FilmGenerator {
         private long totalRows;
         private final List<Long> categoryIds;
         private final long maxActorId;
+        private final Result<LanguageRecord> existingLanguages;
 
         private ResourceFilmGenerator() {
             this.newRows = 0;
             this.totalRows = 0;
             this.categoryIds = setOfCategoryIds();
+            if (this.categoryIds.isEmpty()) {
+                throw new IllegalStateException("Categories table is empty");
+            }
             this.maxActorId = getMaxActorId();
+            this.existingLanguages = existingLanguages();
+            if (this.existingLanguages.isEmpty()) {
+                throw new IllegalStateException("Language table is empty");
+            }
         }
 
         public void persistOneFilm(final String textLine) {
@@ -224,7 +227,7 @@ public class FilmGenerator {
                         description = fragments[1];
                     }
                     if (!filmByTitleExists(title)) {
-                        FilmRecord filmRecord = generateOneFilm(title, description);
+                        FilmRecord filmRecord = generateOneFilm(title, description, existingLanguages);
                         filmRecord.store();
                         refreshActorsForFilm(filmRecord, maxActorId);
                         refreshCategoriesForFilm(filmRecord.getFilmId(), categoryIds);
