@@ -10,20 +10,10 @@ import org.springframework.stereotype.Component;
 import org.tayrona.sakila.data.Tables;
 import org.tayrona.sakila.data.tables.Staff;
 import org.tayrona.sakila.data.tables.Store;
-import org.tayrona.sakila.data.tables.records.AddressRecord;
-import org.tayrona.sakila.data.tables.records.CityRecord;
-import org.tayrona.sakila.data.tables.records.CustomerRecord;
-import org.tayrona.sakila.data.tables.records.InventoryRecord;
-import org.tayrona.sakila.data.tables.records.StaffRecord;
-import org.tayrona.sakila.data.tables.records.StoreRecord;
+import org.tayrona.sakila.data.tables.records.*;
 
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -179,26 +169,23 @@ public class StoreGenerator {
         throw new RuntimeException("Failed to find an existing film in " + limit + " attempts");
     }
 
-    public Set<String> existingCustomerNames() {
-        Set<String> existingCustomerNames = new HashSet<>();
+    public Set<String> existingCustomersByStore(StoreRecord storeRecord) {
         Result<Record2<String, String>> customerRecords = dslContext
                 .select(Tables.CUSTOMER.FIRST_NAME, Tables.CUSTOMER.LAST_NAME)
                 .from(Tables.CUSTOMER)
+                .where(Tables.CUSTOMER.STORE_ID.eq(storeRecord.getStoreId()))
                 .fetch();
-        customerRecords.forEach(customerRecord -> {
-            StringBuilder sb = new StringBuilder(customerRecord.get(Tables.CUSTOMER.FIRST_NAME, String.class));
-            sb.append(" ").append(customerRecord.get(Tables.CUSTOMER.LAST_NAME, String.class));
-            existingCustomerNames.add(sb.toString());
-        });
-        return existingCustomerNames;
+        return customerRecords.stream()
+                .map(customer -> customer.getValue(Tables.CUSTOMER.FIRST_NAME) + " " + customer.getValue(Tables.CUSTOMER.LAST_NAME))
+                .collect(Collectors.toSet());
     }
 
     public long populateCustomersForAllStores(int customerCount) {
         log.info("Persisting {} Customers per store", customerCount);
         long totalCustomerCount = 0;
         Result<StoreRecord> existingStores = existingStores();
-        Set<String> existingCustomerNames = existingCustomerNames();
         for (StoreRecord storeRecord : existingStores) {
+            Set<String> existingCustomerNames = existingCustomersByStore(storeRecord);
             List<CustomerRecord> customerRecords = generateCustomersForStore(storeRecord, existingCustomerNames, customerCount);
             totalCustomerCount += persistStoreCustomers(customerRecords);
             log.info("generated {} Customers for store {}", customerRecords.size(), storeRecord.getStoreId());
